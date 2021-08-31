@@ -1,0 +1,35 @@
+{
+  "name": "alaziz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bilalmetla/alaziz.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bilalmetla/alaziz/issues"
+  },
+  "homepage": "https://github.com/bilalmetla/alaziz#readme",
+  "dependencies": {
+    "@types/nedb": "^1.8.12",
+    "@types/node": "^16.7.6",
+    "easyinvoice": "^1.0.144",
+    "i": "^0.3.6",
+    "invoice-generator": "^0.3.0",
+    "nedb": "^1.8.0",
+    "nice-invoice": "^1.0.8",
+    "npm": "^7.21.1",
+    "pdf-invoice-generator": "^1.0.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.2"
+  }
+}
