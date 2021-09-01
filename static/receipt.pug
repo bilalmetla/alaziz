@@ -232,8 +232,8 @@ html(lang='en')
                         div(class='receipentInfo')
                             p Total Amount Of Bill: #{recipient.grandTotals.grandTotalValueOfIncludingST}
                             p Income Tax With Held: #{recipient.grandTotals.incomeTaxWithHeld}
-                        br
                         
+                        br
                         div(class='receipentInfo')
                             p Total GST/PST Amount Rs: #{recipient.grandTotals.grandTotalSTPayable}
                             p Net Payment: #{recipient.grandTotals.netPayment }
@@ -274,7 +274,6 @@ html(lang='en')
             br
             hr
             br
-  
             div
                 div(style='display:flex')
                     p(style='margin-right: 16px') Date: #{recipient.date} 

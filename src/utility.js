@@ -84,6 +84,7 @@ const receivedSaleTax = function (businessType, grandTotalSTPayable) {
 };
 
 
+
 exports.calculateValuesAndTaxes = function (items) {
     
     return items.map(item => {
@@ -100,6 +101,7 @@ exports.calculateValuesAndTaxes = function (items) {
             valueOfIncludingST: valueOfIncludingST,
         }
     })
+
 };
 
 exports.validateNumberOnly = function (value) {
