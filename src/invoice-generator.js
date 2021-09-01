@@ -14,7 +14,7 @@ exports.invoice = async function ({ recipient, articles, grandTotals }) {
         }
     });
     
-    let fileName = `invoice-${recipient.name}-${recipient.invoiceNumber}`
+    let fileName = `${recipient.name}-${recipient.invoiceNumber}-invoice`
     const invoice = invoiceGenerator.create();
 
     invoice.recipient = recipient;
@@ -124,7 +124,7 @@ exports.receipt = async function ({ recipient, articles, grandTotals }) {
           lang: "en"
         }
       });
-    let fileName = `receipt-${recipient.name}-${recipient.invoiceNumber}`
+    let fileName = `${recipient.name}-${recipient.invoiceNumber}-receipt`
     const invoice = invoiceGenerator.create();
 
     invoice.recipient = recipient;

@@ -81,4 +81,33 @@ const receivedSaleTax = function (businessType, grandTotalSTPayable) {
         return (grandTotalSTPayable * constants.receivedSaleTaxes.SERVICES / 100);    
     }
     
+};
+
+
+const getvalueExcelST = function (qty, rate) {
+    return parseInt(qty) * parseInt(rate)
+}
+const getValueExcelST = function (qty, rate) {
+    return parseInt(qty) * parseInt(rate)
+}
+const getTotalSTPayable = function (valueExcelST, rateOfST) {
+    return (valueExcelST * parseInt(rateOfST)) / 100
+}
+
+exports.calculateValuesAndTaxes = function (items) {
+    
+    return items.map(item => {
+        let valueExcelST = parseInt(item.quantity) * parseInt(item.price)
+        let totalSTPayable = (valueExcelST * parseInt(item.rateOfST)) / 100
+        let valueOfIncludingST = valueExcelST + totalSTPayable
+        return {
+            quantity: item.quantity,
+            description: item.description,
+            price: item.price,
+            valueExcelST: valueExcelST,
+            rateOfST: item.rateOfST,
+            totalSTPayable: totalSTPayable,
+            valueOfIncludingST: valueOfIncludingST,
+        }
+    })
 }
