@@ -40,6 +40,7 @@ html(lang='en')
             table {
                 border-collapse: collapse;
                 border-spacing: 0;
+                
             }
 
             body {
@@ -122,6 +123,7 @@ html(lang='en')
                 padding-top: 3px;
                 padding-bottom: 3px;
                 height: 10px;
+                border: 1px solid black;
             }
 
             #items table tr:nth-child(1) {
@@ -254,9 +256,9 @@ html(lang='en')
                     while loopTable <= template_configuration.loop_table
                         table
                             tr
-                                - console.log(loopTable);
+                                
                                 each articleHeader in article_headers
-                                    th #{articleHeader}
+                                    th(style='border: 1px solid black') #{articleHeader}
 
                                 - var rowPerPage = 0
                                 

@@ -84,16 +84,6 @@ const receivedSaleTax = function (businessType, grandTotalSTPayable) {
 };
 
 
-const getvalueExcelST = function (qty, rate) {
-    return parseInt(qty) * parseInt(rate)
-}
-const getValueExcelST = function (qty, rate) {
-    return parseInt(qty) * parseInt(rate)
-}
-const getTotalSTPayable = function (valueExcelST, rateOfST) {
-    return (valueExcelST * parseInt(rateOfST)) / 100
-}
-
 exports.calculateValuesAndTaxes = function (items) {
     
     return items.map(item => {
@@ -110,4 +100,8 @@ exports.calculateValuesAndTaxes = function (items) {
             valueOfIncludingST: valueOfIncludingST,
         }
     })
+};
+
+exports.validateNumberOnly = function (value) {
+    return isNaN(value)?'':value
 }

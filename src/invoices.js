@@ -1,7 +1,6 @@
 
 const Nedb = require( "./nedb")
 
-
 module.exports = class Invoices {
 
     db;
@@ -22,13 +21,13 @@ module.exports = class Invoices {
     add() {
         // this.buyerInfo.completeData = {invoices: []}
         this.buyerInfo.invoices = []
-        this.buyerInfo.invoices.push({
-            number: new Date().getTime(),
-            businessType: this.businessType,
-            type: this.type,
-            date : this.date,
-            items: this.items
-        })
+        // this.buyerInfo.invoices.push({
+        //     number: new Date().getTime(),
+        //     businessType: this.businessType,
+        //     type: this.type,
+        //     date : this.date,
+        //     items: this.items
+        // })
 
         this.db.insert(this.buyerInfo)
     }

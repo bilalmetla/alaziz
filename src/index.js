@@ -1,6 +1,7 @@
 
 const Invoices = require("./invoices")
 const utility = require('./utility')
+const serialNumber = require('./serialNumbers')
 
 
 // Function
@@ -16,48 +17,56 @@ function Ask(query) {
   }))
 }
   
+async function takeInput(question, isRequired=true, validation) {
+    let value = await Ask(question)
+    if (validation && value)
+    {
+        value = validation(value) 
+        }
+    
+    while (isRequired === true && !value) {
+        console.log('Value is Required...')
+        value = await takeInput(question, isRequired, validation)
+    }
+    return value
+}
 
 async function createBuyer() {
-    
-    console.log("List Of Business.")
-    console.log("Supply: 1")
-    console.log("Services: 2")
-    let businessType = await Ask("Choose Nature Of Business?: ")
-    var buyer = await Ask("Enter Buyer?: ")
-    var address = await Ask("Enter Address?: ")
-    var date = await Ask("Enter Date [dd-mm-yyyy]?: ")
-    
-    let type = await Ask("Enter Type Of Supply/Service?: ")
+
+    let notRequired = false
+    var buyer = await takeInput("Enter Buyer Name?: ")
+    var address = await takeInput("Enter Address?: ")
+    var reName = await takeInput("Enter Representitve Name?: ")
+    var phone = await takeInput("Enter phone Number?: ", true, utility.validateNumberOnly)
+    var email = await takeInput("Enter email?: ", notRequired)
+    var ntnNumber = await takeInput("Enter NTN Number?: ", true, utility.validateNumberOnly)
+    var ntnName = await takeInput("Enter NTN Name?: ")
     
     let invoice = new Invoices()
-    invoice.buyerInfo = { buyer, address }
-    invoice.date = date
-    invoice.businessType = businessType
-    invoice.type = type
-    invoice.items = []
-            
-    let stopped = true
-    while (stopped) {
-        const result = await items()
-        stopped = result.stopped
-        invoice.items.push(result.item) 
+    invoice.buyerInfo = {
+        buyer,
+        address,
+        representitveName: reName,
+        phone,
+        email,
+        ntnNumber,
+        ntnName
+
     }
-    
+        
     let addedResult = await invoice.add()
-    let updatedItems = utility.calculateValuesAndTaxes(invoice.items)
-    invoice.buyerInfo.invoices[0].items = updatedItems
-    await utility.invoiceHtml(invoice.buyerInfo)
+    console.log('------------------------------------')
+    console.log('Added Buyer Success', addedResult)
    
 }
 
 async function items() {
-    
-    let qty = await Ask("Enter Quentity?: ")
-    let description = await Ask("Enter Item Description?: ")
-    let rate = await Ask("Enter Rate?: ")
-    let rateOfST = await Ask("Enter Rate OF ST?: ")
+    let isRequired = true
+    let description = await takeInput("Enter Item Description?: ")
+    let qty = await takeInput("Enter Quentity?: ", isRequired, utility.validateNumberOnly)
+    let rate = await takeInput("Enter Rate?: ", isRequired, utility.validateNumberOnly)
+    let rateOfST = await takeInput("Enter Rate OF ST?: ", isRequired, utility.validateNumberOnly)
    
-
     const result = {
         
         quantity: qty,
@@ -66,8 +75,8 @@ async function items() {
         rateOfST: rateOfST,
     }
     
-    let stopped = await Ask("Enter \"yes\" For Quit?: ")
-    if (stopped.toLocaleLowerCase() === 'yes') {
+    let stopped = await Ask("Enter \"end\" For Quit?: ")
+    if (stopped.toLocaleLowerCase() === 'end') {
         
         return { item: result, stopped: false }
     }
@@ -89,7 +98,7 @@ async function app() {
         console.log("Edit Buyer 3")
         console.log("Edit Inovice 4")
         console.log("Print Invoice Only 5")
-       // console.log("Option 3")
+        console.log(`-------------------------------------------`)
         userRes = await Ask("Pick an option?: ");
         
         if (userRes === '1') {
@@ -111,11 +120,16 @@ async function app() {
 }
 
 async function addNewInvoice() {
-    console.log(`-------------------------------------------\n`)
-    await findBuyers()
+    await serialNumber.get().then(res => console.log('Serial Number loaded', process.serialNumber))
+
+    let res = await findBuyers()
+    if (res == '0') {
+        return
+    }
+    console.log(`-------------------------------------------`)
     console.log("Enter Buyer Id To Edit ")
-    console.log("Go Back 0")
-    userRes = await Ask("Enter Buyer Id?: ");
+    console.log("Go Back With 0")
+    userRes = await takeInput("Enter Buyer Id?: ");
     if (!userRes || userRes === '0') {
         return
     }
@@ -129,9 +143,9 @@ async function addNewInvoice() {
     console.log("List Of Business.")
     console.log("Supply: 1")
     console.log("Services: 2")
-    let businessType = await Ask("Choose Nature Of Business?: ")
-    var date = await Ask("Enter Date [dd-mm-yyyy]?: ")
-    let type = await Ask("Enter Type Of Supply/Service?: ")
+    let businessType = await takeInput("Choose Nature Of Business?: ")
+    var date = await takeInput("Enter Date [dd-mm-yyyy]?: ")
+    let type = await takeInput("Enter Type Of Supply/Service?: ")
     let invoiceItems = []
     let stopped = true
     while (stopped) {
@@ -139,8 +153,11 @@ async function addNewInvoice() {
         stopped = result.stopped
         invoiceItems.push(result.item) 
     }
+    await serialNumber.setSerialNumber().then(res => console.log('Serial Number seted', process.serialNumber))
+
     let inv = {
-        number: new Date().getTime(),
+        number: process.serialNumber,
+        bookNumber: process.bookNumber,
         businessType,
         type,
         date,
@@ -151,11 +168,14 @@ async function addNewInvoice() {
     result.invoices = []
     inv.items = updatedItems
      result.invoices[0] = inv
-     await utility.invoiceHtml(result)
+    await utility.invoiceHtml(result)
+    
+    console.log('---------------------------------')
+    console.log('added new invoice', addedResult)
 
 }
 async function printInvoice() {
-    userRes = await Ask("Enter Invoice Number?: ");
+    userRes = await takeInput("Enter Invoice Number?: ");
     let invoice = new Invoices();
     let result = await invoice.findInvoiceByNumber(userRes);
     console.log(result);
@@ -182,28 +202,31 @@ async function findBuyers() {
         console.log("Find Buyer By Name 2")
         console.log("Find Buyer By Address 3")
         console.log("Find Buyer By Invoice NUmber 4")
-        console.log("Press ESC To Go Back / Press ")
+        console.log("Go Back With 0 ")
 
         userRes = await Ask("Find Buyer By Option?: ");
         
         if (userRes === '1') {
-            userRes = await Ask("Enter Buyer Id?: ");
+            userRes = await takeInput("Enter Buyer Id?: ");
             result = await invoice.findBuyerById(userRes)
             await showFindedBuyers(result)
         } else if (userRes === '2') {
-            userRes = await Ask("Enter Buyer Name?: ");
+            userRes = await takeInput("Enter Buyer Name?: ");
             result = await invoice.findBuyerByName(userRes)
             await showFindedBuyers(result)
         }
         else if (userRes === '3') {
-            userRes = await Ask("Enter Buyer Address?: ");
+            userRes = await takeInput("Enter Buyer Address?: ");
             result = await invoice.findBuyerByAddress(userRes)
             await showFindedBuyers(result)
         }
         else if (userRes === '4') {
-            userRes = await Ask("Enter Buyer Invoice Number?: ");
+            userRes = await takeInput("Enter Buyer Invoice Number?: ");
             result = await invoice.findInvoiceByNumber(userRes)
             await showFindedBuyers(result)
+        }
+        else if (userRes == '0') {
+            return
         }
         
     }
@@ -221,13 +244,17 @@ async function showFindedBuyers(infoList) {
     console.log(`Buyers Details End...\n`)    
     
 }
+
 async function editBuyer() {
     console.log(`-------------------------------------------\n`)
-    await findBuyers()
+    let res = await findBuyers()
+    if (res == '0') {
+        return
+    }
     let invoice = new Invoices()
     console.log("Enter Buyer Id To Edit ")
-    console.log("Go Back 0")
-    userRes = await Ask("Enter Buyer Id?: ");
+    console.log("Go Back With 0")
+    userRes = await takeInput("Enter Buyer Id?: ");
     if (!userRes || userRes === '0') {
         return
     }
@@ -250,8 +277,8 @@ async function editBuyer() {
 
 async function editInVoice() {
     console.log(`-------------------------------------------\n`)
-    console.log("Go Back 0")
-    userRes = await Ask("Enter Invoice Number?: ");
+    console.log(" With 0")
+    userRes = await takeInput("Enter Invoice Number?: ");
     if (userRes === '0') {
         return
     }

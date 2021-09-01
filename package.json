@@ -10,6 +10,11 @@
     "type": "git",
     "url": "git+https://github.com/bilalmetla/alaziz.git"
   },
+  "bin":"server.js",
+  "pkg": {
+    "assets": [ "node_modules/**/*", "src/**/*" ],
+    "targets": [ "node10-win-x64" ]
+  },
   "author": "",
   "license": "ISC",
   "bugs": {
