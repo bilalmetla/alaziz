@@ -22,11 +22,18 @@ module.exports = class Invoices {
         
     }
     
-     add() {
+     addBuyer() {
         
         this.buyerInfo.invoices = []
-
-        this.db.insert(this.buyerInfo)
+         return new Promise((resolve, reject) => {
+            return this.db.insert(this.buyerInfo, (err, docs) => {
+                 if (err) {
+                     return reject(err);
+                 }
+            
+                 return resolve(docs);
+             });
+         })
     }
 
     findInvoiceByNumber(number) {
@@ -114,7 +121,7 @@ module.exports = class Invoices {
                  return reject(err);
                 }
              
-                return resolve(docs);
+                return resolve(data);
                });
         })
         

@@ -54,7 +54,7 @@ async function createBuyer() {
 
     }
         
-    let addedResult = await invoice.add()
+    let addedResult = await invoice.addBuyer()
     console.log('------------------------------------')
     console.log('Added Buyer Success', addedResult)
    
