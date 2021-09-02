@@ -1,0 +1,6 @@
+TypeError: RegExp is not a constructor
+    at Invoices.findBuyerByName (C:\Users\m.bilal\Documents\code\alaziz\src\invoices.js:63:21)
+    at findBuyers (C:\Users\m.bilal\Documents\code\alaziz\src\index.js:239:36)
+    at processTicksAndRejections (internal/process/task_queues.js:88:5)
+    at async addNewInvoice (C:\Users\m.bilal\Documents\code\alaziz\src\index.js:149:15)
+    at async app (C:\Users\m.bilal\Documents\code\alaziz\src\index.js:114:16)

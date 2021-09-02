@@ -17,7 +17,7 @@ module.exports = class Invoices {
         
     )
     {
-        this.db = new Nedb('./invoices.db').db
+        this.db = new Nedb('./db/invoices.db').db
         
         
     }
@@ -103,8 +103,8 @@ module.exports = class Invoices {
     }
     
     async addInvoiceOnly(id, data) {
-        await serialNumber.setSerialNumber().then(res => console.log('Serial Number seted', process.serialNumber))
-        data.number= process.serialNumber;
+       await serialNumber.getSerialNUmber()
+        data.number = process.serialNumber;
         data.bookNumber = process.bookNumber;
         data.date = new Date(data.date);
 
