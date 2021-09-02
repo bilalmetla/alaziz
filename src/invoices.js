@@ -60,7 +60,6 @@ module.exports = class Invoices {
     }
 
     findBuyerByName(name) {
-        //let regex = /qwqw/i; // i for case insensitive
         let regex = new RegExp(name, 'i'); // i for case insensitive
         
         return new Promise((resolve, reject)=>{

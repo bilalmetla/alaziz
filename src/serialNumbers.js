@@ -17,13 +17,13 @@ exports.setSerialNumber = async function () {
     if (process.serialNumber > 100) {
         process.serialNumber = 1
         process.bookNumber++
-        fs.writeFileSync(bookNumberFile, process.bookNumber)
+        fs.writeFileSync(bookNumberFile, +process.bookNumber)
     }
     
-    fs.writeFileSync(serialNumberFile, process.serialNumber)
+    fs.writeFileSync(serialNumberFile, +process.serialNumber)
 }
 
 exports.setBookNumber = async function () {
     
-    fs.writeFileSync(bookNumberFile, process.bookNumber)
+    fs.writeFileSync(bookNumberFile, +process.bookNumber)
 }
