@@ -11,6 +11,8 @@ exports.get = async function () {
 }
 
 exports.setSerialNumber = async function () {
+    process.serialNumber =  +fs.readFileSync(serialNumberFile, {encoding:'utf8', flag:'r'})
+    process.bookNumber = +fs.readFileSync(bookNumberFile, {encoding:'utf8', flag:'r'}) 
     process.serialNumber++
     if (process.serialNumber > 100) {
         process.serialNumber = 1

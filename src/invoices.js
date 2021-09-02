@@ -104,7 +104,6 @@ module.exports = class Invoices {
     }
     
     async addInvoiceOnly(id, data) {
-        await serialNumber.get().then(res => console.log('Serial Number loaded', process.serialNumber))
         await serialNumber.setSerialNumber().then(res => console.log('Serial Number seted', process.serialNumber))
         data.number= process.serialNumber;
         data.bookNumber = process.bookNumber;
