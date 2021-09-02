@@ -1,7 +1,7 @@
 
 const Invoices = require("./invoices")
 const utility = require('./utility')
-const serialNumber = require('./serialNumbers')
+const fs = require('fs')
 
 
 // Function
@@ -91,36 +91,60 @@ async function items() {
 
 
 async function app() {
-    let userRes;
-    while (userRes !== '0') {6
-        console.log("Add New Buyer 1")
-        console.log("Add New Invoice 2")
-        console.log("Edit Buyer 3")
-        console.log("Edit Inovice 4")
-        console.log("Print Invoice Only 5")
-        console.log(`-------------------------------------------`)
-        userRes = await Ask("Pick an option?: ");
+    try {
         
-        if (userRes === '1') {
-            await createBuyer()
+        let userRes;
+        while (userRes !== '0') {6
+            console.log("Add New Buyer 1")
+            console.log("Add New Invoice 2")
+            console.log("Edit Buyer 3")
+            console.log("Edit Inovice 4")
+            console.log("Print Invoice Only 5")
+            console.log("Monthly Report GST 6")
+            console.log("Monthly Report Without GST 7")
+            console.log("Monthly Report PST 8")
+            console.log("Monthly Report Without PST 9")
+            console.log(`-------------------------------------------`)
+            userRes = await Ask("Pick an option?: ");
+            
+            if (userRes === '1') {
+                await createBuyer()
+            }
+            else if (userRes === '2') {
+               await addNewInvoice()
+            }
+            else if (userRes === '3') {
+               await editBuyer()
+            }
+            else if (userRes === '4') {
+                await editInVoice()
+             }
+            else if (userRes === '5') {
+                await printInvoice()
+             }
+            else if (userRes === '6') {
+                await monthlyReportWithGST()
+             }
+            else if (userRes === '7') {
+                await monthlyReportWithOutGST()
+             }
+            else if (userRes === '8') {
+                await monthlyReportWithPST()
+             }
+            else if (userRes === '9') {
+                await monthlyReportWithOutGST()
+             }
         }
-        else if (userRes === '2') {
-           await addNewInvoice()
-        }
-        else if (userRes === '3') {
-           await editBuyer()
-        }
-        else if (userRes === '4') {
-            await editInVoice()
-         }
-        else if (userRes === '5') {
-            await printInvoice()
-         }
+
+    } catch (e) {
+        console.log(e)
+        fs.writeFileSync('./exceptions.log', e.stack )
+        
     }
+   
 }
 
 async function addNewInvoice() {
-    await serialNumber.get().then(res => console.log('Serial Number loaded', process.serialNumber))
 
     let res = await findBuyers()
     if (res == '0') {
@@ -153,11 +177,8 @@ async function addNewInvoice() {
         stopped = result.stopped
         invoiceItems.push(result.item) 
     }
-    await serialNumber.setSerialNumber().then(res => console.log('Serial Number seted', process.serialNumber))
 
     let inv = {
-        number: process.serialNumber,
-        bookNumber: process.bookNumber,
         businessType,
         type,
         date,
@@ -334,4 +355,51 @@ async function editInVoice() {
         
     }
 }
-app()
+
+async function monthlyReportWithGST() {
+    let dates =  await takeDateBetweenInputs()
+    let invoice = new Invoices();
+    let result = await invoice.findBuyersWithDates(dates.startDate, dates.endDate);
+    result = invoice.findInvoiceOfGivenDate(result, dates.startDate, dates.endDate)
+   
+    invoice.supplyReports(result, true)
+    
+}
+
+async function monthlyReportWithOutGST() {
+    let dates =  await takeDateBetweenInputs()
+    let invoice = new Invoices();
+    let result = await invoice.findBuyersWithDates(dates.startDate, dates.endDate);
+    result = invoice.findInvoiceOfGivenDate(result, dates.startDate, dates.endDate)
+   
+    invoice.supplyReports(result, false)
+    
+}
+async function monthlyReportWithPST() {
+    let dates =  await takeDateBetweenInputs()
+    let invoice = new Invoices();
+    let result = await invoice.findBuyersWithDates(dates.startDate, dates.endDate);
+    result = invoice.findInvoiceOfGivenDate(result, dates.startDate, dates.endDate)
+   
+    invoice.serviceReports(result, false)
+    
+}
+
+async function monthlyReportWithOutPST() {
+    let dates =  await takeDateBetweenInputs()
+    let invoice = new Invoices();
+    let result = await invoice.findBuyersWithDates(dates.startDate, dates.endDate);
+    result = invoice.findInvoiceOfGivenDate(result, dates.startDate, dates.endDate)
+   
+    invoice.serviceReports(result, false)
+    
+}
+
+async function takeDateBetweenInputs() {
+    console.log("Back With 0")
+    let startDate = await takeInput("Enter Start Date?: ");
+    let endDate = await takeInput("Enter End Date?: ");
+    return {startDate, endDate}
+}
+
+app().catch(ex => console.log(ex))

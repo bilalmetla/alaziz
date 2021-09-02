@@ -1,6 +1,10 @@
 
 const Nedb = require( "./nedb")
-
+const serialNumber = require('./serialNumbers')
+const fs = require('fs')
+const utility = require('./utility')
+const constants = require('./constants');
+const { invoice } = require("./invoice-generator");
 
 module.exports = class Invoices {
 
@@ -19,7 +23,7 @@ module.exports = class Invoices {
         
     }
     
-    add() {
+     add() {
         
         this.buyerInfo.invoices = []
 
@@ -98,9 +102,14 @@ module.exports = class Invoices {
         
     }
     
-    addInvoiceOnly(id, data) {
-        delete data._id
-        return new Promise((resolve, reject)=>{
+    async addInvoiceOnly(id, data) {
+        await serialNumber.get().then(res => console.log('Serial Number loaded', process.serialNumber))
+        await serialNumber.setSerialNumber().then(res => console.log('Serial Number seted', process.serialNumber))
+        data.number= process.serialNumber;
+        data.bookNumber = process.bookNumber;
+        data.date = new Date(data.date);
+
+        return new Promise((resolve, reject) => {
             return this.db.update({ "_id":id }, {$push: {'invoices': data}}, {}, (err, docs) => {
                 if (err) {
                  return reject(err);
@@ -111,4 +120,116 @@ module.exports = class Invoices {
         })
         
     }
+
+    findBuyersWithDates(startDate, endDate) {
+        
+        return new Promise((resolve, reject)=>{
+            return this.db.find({
+                "invoices.date": {
+                    $gte: new Date(startDate),
+                    $lte: new Date(endDate)
+                }
+            }, (err, docs) => {
+                if (err) {
+                 return reject(err);
+                }
+             
+                return resolve(docs);
+               });
+        })
+        
+    }
+
+    findInvoiceOfGivenDate(result, startDate, endDate) {
+        for (let i = 0; i < result.length; i++){           
+            result[i].invoices = result[i].invoices.filter(inv => {
+                let check = inv.date.getTime()
+                let from = new Date(startDate).getTime()
+                let to = new Date(endDate).getTime()
+                if (check <= to && check >= from) {
+                    return inv
+                }
+            })
+            
+        }
+       return result
+    }
+
+
+    supplyReports(result, isGST) {
+
+        try {
+            let fileName = isGST ? './qwmonthlyReports/Monthly Sale Report With GST.csv': './monthlyReports/Monthly Sale Report Without GST.csv'
+            let header = `Buyer NTN, Buyer NTN Name, Name Of Items, Type, Bill No.,Value Of Sale, 17%, 20%, Total Value Of Sale, Buyer Name, Buyer Address, `
+            fs.writeFileSync(fileName, header+'\n', )
+            for (let i = 0; i < result.length; i++){
+                let buyer = result[i]
+                let invoices = buyer.invoices
+                
+                for (let j = 0; j < invoices.length; j++){
+                    let invoice = invoices[j]
+                    if (invoice.businessType != constants.businessTypes.SUPPLIES) {
+                        continue;
+                    }
+                    let items = utility.calculateValuesAndTaxes(invoice.items)
+                    
+                    for (let k = 0; k < items.length; k++){
+                        let item = items[k]
+                        if (isGST === true && item.rateOfST == 0) {
+                            continue;
+                        }
+                        if (isGST === false && item.rateOfST != 0) {
+                            continue;
+                        }
+                        let totalSTPayable20Percent = (item.valueExcelST * 20) / 100
+                        let data = `${buyer.ntnNumber},${buyer.ntnName},${item.description},${invoice.type},${invoice.number},${item.valueExcelST},${item.totalSTPayable},${totalSTPayable20Percent},${item.valueOfIncludingST},${buyer.buyer},${buyer.address},`
+                        fs.appendFileSync(fileName, data+'\n')
+                        
+                    }
+                }
+                  
+                
+            }
+        } catch (e) {
+            throw e
+        }
+       
+    }
+
+    serviceReports(result, isPST) {
+
+        let fileName = isPST ? './monthlyReports/Monthly Sale Report With PST.csv': './monthlyReports/Monthly Sale Report Without PST.csv'
+        let header = `Buyer NTN, Buyer NTN Name, Name Of Items, Type, Bill No.,Value Of Sale, 17%, 20%, Total Value Of Sale, Buyer Name, Buyer Address, `
+        fs.writeFileSync(fileName, header+'\n', )
+        for (let i = 0; i < result.length; i++){
+            let buyer = result[i]
+            let invoices = buyer.invoices
+            
+            for (let j = 0; j < invoices.length; j++){
+                let invoice = invoices[j]
+                if (invoice.businessType != constants.businessTypes.SERVICES) {
+                    continue;
+                }
+                let items = utility.calculateValuesAndTaxes(invoice.items)
+                
+                for (let k = 0; k < items.length; k++){
+                    let item = items[k]
+                    if (isPST === true && item.rateOfST == 0) {
+                        continue;
+                    }
+                    if (isPST === false && item.rateOfST != 0) {
+                        continue;
+                    }
+                    let totalSTPayable20Percent = (item.valueExcelST * 20) / 100
+                    let data = `${buyer.ntnNumber},${buyer.ntnName},${item.description},${invoice.type},${invoice.number},${item.valueExcelST},${item.totalSTPayable},${totalSTPayable20Percent},${item.valueOfIncludingST},${buyer.buyer},${buyer.address},`
+                    fs.appendFileSync(fileName, data+'\n')
+                    
+                }
+            }
+            
+            
+            
+        }
+    }
+
 }
