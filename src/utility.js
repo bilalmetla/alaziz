@@ -123,4 +123,8 @@ exports.validateDateFormat = function (value) {
         return ''
     }
     return value
+};
+
+exports.validateNTN = function (value) {
+    return value.indexOf("-") != 1?'':value
 }

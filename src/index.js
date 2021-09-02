@@ -39,7 +39,7 @@ async function createBuyer() {
     var reName = await takeInput("Enter Representitve Name?: ")
     var phone = await takeInput("Enter phone Number?: ", true, utility.validateNumberOnly)
     var email = await takeInput("Enter email?: ", notRequired)
-    var ntnNumber = await takeInput("Enter NTN Number?: ")
+    var ntnNumber = await takeInput("Enter NTN Number?: ", true, utility.validateNTN)
     var ntnName = await takeInput("Enter NTN Name?: ")
     
     let invoice = new Invoices()
