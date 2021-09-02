@@ -4,6 +4,6 @@ cd ../
 
 git stash
 git pull
-git unstash
+git stash apply
 
 sleep 10
