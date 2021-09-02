@@ -39,7 +39,7 @@ async function createBuyer() {
     var reName = await takeInput("Enter Representitve Name?: ")
     var phone = await takeInput("Enter phone Number?: ", true, utility.validateNumberOnly)
     var email = await takeInput("Enter email?: ", notRequired)
-    var ntnNumber = await takeInput("Enter NTN Number?: ", true, utility.validateNumberOnly)
+    var ntnNumber = await takeInput("Enter NTN Number?: ")
     var ntnName = await takeInput("Enter NTN Name?: ")
     
     let invoice = new Invoices()
@@ -94,7 +94,7 @@ async function app() {
     try {
         
         let userRes;
-        while (userRes !== '0') {6
+        while (userRes !== '0') {
             console.log("Add New Buyer 1")
             console.log("Add New Invoice 2")
             console.log("Edit Buyer 3")
@@ -218,7 +218,7 @@ async function findBuyers() {
     let invoice = new Invoices()
     let userRes;
     let result = []
-    while (userRes !== '0' && result.length === 0) {
+    while (userRes !== '0' &&  result.length === 0  ) {
         console.log("Find Buyer By Id 1")
         console.log("Find Buyer By Name 2")
         console.log("Find Buyer By Address 3")
@@ -228,9 +228,12 @@ async function findBuyers() {
         userRes = await Ask("Find Buyer By Option?: ");
         
         if (userRes === '1') {
+           
             userRes = await takeInput("Enter Buyer Id?: ");
             result = await invoice.findBuyerById(userRes)
             await showFindedBuyers(result)
+           
+           
         } else if (userRes === '2') {
             userRes = await takeInput("Enter Buyer Name?: ");
             result = await invoice.findBuyerByName(userRes)

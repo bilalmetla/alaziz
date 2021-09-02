@@ -4,7 +4,6 @@ const serialNumber = require('./serialNumbers')
 const fs = require('fs')
 const utility = require('./utility')
 const constants = require('./constants');
-const { invoice } = require("./invoice-generator");
 
 module.exports = class Invoices {
 
@@ -61,7 +60,9 @@ module.exports = class Invoices {
     }
 
     findBuyerByName(name) {
-        const regex = new RegExp(name, 'i') // i for case insensitive
+        //let regex = /qwqw/i; // i for case insensitive
+        let regex = new RegExp(name, 'i'); // i for case insensitive
+        
         return new Promise((resolve, reject)=>{
             return this.db.find({ "buyer": {$regex: regex} }, (err, docs) => {
                 if (err) {
@@ -70,7 +71,7 @@ module.exports = class Invoices {
              
                 return resolve(docs);
                });
-        })
+         })
         
     }
 
@@ -181,7 +182,47 @@ module.exports = class Invoices {
                         if (isGST === false && item.rateOfST != 0) {
                             continue;
                         }
-                        let totalSTPayable20Percent = (item.valueExcelST * 20) / 100
+                        let totalSTPayable20Percent = (item.totalSTPayable * 20) / 100
+                        let data = `${buyer.ntnNumber},${buyer.ntnName},${item.description},${invoice.type},${invoice.number},${item.valueExcelST},${item.totalSTPayable},${totalSTPayable20Percent},${item.valueOfIncludingST},${buyer.buyer},${buyer.address},`
+                        fs.appendFileSync(fileName, data+'\n')
+                        
+                    }
+                }
+                  
+                
+            }
+        } catch (e) {
+            throw e
+        }
+       
+    }
+
+    supplyBookReports(result, isGST) {
+
+        try {
+            let fileName = isGST ? './qwmonthlyReports/Monthly Sale Book With GST.csv': './monthlyReports/Monthly Sale Book Without GST.csv'
+            let header = `Buyer NTN, Buyer NTN Name, Type, Bill No.,Value Of Sale, 17%, 20%, Total Value Of Sale, Buyer Name, Buyer Address, `
+            fs.writeFileSync(fileName, header+'\n', )
+            for (let i = 0; i < result.length; i++){
+                let buyer = result[i]
+                let invoices = buyer.invoices
+                
+                for (let j = 0; j < invoices.length; j++){
+                    let invoice = invoices[j]
+                    if (invoice.businessType != constants.businessTypes.SUPPLIES) {
+                        continue;
+                    }
+                    let items = utility.calculateValuesAndTaxes(invoice.items)
+                    
+                    for (let k = 0; k < items.length; k++){
+                        let item = items[k]
+                        if (isGST === true && item.rateOfST == 0) {
+                            continue;
+                        }
+                        if (isGST === false && item.rateOfST != 0) {
+                            continue;
+                        }
+                        let totalSTPayable20Percent = (item.totalSTPayable * 20) / 100
                         let data = `${buyer.ntnNumber},${buyer.ntnName},${item.description},${invoice.type},${invoice.number},${item.valueExcelST},${item.totalSTPayable},${totalSTPayable20Percent},${item.valueOfIncludingST},${buyer.buyer},${buyer.address},`
                         fs.appendFileSync(fileName, data+'\n')
                         
@@ -197,6 +238,42 @@ module.exports = class Invoices {
     }
 
     serviceReports(result, isPST) {
+
+        let fileName = isPST ? './monthlyReports/Monthly Sale Report With PST.csv': './monthlyReports/Monthly Sale Report Without PST.csv'
+        let header = `Buyer NTN, Buyer NTN Name, Name Of Items, Type, Bill No.,Value Of Sale, 17%, 20%, Total Value Of Sale, Buyer Name, Buyer Address, `
+        fs.writeFileSync(fileName, header+'\n', )
+        for (let i = 0; i < result.length; i++){
+            let buyer = result[i]
+            let invoices = buyer.invoices
+            
+            for (let j = 0; j < invoices.length; j++){
+                let invoice = invoices[j]
+                if (invoice.businessType != constants.businessTypes.SERVICES) {
+                    continue;
+                }
+                let items = utility.calculateValuesAndTaxes(invoice.items)
+                
+                for (let k = 0; k < items.length; k++){
+                    let item = items[k]
+                    if (isPST === true && item.rateOfST == 0) {
+                        continue;
+                    }
+                    if (isPST === false && item.rateOfST != 0) {
+                        continue;
+                    }
+                    let totalSTPayable20Percent = (item.valueExcelST * 20) / 100
+                    let data = `${buyer.ntnNumber},${buyer.ntnName},${item.description},${invoice.type},${invoice.number},${item.valueExcelST},${item.totalSTPayable},${totalSTPayable20Percent},${item.valueOfIncludingST},${buyer.buyer},${buyer.address},`
+                    fs.appendFileSync(fileName, data+'\n')
+                    
+                }
+            }
+            
+            
+            
+        }
+    }
+    
+    serviceBookReports(result, isPST) {
 
         let fileName = isPST ? './monthlyReports/Monthly Sale Report With PST.csv': './monthlyReports/Monthly Sale Report Without PST.csv'
         let header = `Buyer NTN, Buyer NTN Name, Name Of Items, Type, Bill No.,Value Of Sale, 17%, 20%, Total Value Of Sale, Buyer Name, Buyer Address, `

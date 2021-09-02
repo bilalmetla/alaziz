@@ -4,6 +4,7 @@ const fs = require('fs');
 
 let serialNumberFile = './serialNumbers/serialNumber.txt'
 let bookNumberFile = './serialNumbers/booknumber.txt'
+
 exports.get = async function () {
     process.serialNumber =  +fs.readFileSync(serialNumberFile, {encoding:'utf8', flag:'r'})
     process.bookNumber = +fs.readFileSync(bookNumberFile, {encoding:'utf8', flag:'r'}) 

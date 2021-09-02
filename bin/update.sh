@@ -3,3 +3,5 @@
 cd ../
 
 git pull
+
+sleep 5
