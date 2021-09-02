@@ -100,10 +100,14 @@ async function app() {
             console.log("Edit Buyer 3")
             console.log("Edit Inovice 4")
             console.log("Print Invoice Only 5")
-            console.log("Monthly Report GST 6")
+            console.log("Monthly Report With GST 6")
             console.log("Monthly Report Without GST 7")
-            console.log("Monthly Report PST 8")
-            console.log("Monthly Report Without PST 9")
+            console.log("Monthly Report With PST 8")
+            console.log("Monthly  Report With GST 9")
+            console.log("Monthly Book Report Without GST 10")
+            console.log("Monthly Book Report Without GST 11")
+            console.log("Monthly Book Report With PST 12")
+            console.log("Monthly Book Report Without PST 13")
             console.log(`-------------------------------------------`)
             userRes = await Ask("Pick an option?: ");
             
@@ -132,7 +136,19 @@ async function app() {
                 await monthlyReportWithPST()
              }
             else if (userRes === '9') {
-                await monthlyReportWithOutGST()
+                await monthlyReportWithOutPST()
+             }
+            else if (userRes === '10') {
+                await monthlySupplyBookReportGST(true)
+             }
+            else if (userRes === '11') {
+                await monthlySupplyBookReportGST(false)
+             }
+            else if (userRes === '12') {
+                await monthlyServiceBookReportPST(true)
+             }
+            else if (userRes === '13') {
+                await monthlyServiceBookReportPST(false)
              }
         }
 
@@ -168,7 +184,7 @@ async function addNewInvoice() {
     console.log("Supply: 1")
     console.log("Services: 2")
     let businessType = await takeInput("Choose Nature Of Business?: ")
-    var date = await takeInput("Enter Date [dd-mm-yyyy]?: ")
+    var date = await takeInput("Enter Date [dd-mm-yyyy]?: ", true, utility.validateDateFormat)
     let type = await takeInput("Enter Type Of Supply/Service?: ")
     let invoiceItems = []
     let stopped = true
@@ -398,10 +414,30 @@ async function monthlyReportWithOutPST() {
     
 }
 
+async function monthlySupplyBookReportGST(isGst) {
+    let dates =  await takeDateBetweenInputs()
+    let invoice = new Invoices();
+    let result = await invoice.findBuyersWithDates(dates.startDate, dates.endDate);
+    result = invoice.findInvoiceOfGivenDate(result, dates.startDate, dates.endDate)
+   
+    invoice.supplyBookReports(result, isGst)
+    
+}
+
+async function monthlyServiceBookReportPST(isGst) {
+    let dates =  await takeDateBetweenInputs()
+    let invoice = new Invoices();
+    let result = await invoice.findBuyersWithDates(dates.startDate, dates.endDate);
+    result = invoice.findInvoiceOfGivenDate(result, dates.startDate, dates.endDate)
+   
+    invoice.serviceBookReports(result, isGst)
+    
+}
+
 async function takeDateBetweenInputs() {
     console.log("Back With 0")
-    let startDate = await takeInput("Enter Start Date?: ");
-    let endDate = await takeInput("Enter End Date?: ");
+    let startDate = await takeInput("Enter Start Date [dd-mm-yyyy]?: ", true, utility.validateDateFormat);
+    let endDate = await takeInput("Enter End Date [dd-mm-yyyy]?: ", true, utility.validateDateFormat);
     return {startDate, endDate}
 }
 

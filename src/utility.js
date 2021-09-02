@@ -107,3 +107,20 @@ exports.calculateValuesAndTaxes = function (items) {
 exports.validateNumberOnly = function (value) {
     return isNaN(value)?'':value
 }
+
+exports.validateDateFormat = function (value) {
+    let date = value.split('-')
+    if (date[0] > 31 || date[0] < 1) {
+        console.log('date day is not correct.')
+        return ''
+    }
+    if (date[1] > 12 || date[1] < 1) {
+        console.log('date month is not correct.')
+        return ''
+    }
+    if (date[2] < 1000 || date[2].length != 4) {
+        console.log('date year is not correct.')
+        return ''
+    }
+    return value
+}

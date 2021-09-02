@@ -142,7 +142,7 @@ module.exports = class Invoices {
     findInvoiceOfGivenDate(result, startDate, endDate) {
         for (let i = 0; i < result.length; i++){           
             result[i].invoices = result[i].invoices.filter(inv => {
-                let check = inv.date.getTime()
+                let check = new Date(inv.date).getTime()
                 let from = new Date(startDate).getTime()
                 let to = new Date(endDate).getTime()
                 if (check <= to && check >= from) {
@@ -158,8 +158,8 @@ module.exports = class Invoices {
     supplyReports(result, isGST) {
 
         try {
-            let fileName = isGST ? './qwmonthlyReports/Monthly Sale Report With GST.csv': './monthlyReports/Monthly Sale Report Without GST.csv'
-            let header = `Buyer NTN, Buyer NTN Name, Name Of Items, Type, Bill No.,Value Of Sale, 17%, 20%, Total Value Of Sale, Buyer Name, Buyer Address, `
+            let fileName = isGST ? './monthlyReports/Monthly Sale Report With GST.csv': './monthlyReports/Monthly Sale Report Without GST.csv'
+            let header = `Buyer NTN, Buyer NTN Name, Name Of Items, Type, Bill No.,Value Of Sale, Sale Tax, WHST, Total Value Of Sale, Buyer Name, Buyer Address, `
             fs.writeFileSync(fileName, header+'\n', )
             for (let i = 0; i < result.length; i++){
                 let buyer = result[i]
@@ -198,8 +198,8 @@ module.exports = class Invoices {
     supplyBookReports(result, isGST) {
 
         try {
-            let fileName = isGST ? './qwmonthlyReports/Monthly Sale Book With GST.csv': './monthlyReports/Monthly Sale Book Without GST.csv'
-            let header = `Buyer NTN, Buyer NTN Name, Type, Bill No.,Value Of Sale, 17%, 20%, Total Value Of Sale, Buyer Name, Buyer Address, `
+            let fileName = isGST ? './monthlyReports/Monthly Sale Book With GST.csv': './monthlyReports/Monthly Sale Book Without GST.csv'
+            let header = `Buyer NTN, Buyer NTN Name, Type, Bill No.,Value Of Sale, Sale Tax, WHST, Total Value Of Sale,  `
             fs.writeFileSync(fileName, header+'\n', )
             for (let i = 0; i < result.length; i++){
                 let buyer = result[i]
@@ -221,7 +221,7 @@ module.exports = class Invoices {
                             continue;
                         }
                         let totalSTPayable20Percent = (item.totalSTPayable * 20) / 100
-                        let data = `${buyer.ntnNumber},${buyer.ntnName},${item.description},${invoice.type},${invoice.number},${item.valueExcelST},${item.totalSTPayable},${totalSTPayable20Percent},${item.valueOfIncludingST},${buyer.buyer},${buyer.address},`
+                        let data = `${buyer.ntnNumber},${buyer.ntnName},${invoice.type},${invoice.number},${item.valueExcelST},${item.totalSTPayable},${totalSTPayable20Percent},${item.valueOfIncludingST},`
                         fs.appendFileSync(fileName, data+'\n')
                         
                     }
@@ -238,7 +238,7 @@ module.exports = class Invoices {
     serviceReports(result, isPST) {
 
         let fileName = isPST ? './monthlyReports/Monthly Sale Report With PST.csv': './monthlyReports/Monthly Sale Report Without PST.csv'
-        let header = `Buyer NTN, Buyer NTN Name, Name Of Items, Type, Bill No.,Value Of Sale, 17%, 20%, Total Value Of Sale, Buyer Name, Buyer Address, `
+        let header = `Buyer NTN, Buyer NTN Name, Name Of Items, Type, Bill No.,Value Of Sale, Sale Tax, WHST, Total Value Of Sale, Buyer Name, Buyer Address, `
         fs.writeFileSync(fileName, header+'\n', )
         for (let i = 0; i < result.length; i++){
             let buyer = result[i]
@@ -273,8 +273,8 @@ module.exports = class Invoices {
     
     serviceBookReports(result, isPST) {
 
-        let fileName = isPST ? './monthlyReports/Monthly Sale Report With PST.csv': './monthlyReports/Monthly Sale Report Without PST.csv'
-        let header = `Buyer NTN, Buyer NTN Name, Name Of Items, Type, Bill No.,Value Of Sale, 17%, 20%, Total Value Of Sale, Buyer Name, Buyer Address, `
+        let fileName = isPST ? './monthlyReports/Monthly Sale Book With PST.csv': './monthlyReports/Monthly Sale Book Without PST.csv'
+        let header = `Buyer NTN, Buyer NTN Name, Type, Bill No.,Value Of Sale, Sale Tax, WHST, Total Value Of Sale,`
         fs.writeFileSync(fileName, header+'\n', )
         for (let i = 0; i < result.length; i++){
             let buyer = result[i]
@@ -296,7 +296,7 @@ module.exports = class Invoices {
                         continue;
                     }
                     let totalSTPayable20Percent = (item.valueExcelST * 20) / 100
-                    let data = `${buyer.ntnNumber},${buyer.ntnName},${item.description},${invoice.type},${invoice.number},${item.valueExcelST},${item.totalSTPayable},${totalSTPayable20Percent},${item.valueOfIncludingST},${buyer.buyer},${buyer.address},`
+                    let data = `${buyer.ntnNumber},${buyer.ntnName},${invoice.type},${invoice.number},${item.valueExcelST},${item.totalSTPayable},${totalSTPayable20Percent},${item.valueOfIncludingST},`
                     fs.appendFileSync(fileName, data+'\n')
                     
                 }
