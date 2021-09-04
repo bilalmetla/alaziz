@@ -13,6 +13,7 @@ exports.invoiceHtml = function (result) {
 
             date: result.invoices[0].date,
             invoiceNumber: result.invoices[0].number,
+            bookNumber: result.invoices[0].bookNumber,
         
         },
         
@@ -126,7 +127,7 @@ exports.validateDateFormat = function (value) {
 };
 
 exports.validateNTN = function (value) {
-    return value.indexOf("-") != 1?'':value
+    return value.indexOf("-") > 1?'':value
 };
 
 exports.formatDate = function (date) {

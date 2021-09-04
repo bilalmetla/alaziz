@@ -14,9 +14,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 body {
-    line-height: 1;
+    //- line-height: 1;
     display: flex;
     justify-content: center;
+    font-size: 12px;
 }
 
 ol, ul {
@@ -37,11 +38,11 @@ table {
     border-spacing: 0;
 }
 
-body {
-    margin: 5px 5px 5px 5px;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 9px;
-}
+//- body {
+//-     margin: 5px 5px 5px 5px;
+//-     font-family: 'Open Sans', sans-serif;
+//-     font-size: 9px;
+//- }
 
 strong, .bold {
     font-weight: 700;
@@ -51,7 +52,7 @@ strong, .bold {
     width: 21cm;
     height: 29.7cm;
     position: relative;
-    padding: 4%;
+    padding: 10px;
 }
 
 #header > #heading {
@@ -80,6 +81,7 @@ strong, .bold {
     font-size: 16px;
     color: black;
     font-weight: 400;
+    border-bottom: 2px dotted #080182;
 }
 
 #conclusion {
@@ -142,9 +144,9 @@ strong, .bold {
     color: #080182;
     font-size: 16px;
 }
-#items table tr:nth-child(1) {
-    text-decoration: underline; 
-}
+//- #items table tr:nth-child(1) {
+//-     text-decoration: underline; 
+//- }
 
 #summary {
     height: 155px;
@@ -234,6 +236,7 @@ strong, .bold {
     font-size: 16px;
     color: black;
     font-weight: 400;
+    text-decoration: underline;
 }
 .Bill{
     background-color: #080182;
@@ -247,4 +250,9 @@ strong, .bold {
     color: #080182;
     font-weight: 600;
 }
-</style><div id="container"><div id="header"><div id="logo"><img src="../static/logo.png" alt=""></div><br><br><div id="heading"><h3><strong></strong></h3><p></p></div></div><br><br><div><div id="recipient"><p>Buyer Name: <span>qwqwq</span></p><br><br><p>Address: <span>qwwqqww</span></p><br><br><br><br></div><div id="conclusion"><table class="ntnInfo"><tr><td class="bold">NTN/PTN#: </td><td>7397385-6</td></tr><tr><td class="bold">STRN#: </td><td>32-77-8761-341-78</td></tr></table></div></div><br><br><br><br><br><br><br><br><br><br><br><br><br><div class="receipentInfo">      <p>Date: <span>4-3-121 </span></p><h6 class="Bill">BILL</h6><p>Book No:<span></span></p><p>Sr.No:<span>5</span></p></div><div style="padding-top:20px"><div id="items"><table><tr><th>Qty</th><th>Description</th><th>Rate</th><th>Value Excel.ST</th><th>Rate of ST</th><th>Total ST Payable</th><th>Value Of Including ST</th><tr><td>300</td><td>balls</td><td>200</td><td>60000</td><td>17</td><td>10200</td><td>70200</td></tr></tr><br><br><br><tr><td> </td><td> </td><td class="bold">Total</td><td>60000 </td><td> </td><td>10200 </td><td>70200 </td></tr></table></div></div></div></body></html>
+@media print {
+    .Bill {
+         background-color: #080182;
+    }
+}
+</style><div id="container"><div id="header"><div id="logo"><img src="../static/logo.png" alt=""></div><br><br><div id="heading"><h3><strong></strong></h3><p></p></div></div><br><br><div><div id="recipient"><p>Buyer Name: <span>qwqwq</span></p><br><br><p>Address: <span>qwwqqww</span></p><br><br></div><div id="conclusion"><table class="ntnInfo"><tr><td class="bold">NTN/PTN#: </td><td>7397385-6</td></tr><tr><td class="bold">STRN#: </td><td>32-77-8761-341-78</td></tr></table></div></div><br><br><br><br><br><br><br><br><br><div class="receipentInfo">      <p>Date: <span>4-3-121 </span></p><h6 class="Bill">BILL</h6><p>Book No:<span>1</span></p><p>Sr.No:<span>5</span></p></div><div style="padding-top:20px"><div id="items"><table><tr><th>Qty</th><th>Description</th><th>Rate</th><th>Value Excel.ST</th><th>Rate of ST</th><th>Total ST Payable</th><th>Value Of Including ST</th><tr><td>300</td><td>balls</td><td>200</td><td>60000</td><td>17</td><td>10200</td><td>70200</td></tr></tr><br><br><br><tr><td> </td><td> </td><td class="bold">Total</td><td>60000 </td><td> </td><td>10200 </td><td>70200 </td></tr></table></div></div></div></body></html>

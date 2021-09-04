@@ -21,9 +21,10 @@ html(lang='en')
             }
 
             body {
-                line-height: 1;
+                //- line-height: 1;
                 display: flex;
                 justify-content: center;
+                font-size: 12px;
             }
 
             ol, ul {
@@ -44,11 +45,11 @@ html(lang='en')
                 border-spacing: 0;
             }
 
-            body {
-                margin: 5px 5px 5px 5px;
-                font-family: 'Open Sans', sans-serif;
-                font-size: 9px;
-            }
+            //- body {
+            //-     margin: 5px 5px 5px 5px;
+            //-     font-family: 'Open Sans', sans-serif;
+            //-     font-size: 9px;
+            //- }
 
             strong, .bold {
                 font-weight: 700;
@@ -87,6 +88,7 @@ html(lang='en')
                 font-size: 16px;
                 color: black;
                 font-weight: 400;
+                border-bottom: 2px dotted #080182;
             }
 
             #conclusion {
@@ -149,9 +151,9 @@ html(lang='en')
                 color: #080182;
                 font-size: 16px;
             }
-            #items table tr:nth-child(1) {
-                text-decoration: underline; 
-            }
+            //- #items table tr:nth-child(1) {
+            //-     text-decoration: underline; 
+            //- }
 
             #summary {
                 height: 155px;
@@ -241,6 +243,7 @@ html(lang='en')
                 font-size: 16px;
                 color: black;
                 font-weight: 400;
+                text-decoration: underline;
             }
             .Bill{
                 background-color: #080182;
@@ -253,6 +256,11 @@ html(lang='en')
                 font-size: 18px;
                 color: #080182;
                 font-weight: 600;
+            }
+            @media print {
+                .Bill {
+                     background-color: #080182;
+                }
             }
 
         #container
@@ -277,9 +285,7 @@ html(lang='en')
                         p Address: 
                             span #{recipient.street1}
                         br
-                        br                        
-                        br 
-                        br
+                        br  
             
                 #conclusion
                     table(class="ntnInfo")
@@ -299,16 +305,13 @@ html(lang='en')
             br
             br
             br
-            br
-            br
-            br
-            br
+            
             div(class='receipentInfo')       
                 p Date: 
                     span #{recipient.date} 
                 h6(class="Bill") BILL
                 p Book No:
-                    span #{recipient.bookNo}
+                    span #{recipient.bookNumber}
                 p Sr.No:
                     span #{recipient.invoiceNumber}
             div(style='padding-top:20px')

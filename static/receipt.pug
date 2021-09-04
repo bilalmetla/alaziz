@@ -21,7 +21,10 @@ html(lang='en')
             }
 
             body {
-                line-height: 1;
+                //- line-height: 1px;
+                display: flex;
+                justify-content: center;
+                font-size: 12px;
             }
 
             ol, ul {
@@ -42,11 +45,11 @@ html(lang='en')
                 border-spacing: 0;
             }
 
-            body {
-                margin: 5px 5px 5px 5px;
-                font-family: 'Open Sans', sans-serif;
-                font-size: 9px;
-            }
+            //- body {
+            //-     margin: 5px 5px 5px 5px;
+            //-     font-family: 'Open Sans', sans-serif;
+            //-     font-size: 9px;
+            //- }
 
             strong, .bold {
                 font-weight: 700;
@@ -54,7 +57,9 @@ html(lang='en')
 
             #container {
                 position: relative;
-                padding: 4%;
+                padding: 10px;
+                width: 21cm;
+                height: 29.7cm;
             }
 
             #header > #heading {
@@ -68,13 +73,25 @@ html(lang='en')
             }
 
             #header > #logo > img {
-                width: 50%;
+                width: 100%;
             }
 
-            #recipient {
-                float: left;
-            }
+            //- #recipient {
+            //-     float: left;
+            //- }
 
+            #recipient p {
+                font-size: 18px;
+                color: #080182;
+                font-weight: 600;
+                
+            }
+            #recipient span {
+                font-size: 16px;
+                color: black;
+                font-weight: 400;
+                border-bottom: 2px dotted #080182;
+            }
             #conclusion {
                 float: right;
             }
@@ -96,38 +113,44 @@ html(lang='en')
             }
 
             #items > table th {
-                font-weight: 400;
+                
                 padding: 1px 4px;
-                text-align: left;
+                border: 2px solid #080182;
+                background-color: #080182;
+                color: #fff;
+                font-size: 11px;
+                text-transform: uppercase;
+                text-decoration:none;
             }
 
             #items > table td {
                 padding: 1px 4px;
             }
 
-            #items > table tr td:not(:first-child) {
-                text-align: left;
-            }
+            //- #items > table tr td:not(:first-child) {
+            //-     text-align: left;
+            //- }
 
-            #items > table tr td:nth-child(2){
-                width:1%;
-                white-space:nowrap;
-            }
+            //- #items > table tr td:nth-child(2){
+            //-     width:1%;
+            //-     white-space:nowrap;
+            //- }
 
-            #items > table tr td:last-child, #items > table tr th:last-child {
-                text-align: right;
-            }
+            //- #items > table tr td:last-child, #items > table tr th:last-child {
+            //-     text-align: right;
+            //- }
 
             #items table tr td {
                 padding-top: 3px;
                 padding-bottom: 3px;
-                height: 10px;
-                border: 1px solid black;
+                
+                border: 2px solid #080182;
+                font-size: 14px;
             }
 
-            #items table tr:nth-child(1) {
-                text-decoration: underline; 
-            }
+            //- #items table tr:nth-child(1) {
+            //-     text-decoration: underline; 
+            //- }
 
             #summary {
                 height: 155px;
@@ -200,18 +223,42 @@ html(lang='en')
             .padding-table {
                 margin-top: 60px;
             }
-            .receipentInfo  {
+          .receipentInfo  {
                 display: flex;
+                justify-content: space-between;
             }
             .receipentInfo p {
-                min-width: 100%;;
+                
+                font-size: 18px;
+                color: #080182;
+                font-weight: 600;
+                margin-right: 5px;
             }
+           
+            .receipentInfo span {
+                font-size: 16px;
+                color: black;
+                font-weight: 400;
+                
+            }
+            .Bill{
+                background-color: #080182;
+                padding: 6px 16px;
+                color: #fff;
+                font-size: 18px;
+                width: 200px;
+                text-align: center;
+                margin: auto;
+            }
+
+
         #container
             #header
                 #logo
                     img(src=logo, alt='')
                 br
                 br
+                h3(class="Bill") Received
                 #heading
                     h3
                         strong #{statement_heading.subject}
@@ -222,68 +269,80 @@ html(lang='en')
                 #recipient
                         
                         div(class='receipentInfo')
-                            p Date: #{recipient.date} 
-                            p Book No: #{recipient.bookNo}
-                            p Sr.No: #{recipient.invoiceNumber}
+                            p Date:
+                                span #{recipient.date} 
+                            p Book No:
+                                span #{recipient.bookNumber}
+                            p Sr.No: 
+                                span #{recipient.invoiceNumber}
                         br
                         br
-                        p Buyer Name: #{recipient.name}
+                        p Buyer Name: 
+                            span #{recipient.name}
                         br
                         div(class='receipentInfo')
-                            p Total Amount Of Bill: #{recipient.grandTotals.grandTotalValueOfIncludingST}
-                            p Income Tax With Held: #{recipient.grandTotals.incomeTaxWithHeld}
+                            p Total Amount Of Bill:
+                                span #{recipient.grandTotals.grandTotalValueOfIncludingST}
+                            p Income Tax With Held:
+                                span #{recipient.grandTotals.incomeTaxWithHeld}
                         
                         br
                         div(class='receipentInfo')
-                            p Total GST/PST Amount Rs: #{recipient.grandTotals.grandTotalSTPayable}
-                            p Net Payment: #{recipient.grandTotals.netPayment }
+                            p Total GST/PST Amount Rs:
+                                span #{recipient.grandTotals.grandTotalSTPayable}
+                            p Net Payment:
+                                span     #{recipient.grandTotals.netPayment }
                         br
                         div(class='receipentInfo')
-                            p Sale Tax With Held: #{recipient.grandTotals.saleTaxWithHeld}
-                            p Against The Bill No: #{recipient.invoiceNumber}
+                            p Sale Tax With Held:
+                                span #{recipient.grandTotals.saleTaxWithHeld}
+                            p Against The Bill No:
+                                span #{recipient.invoiceNumber}
                         br
                         div(class='receipentInfo')
-                            p Sale Tax Received: #{recipient.grandTotals.receivedSaleTax}
-                            p Check/D.D No: 
+                            p Sale Tax Received:
+                                span #{recipient.grandTotals.receivedSaleTax}
+                            p Check/D.D No:
+                                span 
                         br
                         div(class='receipentInfo')
-                            p 
                             p Signature/Stamp: 
+                                span 
                         
                          
-              
+                        br
+                        br
+                        br
+                        br
+                        br
+                        hr 
 
+                        br
+                        br
+                        br
+                        br
+                        br
+                        #header
+                            #logo
+                                img(src=logo, alt='')
+                        br
+                        br
 
-            br
-            br
-            br
-            br
-            br
-            br
-            br
-            br
-            br
-            br
-            br
-            br
-            br
-            br
-            br
-            br
-            br
-            br
-            hr
-            br
-            div
-                div(style='display:flex')
-                    p(style='margin-right: 16px') Date: #{recipient.date} 
-                    p(style='margin-right: 16px') Book No: #{recipient.bookNo}
-                    p(style='margin-right: 16px') Sr.No: #{recipient.invoiceNumber}
-                        
-                br 
-                p Buyer Name: #{recipient.name}
-                br
-                h3.bold Sales Tax Bill
+                        div(class='receipentInfo')
+                            p Date:
+                                span #{recipient.date} 
+                            p Book No:
+                                span #{recipient.bookNumber}
+                            p Sr.No:
+                                span #{recipient.invoiceNumber}
+                                    
+                        br 
+                        div(class='receipentInfo')
+                            p Buyer Name:
+                                span #{recipient.name}
+                            br
+                        h3(class="Bill") Sales Tax Bill
+                
                 #items
                     - var rowCounter = 0
                     - var loopTable = 1;
