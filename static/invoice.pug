@@ -22,6 +22,8 @@ html(lang='en')
 
             body {
                 line-height: 1;
+                display: flex;
+                justify-content: center;
             }
 
             ol, ul {
@@ -53,6 +55,8 @@ html(lang='en')
             }
 
             #container {
+                width: 21cm;
+                height: 29.7cm;
                 position: relative;
                 padding: 4%;
             }
@@ -68,11 +72,21 @@ html(lang='en')
             }
 
             #header > #logo > img {
-                width: 50%;
+                width: 100%;
             }
 
             #recipient {
                 float: left;
+            }
+            #recipient p {
+                font-size: 18px;
+                color: #080182;
+                font-weight: 600;
+            }
+            #recipient span {
+                font-size: 16px;
+                color: black;
+                font-weight: 400;
             }
 
             #conclusion {
@@ -96,35 +110,43 @@ html(lang='en')
             }
 
             #items > table th {
-                font-weight: 400;
-                padding: 1px 4px;
-                text-align: left;
+                border: 2px solid #080182;
+                background-color: #080182;
+                color: #fff;
+                font-size: 11px;
+                padding: 5px;
+                text-transform: uppercase;
             }
 
             #items > table td {
                 padding: 1px 4px;
             }
 
-            #items > table tr td:not(:first-child) {
-                text-align: left;
-            }
+            //- #items > table tr td:not(:first-child) {
+            //-     text-align: left;
+            //- }
 
-            #items > table tr td:nth-child(2){
-                width:1%;
-                white-space:nowrap;
-            }
+            //- #items > table tr td:nth-child(2){
+            //-     width:1%;
+            //-     white-space:nowrap;
+            //- }
 
-            #items > table tr td:last-child, #items > table tr th:last-child {
-                text-align: right;
-            }
+            //- #items > table tr td:last-child, #items > table tr th:last-child {
+            //-     text-align: right;
+            //- }
 
             #items table tr td {
                 padding-top: 3px;
                 padding-bottom: 3px;
                 height: 10px;
-                border: 1px solid black;
+                border: 2px solid #080182;
+                font-size: 14px;
             }
 
+            .total .bold {
+                color: #080182;
+                font-size: 16px;
+            }
             #items table tr:nth-child(1) {
                 text-decoration: underline; 
             }
@@ -195,6 +217,7 @@ html(lang='en')
                 font-size: 65%;
                 line-height: 140%;
                 text-align: center;
+                
             }
 
             .padding-table {
@@ -202,9 +225,32 @@ html(lang='en')
             }
             .receipentInfo  {
                 display: flex;
+                justify-content: space-between;
             }
             .receipentInfo p {
-                margin-right: 16px;
+                
+                font-size: 18px;
+                color: #080182;
+                font-weight: 600;
+                margin-right: 5px;
+            }
+           
+            .receipentInfo span {
+                font-size: 16px;
+                color: black;
+                font-weight: 400;
+            }
+            .Bill{
+                background-color: #080182;
+                padding: 6px 16px;
+                color: #fff;
+                font-size: 18px;
+                margin-right: 5px;
+            }
+            .ntnInfo{
+                font-size: 18px;
+                color: #080182;
+                font-weight: 600;
             }
 
         #container
@@ -222,22 +268,19 @@ html(lang='en')
             div
                 #recipient
                     
-                        p Buyer Name: #{recipient.name}
+                        p Buyer Name: 
+                            span #{recipient.name}
                         br
                         br
-                        h5 Address: #{recipient.street1}
+                        p Address: 
+                            span #{recipient.street1}
                         br
-                        br
-                        div(class='receipentInfo')
-                        
-                            p Date: #{recipient.date} 
-                            p Book No: #{recipient.bookNo}
-                            p Sr.No: #{recipient.invoiceNumber}
-                        
+                        br                        
                         br 
                         br
+            
                 #conclusion
-                    table
+                    table(class="ntnInfo")
                         -for(var field in statement_conclusion){
                         tr
                             td.bold #{field}: 
@@ -248,6 +291,24 @@ html(lang='en')
             br
             br
             br
+            br
+            br
+            br
+            br
+            br
+            br
+            br
+            br
+            br
+            br
+            div(class='receipentInfo')       
+                p Date: 
+                    span #{recipient.date} 
+                h6(class="Bill") BILL
+                p Book No:
+                    span #{recipient.bookNo}
+                p Sr.No:
+                    span #{recipient.invoiceNumber}
             div(style='padding-top:20px')
                 #items
                     - var rowCounter = 0
@@ -257,7 +318,7 @@ html(lang='en')
                             tr
                                 
                                 each articleHeader in article_headers
-                                    th(style='border: 1px solid black') #{articleHeader}
+                                    th #{articleHeader}
 
                                 - var rowPerPage = 0
                                 

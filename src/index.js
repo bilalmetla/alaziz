@@ -204,7 +204,8 @@ async function addNewInvoice() {
      let updatedItems = utility.calculateValuesAndTaxes(invoiceItems)
     result.invoices = []
     inv.items = updatedItems
-     result.invoices[0] = inv
+    inv.date = date;
+    result.invoices[0] = inv
     await utility.invoiceHtml(result)
     
     console.log('---------------------------------')
@@ -224,6 +225,7 @@ async function printInvoice() {
     
     let updatedItems = utility.calculateValuesAndTaxes(printInvoice.items)
     printInvoice.items = updatedItems
+    printInvoice.date = utility.formatDate(printInvoice.date)
     result.invoices = [];
     result.invoices[0] =  printInvoice;
     await utility.invoiceHtml(result)

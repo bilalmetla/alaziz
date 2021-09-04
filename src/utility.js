@@ -127,4 +127,9 @@ exports.validateDateFormat = function (value) {
 
 exports.validateNTN = function (value) {
     return value.indexOf("-") != 1?'':value
+};
+
+exports.formatDate = function (date) {
+    date = new Date(date)
+    return `${date.getDay()}-${date.getMonth()+1}-${date.getYear()}`
 }
