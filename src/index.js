@@ -17,46 +17,57 @@ function Ask(query) {
   }))
 }
   
-async function takeInput(question, isRequired=true, validation) {
-    let value = await Ask(question)
-    if (validation && value)
-    {
-        value = validation(value) 
+async function takeInput(question, isRequired = true, validation) {
+    try {
+        let value = await Ask(question)
+        if (validation && value)
+        {
+            value = validation(value) 
+            }
+        
+        while (isRequired === true && !value) {
+            console.log('Value is Required...')
+            value = await takeInput(question, isRequired, validation)
         }
-    
-    while (isRequired === true && !value) {
-        console.log('Value is Required...')
-        value = await takeInput(question, isRequired, validation)
+        return value
+        
+    } catch (e) {
+        console.log(e)
     }
-    return value
+    
 }
 
 async function createBuyer() {
 
-    let notRequired = false
-    var buyer = await takeInput("Enter Buyer Name?: ")
-    var address = await takeInput("Enter Address?: ")
-    var reName = await takeInput("Enter Representitve Name?: ")
-    var phone = await takeInput("Enter phone Number?: ", true, utility.validateNumberOnly)
-    var email = await takeInput("Enter email?: ", notRequired)
-    var ntnNumber = await takeInput("Enter NTN Number?: ", true, utility.validateNTN)
-    var ntnName = await takeInput("Enter NTN Name?: ")
-    
-    let invoice = new Invoices()
-    invoice.buyerInfo = {
-        buyer,
-        address,
-        representitveName: reName,
-        phone,
-        email,
-        ntnNumber,
-        ntnName
-
-    }
+    try {
+        let notRequired = false
+        var buyer = await takeInput("Enter Buyer Name?: ")
+        var address = await takeInput("Enter Address?: ")
+        var reName = await takeInput("Enter Representitve Name?: ")
+        var phone = await takeInput("Enter phone Number?: ", true, utility.validateNumberOnly)
+        var email = await takeInput("Enter email?: ", notRequired)
+        var ntnNumber = await takeInput("Enter NTN Number?: ", true, utility.validateNTN)
+        var ntnName = await takeInput("Enter NTN Name?: ")
         
-    let addedResult = await invoice.addBuyer()
-    console.log('------------------------------------')
-    console.log('Added Buyer Success', addedResult)
+        let invoice = new Invoices()
+        invoice.buyerInfo = {
+            buyer,
+            address,
+            representitveName: reName,
+            phone,
+            email,
+            ntnNumber,
+            ntnName
+
+        }
+            
+        let addedResult = await invoice.addBuyer()
+        console.log('------------------------------------')
+        console.log('Added Buyer Success', addedResult)
+    } catch (e) {
+        console.log(e)
+    }
+    
    
 }
 

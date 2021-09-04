@@ -127,7 +127,7 @@ exports.validateDateFormat = function (value) {
 };
 
 exports.validateNTN = function (value) {
-    return value.indexOf("-") > 1?'':value
+    return value.indexOf("-") < 1?'':value
 };
 
 exports.formatDate = function (date) {
