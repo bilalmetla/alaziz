@@ -6,7 +6,7 @@ const invoiceGenerator = require('pdf-invoice-generator');
 exports.invoice = async function ({ recipient, articles, grandTotals }) {
     invoiceGenerator.configure({
         global: {
-          logo:"https://vehiclesolutions.com.au/wp-content/uploads/2017/03/Vehicle-Solutions-logo.png",
+          logo:"../static/logo.png",
           invoice_template: `./static/invoice.pug`,
           date: new Date(),
           date_format: "YY/MM/DD",
@@ -117,7 +117,7 @@ exports.invoice = async function ({ recipient, articles, grandTotals }) {
 exports.receipt = async function ({ recipient, articles, grandTotals }) {
     invoiceGenerator.configure({
         global: {
-          logo:"https://vehiclesolutions.com.au/wp-content/uploads/2017/03/Vehicle-Solutions-logo.png",
+          logo:"../static/logo.png",
           invoice_template: `./static/receipt.pug`,
           date: new Date(),
           date_format: "YY/MM/DD",
