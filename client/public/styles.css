@@ -9,3 +9,10 @@
     display: flex;
     justify-content:space-between;
 }
+.align-right{
+    display: flex;
+    justify-content: right;
+}
+.buttons {
+    margin-right: 5px;
+}

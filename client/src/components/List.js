@@ -5,7 +5,6 @@ import { getList } from "./DataProvider";
 
 export const List = (props) => {
     
-    
     const [tableData, settableData] = useState([]);
 
     useEffect(async () => {
@@ -37,7 +36,15 @@ export const List = (props) => {
             }
             {
                     props.actions.map((action, acIndex) => {
-                        return<td key={`action-${acIndex}`}> <Link to={`${action.resource? action.resource: props.resource}/${item['id']}`}>{action.label }</Link> </td>
+                        let resource = props.resource
+                        if (action.resource) {
+                            Object.keys(item).forEach(key => {
+                                action.resource = action.resource.replace(`:${key}`, `${item[key]}`);
+                            })
+                        } else {
+                            resource = `${resource}/${item['id']}`
+                        }
+                            return<td key={`action-${acIndex}`}> <Link to={`${action.resource? action.resource: resource}`}>{action.label }</Link> </td>
                         })
             }
             </tr>;

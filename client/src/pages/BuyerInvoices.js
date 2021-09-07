@@ -12,7 +12,7 @@ export const BuyerInvoices = (props) => {
        
     ]
     const actions = [
-        { label: 'Edit', resource:'invoices',   },
+        { label: 'Edit', resource:`${props.match.url}/:id`,   },
     ]
 
     return (

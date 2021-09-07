@@ -8,7 +8,8 @@ import { Home } from "./routes/Home";
 import { About } from "./routes/About";
 import {
   BuyerList, BuyerEdit, BuyerCreate,
-  BuyerInvoices, InvoiceEdit, InvoiceCreate
+  BuyerInvoices, InvoiceEdit, InvoiceCreate,
+  InvoicePrint,
 } from "./pages";
 
 export const App = ({ title }) => (
@@ -27,9 +28,11 @@ export const App = ({ title }) => (
             <Route exact path="/buyers" component={BuyerList} />
             <Route exact path="/buyers/create" render={(props) => <BuyerCreate {...props} />} />
             <Route exact path="/buyers/:id" render={(props) => <BuyerEdit {...props} />} />
-            <Route exact path="/buyerInvoices/:buyerId" render={(props) => <BuyerInvoices {...props} />} />
-            <Route exact path="/buyerInvoices/invoices/:id" render={(props) => <InvoiceEdit {...props} />} />
-            <Route exact path="/buyerInvoices/:id/create" render={(props) => <InvoiceCreate {...props} />} />
+            <Route exact path="/buyers/:id/invoices" render={(props) => <BuyerInvoices {...props} />} />
+            <Route exact path="/buyers/:id/invoices/create" render={(props) => <InvoiceCreate {...props} />} />
+
+            <Route exact path="/buyers/:id/invoices/:invoiceId" render={(props) => <InvoiceEdit {...props} />} />
+            <Route exact path="/buyers/:buyerId/invoices/:invoiceId/print" render={(props) => <InvoicePrint {...props} />} />
           
           </Switch>
         </Col>

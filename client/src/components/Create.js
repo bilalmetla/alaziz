@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { create } from "./DataProvider";
+import { FormElements } from "./FormElements";
+import { FormTable } from "./FormTable";
 
 
 export const Create = (props) => {
@@ -43,9 +45,7 @@ export const Create = (props) => {
     }
     
     useEffect(async () => {
-        // if (props.newListResource) {
-        //     setformDataItems([{}])
-        // }
+        
         
     }, []);
 
@@ -53,63 +53,16 @@ export const Create = (props) => {
     return (
         <>
             <Form>
-                {
-                    props.form.map(f => {
-                        if(!f.isNewList)
-                        return <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Label>{ f.label}</Form.Label>
-                                <Form.Control type={f.type} name={f.source}  value={editFormData[f.source]} onChange={handleInputsChange} />
-                                
-                            </Form.Group>
-                    })
-                }
-
-                {
-                    props.newListResource &&
-                    props.newListResource &&
-                    <div className="space-between">
-                        <h3>Item Details</h3>
-                        <Button variant="primary" onClick={manageformDataItems}>Add Item </Button>
-                        </div>
-                }
-                {
-                    
+                <FormElements {...props}
+                    handleInputsChange={handleInputsChange}
+                    editFormData={editFormData}
+                />
                 
-                     props.form.map(form => {
-                         if (form.isNewList) {
-                             return <table responsive>
-                                
-                                 <tbody>
-                                         {
-                                         formDataItems.map((item, index) => {
-                                           return  <tr>{
-                                                 form.list.map((f) => {
-                                                     return <td key={`heading-${index}`}>
-                                                         <Form.Group className="mb-3" >
-                                                             <Form.Label>{f.label}</Form.Label>
-                                                             <Form.Control type={f.type} name={f.source} value={item[f.source]} onChange={(e) => handleInputsChangeOfItems(e, index)} />
-                                                       
-                                                         </Form.Group>
-                                                   
-                                                     </td>;
-                                           
-                                                 })
-                                             }
-                                             </tr>
-                                         
-                                         })
-                                         }
-                                        
-                                     
-                                 </tbody>
-                             </table>
-                         }
-                           
-                          
-                            
-                    })
-                }
-            
+                <FormTable {...props}
+                    manageformDataItems={manageformDataItems}
+                    formDataItems={formDataItems}
+                    handleInputsChangeOfItems={handleInputsChangeOfItems}
+                />          
 
   
                 <Button className="submit-button" variant="primary" type="submit" onClick={submitForm}>

@@ -1,5 +1,6 @@
 const response = require('./response')
 const Invoice = require('../usecases/invoice')
+const Buyer = require('../usecases/buyer')
 const db = require('../db')
 const utility = require('../utility')
 
@@ -30,17 +31,7 @@ exports.updateInvoice = async function (req, res, next) {
      
 }
 
-exports.printInvoice = async function (req, res, next) {
-    try {
-       let serialNumber = req.params.serialNumber
-       let record  = await Invoice.findBySerialNumber(serialNumber, db)
-       response.send(record, res)
- 
-    } catch (e) {
-       response.exception(e, res)
-    }
-     
-}
+
 
 exports.getBuyerInvoicesById = async function (req, res, next) {
     try {
@@ -74,6 +65,26 @@ exports.getInvoiceById = async function (req, res, next) {
        let record = await Invoice.getInvoiceById(id, db)
        utility.mapToClientResponse(record)
        response.send(record, res)
+ 
+    } catch (e) {
+       response.exception(e, res)
+    }
+     
+}
+
+exports.printInvoice = async function (req, res, next) {
+    try {
+       let {invoiceId, buyerId} = req.params
+       let invoiceData = await Invoice.getInvoiceById(invoiceId, db)
+       utility.mapToClientResponse(invoiceData)
+       let buyerInfo = await Buyer.getBuyerById(buyerId, db)
+       utility.mapToClientResponse(buyerInfo)
+
+       let updatedItems = utility.calculateValuesAndTaxes(invoiceData.items)
+       invoiceData.items = updatedItems
+       invoiceData.date = utility.formatDate(invoiceData.date)
+      
+       response.send({buyerInfo, invoiceData}, res)
  
     } catch (e) {
        response.exception(e, res)

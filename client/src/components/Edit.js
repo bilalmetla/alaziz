@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getOne, update } from "./DataProvider";
+import { get, getOne, update } from "./DataProvider";
+import { FormElements } from "./FormElements";
+import { FormTable } from "./FormTable";
 
 
 
@@ -14,7 +16,7 @@ export const Edit = (props) => {
    const handleInputsChange = (event) =>{
        let key = event.target.name
        let value = event.target.value
-       let formData = { ...formDataItems }
+       let formData = { ...editFormData }
        formData[key] = value
         setEditFormData({...formData})
     }
@@ -46,9 +48,11 @@ export const Edit = (props) => {
         
         
     }
+   
     
     useEffect(async () => {
-        const fetchedData = await getOne(`${props.resource}/${id}`)
+        //`${props.resource}/${id}`
+        const fetchedData = await getOne(`${props.match.url}`)
         await setEditFormData(fetchedData)
         if (fetchedData[props.newListResource]) {
             await setformDataItems(fetchedData[props.newListResource])
@@ -58,55 +62,19 @@ export const Edit = (props) => {
 
     return (
         <>
+            
             <Form>
-                {
-                    props.form.map(f => {
-                        if(!f.isNewList)
-                            return <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label>{ f.label}</Form.Label>
-                                    <Form.Control type={f.type} name={f.source}  value={editFormData[f.source]} onChange={handleInputsChange} />
-                                    
-                                </Form.Group>
-                    })
-                }
-                
-                {
-                    props.newListResource &&
-                    <div className="space-between">
-                        <h3>Item Details</h3>
-                        <Button variant="primary" onClick={manageformDataItems}>Add Item </Button>
-                    </div>
-                        
-                }
-                {
-                     props.form.map(form => {
-                         if (form.isNewList)
-                             return <table responsive>
-                                 <tbody>
-                                     {
-                                         formDataItems.map((item, index) => {
-                                            return  <tr>{
-                                             form.list.map(f => {
-                                                 return <td key={`heading-${index}`}>
-                                                        <Form.Group className="mb-3">
-                                                        <Form.Label>{ f.label}</Form.Label>
-                                                            <Form.Control type={f.type} name={f.source}  value={item[f.source]} onChange={(e)=>handleInputsChangeOfItems(e, index)} />
-                                                            
-                                                        </Form.Group>
-                                                        </td>
-                                                    })
-                                                }
-                                                </tr>
-                                     })
-                                     }
-                             </tbody>
-                         </table>
-                           
-                          
-                            
-                    })
-                }
 
+                <FormElements {...props}
+                    handleInputsChange={handleInputsChange}
+                    editFormData={editFormData}
+                />
+                
+                <FormTable {...props}
+                    manageformDataItems={manageformDataItems}
+                    formDataItems={formDataItems}
+                    handleInputsChangeOfItems={handleInputsChangeOfItems}
+                />
   
             <Button className="submit-button" variant="primary" type="submit" onClick={submitForm}>
                 Submit

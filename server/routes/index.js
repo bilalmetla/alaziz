@@ -17,11 +17,12 @@ Router.put('/buyers/:id', buyerController.updateBuyer);
 
 
 Router.get('/invoices', invoiceController.getInvoices);
-Router.get('/invoices/:id', invoiceController.getInvoiceById);
+Router.get('/buyers/:buyerId/invoices/:id', invoiceController.getInvoiceById);
 Router.post('/invoices', invoiceController.createInvoice);
 Router.put('/invoices/:id', invoiceController.updateInvoice);
+Router.get('/buyers/:buyerId/invoices/:invoiceId', invoiceController.printInvoice);
 
-Router.get('/invoices/serial-number/:serialNumber/print', invoiceController.printInvoice);
-Router.get('/buyerInvoices/:buyerId', invoiceController.getBuyerInvoicesById);
+Router.get('/buyers/:buyerId/invoices/:invoiceId/print', invoiceController.printInvoice);
+Router.get('/buyers/:buyerId/invoices', invoiceController.getBuyerInvoicesById);
 
 module.exports = Router;

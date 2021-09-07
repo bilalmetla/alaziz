@@ -1,12 +1,8 @@
 import React from 'react';
-import {Row, Col, Button } from "react-bootstrap";
-import { Edit } from "../components/Edit";
-import { Link } from "react-router-dom";
+import {Row, Col,  } from "react-bootstrap";
+import { Print } from "../components/Print";
 
-export const InvoiceEdit = (props) => {
-
-    console.log(props)
-
+export const InvoicePrint = (props) => {
     const invoiceDetails = [
         { label: 'Serial Number', source: 'serialNumber' },
         { label: 'Book Number', source: 'bookNumber' },
@@ -26,20 +22,14 @@ export const InvoiceEdit = (props) => {
     return (
         <>
             <Row>
-                <Col>Invoice Edit</Col>
+                <Col>Invoice Print</Col>
             </Row>
             <Row>
-            <div className="align-right" >
-                    <Link className="buttons"  to={`${props.match.url}/print`} >Print Invoice</Link>{' '}
-                    <Link className="buttons" to={`${props.match.url}/print/receipt`} >Print Receipt</Link>{' '}
-            </div>
-            </Row>
-            <Row>
-                <Edit {...props}
-                    resource="invoices"
+                <Print {...props}
+                    resource="buyers/:buyerId/invoices/:invoiceId"
                     form={invoiceDetails}
                     newListResource='items'
-                ></Edit>
+                ></Print>
             </Row>
         </>
     )

@@ -76,3 +76,10 @@ exports.getInvoiceById = async function (id, db) {
     })
     
 };
+
+exports.findInvoiceByNumber = async function ({serialNumber, buyerId}, db) {
+    return new Promise((resolve, reject) => {
+        return db.invoices.findOne({ $and: [{ serialNumber: parseInt(serialNumber) }, { buyerId }] }, (err, docs) => err ? reject(err): resolve(docs))
+    })
+    
+};
