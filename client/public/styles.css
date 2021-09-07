@@ -1,0 +1,11 @@
+
+
+.submit-button {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-around;
+}
+.space-between {
+    display: flex;
+    justify-content:space-between;
+}

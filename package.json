@@ -10,10 +10,15 @@
     "type": "git",
     "url": "git+https://github.com/bilalmetla/alaziz.git"
   },
-  "bin":"server.js",
+  "bin": "server.js",
   "pkg": {
-    "assets": [ "node_modules/**/*", "src/**/*" ],
-    "targets": [ "node10-win-x64" ]
+    "assets": [
+      "node_modules/**/*",
+      "src/**/*"
+    ],
+    "targets": [
+      "node10-win-x64"
+    ]
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +27,10 @@
   },
   "homepage": "https://github.com/bilalmetla/alaziz#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "joi": "^17.4.2",
     "nedb": "^1.8.0",
     "pdf-invoice-generator": "^1.0.7"
   },
