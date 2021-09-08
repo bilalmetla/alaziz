@@ -5,34 +5,19 @@ const constants = require('../constants')
 
 
 
-exports.invoiceHtml = function (result) {
-    let articles = result.invoices[0].items;
-    let invoiceData = {
-        
-        recipient: {
-            name: result.name,
-            street1: result.address,
+exports.calculateGrandTotals = function (invoiceData) {
 
-            date: result.invoices[0].date,
-            invoiceNumber: result.invoices[0].serialNumber,
-            bookNumber: result.invoices[0].bookNumber,
-        
-        },
-        
-    };
-    let businessType = result.invoices[0].businessType
-    invoiceData.articles = articles;
+    let businessType = invoiceData.businessType
+   // invoiceData.articles = articles;
     invoiceData.grandTotals = { }
-    invoiceData.grandTotals.grandTotalValueExcelST = grandTotalValueExcelST(invoiceData.articles)
-    invoiceData.grandTotals.grandTotalSTPayable = grandTotalSTPayable(invoiceData.articles)
-    invoiceData.grandTotals.grandTotalValueOfIncludingST = grandTotalValueOfIncludingST(invoiceData.articles)
+    invoiceData.grandTotals.grandTotalValueExcelST = grandTotalValueExcelST(invoiceData.items)
+    invoiceData.grandTotals.grandTotalSTPayable = grandTotalSTPayable(invoiceData.items)
+    invoiceData.grandTotals.grandTotalValueOfIncludingST = grandTotalValueOfIncludingST(invoiceData.items)
     invoiceData.grandTotals.incomeTaxWithHeld = calclateIncomeTaxWithHeld(businessType, invoiceData.grandTotals.grandTotalValueOfIncludingST)
     invoiceData.grandTotals.saleTaxWithHeld = saleTaxWithHeld(businessType, invoiceData.grandTotals.grandTotalSTPayable)
     invoiceData.grandTotals.receivedSaleTax = receivedSaleTax(businessType, invoiceData.grandTotals.grandTotalSTPayable)
     invoiceData.grandTotals.netPayment = invoiceData.grandTotals.grandTotalValueOfIncludingST - invoiceData.grandTotals.incomeTaxWithHeld - invoiceData.grandTotals.saleTaxWithHeld
 
-   invoiceGenerator.invoice(invoiceData)
- //  invoiceGenerator.receipt(invoiceData)
 };
 
 

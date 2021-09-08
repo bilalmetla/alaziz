@@ -39,9 +39,12 @@ export const Create = (props) => {
         if (props.newListResource) {
             updateData[props.newListResource] = [...formDataItems]
         }
-        await create(`${props.resource}`, updateData)
+        let response = await create(`${props.resource}`, updateData)
         //history.push(`/${props.resource}`)
-        history.goBack()
+        if (!response.error) {
+            history.goBack()
+        }
+        
     }
     
     useEffect(async () => {

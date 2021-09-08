@@ -84,6 +84,8 @@ exports.printInvoice = async function (req, res, next) {
        invoiceData.items = updatedItems
        invoiceData.date = utility.formatDate(invoiceData.date)
       
+       utility.calculateGrandTotals(invoiceData)
+          
        response.send({...buyerInfo, invoice:invoiceData}, res)
  
     } catch (e) {

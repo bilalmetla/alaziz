@@ -9,19 +9,25 @@ export const Print = (props) => {
       let { buyerId, invoiceId } = props.match.params
     const [buyer, setbuyer] = useState({});
     const [invoice, setinvoice] = useState({});
+    const [items, setitems] = useState([]);
+    const [grandTotals, setgrandTotals] = useState({});
     
     useEffect(async () => {
         
         const fetchedData = await getList(`${props.match.url}`)
         await setbuyer(fetchedData)
         await setinvoice(fetchedData[props.innerSource])
+        await setitems(fetchedData[props.innerSource]['items'])
+        await setgrandTotals(fetchedData[props.innerSource]['grandTotals'])
         
     }, []);
 
 
     return (
         <>
-            
+            <div>
+                <img src={props.logo} style={{height: '173px'}} />
+            </div>
             {
                 props.header.map(row => {
                     return <Row>
@@ -38,14 +44,45 @@ export const Print = (props) => {
                     
                 })
             }
-            {/* <Row>
-                <Col>Buyer Name:</Col>
-                <Col>NTN Number#:</Col>
-            </Row>
-            <Row>
-                <Col>Address:</Col>
-                <Col>STRN#:</Col>
-          </Row> */}
+            {
+                props.InvoiceTitle && <h2>{ props.InvoiceTitle}</h2>
+            }
+            <table responsive>
+                    <thead>
+                    {
+                        props.invoiceItems.map((key, index) => {
+                            return <th>
+                                <td key={`heading-${index}`}>{ key.label }</td>
+                            </th>
+                         })
+                        }
+                </thead>
+                <tbody>
+                    {
+                    
+                        items.map(item => {
+                            return <tr>{
+                                props.invoiceItems.map(il => {
+                                    return <td>
+                                        {item[il.source]}
+                                        </td>
+                                       })
+                            }</tr>
+                                                        
+                        })
+                    }
+                    <tr>{
+                        props.grandTotals.map(t => {
+                            return <td>
+                                {t.value && t.value}
+                                {t.source && grandTotals[t.source]}
+                            </td>;
+                        })
+                    }
+                    </tr>
+                </tbody>
+                </table>
+            
 
            
         </>

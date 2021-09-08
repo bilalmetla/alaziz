@@ -36,15 +36,15 @@ export const List = (props) => {
             }
             {
                     props.actions.map((action, acIndex) => {
-                        let resource = props.resource
-                        if (action.resource) {
+                        let resource = action.resource
+                        if (resource) {
                             Object.keys(item).forEach(key => {
-                                action.resource = action.resource.replace(`:${key}`, `${item[key]}`);
+                                resource = resource.replace(`:${key}`, `${item[key]}`);
                             })
                         } else {
-                            resource = `${resource}/${item['id']}`
+                            resource = `${props.resource}/${item['id']}`
                         }
-                            return<td key={`action-${acIndex}`}> <Link to={`${action.resource? action.resource: resource}`}>{action.label }</Link> </td>
+                            return<td key={`action-${acIndex}`}> <Link to={`${resource}`}>{action.label }</Link> </td>
                         })
             }
             </tr>;

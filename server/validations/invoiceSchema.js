@@ -5,7 +5,7 @@ module.exports = joi.object().keys({
     invoiceType: joi.number().required(),
     date: joi.string().required(),
    
-    buyerId: joi.string().alphanum().optional(),
+    buyerId: joi.string().optional(),
 
     items: joi.array().items(
         joi.object().keys({
