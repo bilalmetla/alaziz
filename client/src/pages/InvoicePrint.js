@@ -4,21 +4,22 @@ import { Print } from "../components/Print";
 
 export const InvoicePrint = (props) => {
     const invoiceDetails = [
-        { label: 'Serial Number', source: 'serialNumber' },
-        { label: 'Book Number', source: 'bookNumber' },
-        { label: 'Business Type', source: 'businessType' },
-        { label: 'Invoice Type', source: 'invoiceType' },
-        { label: 'Date', source: 'date' },
-        {
-            label: 'Items', isNewList:true, source: 'items', list: [
-                { label: 'Quantity', source: 'quantity' },
-                { label: 'Description', source: 'description' },
-                { label: 'Price', source: 'price' },
-                { label: 'Rate Of ST', source: 'rateOfST' },
-            ]
-        },
-       
+        [
+            { label: 'Buyer Name:', source: 'name' },
+            { label: 'NTN Number#:', source: 'companyNTNNumber' },
+            
+        ],
+        [
+            { label: 'Address:', source: 'address' },
+            { label: 'STRN#:', source: 'companySTRNNumber' },
+        ],
+        [
+            { label: 'Date:', source: 'date', innerSource:'invoice' },
+            { label: 'Book No:', source: 'bookNumber', innerSource:'invoice' },
+            { label: 'Sr.No:', source: 'serialNumber', innerSource:'invoice' },
+        ]
     ]
+       
     return (
         <>
             <Row>
@@ -27,8 +28,8 @@ export const InvoicePrint = (props) => {
             <Row>
                 <Print {...props}
                     resource="buyers/:buyerId/invoices/:invoiceId"
-                    form={invoiceDetails}
-                    newListResource='items'
+                    header={invoiceDetails}
+                    innerSource={'invoice'}
                 ></Print>
             </Row>
         </>
