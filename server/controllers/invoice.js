@@ -3,6 +3,7 @@ const Invoice = require('../usecases/invoice')
 const Buyer = require('../usecases/buyer')
 const db = require('../db')
 const utility = require('../utility')
+const constants = require('../constants')
 
 exports.createInvoice = async function (req, res, next) {
     try {
@@ -79,7 +80,8 @@ exports.printInvoice = async function (req, res, next) {
        utility.mapToClientResponse(invoiceData)
        let buyerInfo = await Buyer.getBuyerById(buyerId, db)
        utility.mapToClientResponse(buyerInfo)
-
+       buyerInfo['companyNTNNumber'] = constants.companyDetails.NTNNumber
+       buyerInfo['companySTRNNumber'] = constants.companyDetails.SRNNumber
        let updatedItems = utility.calculateValuesAndTaxes(invoiceData.items)
        invoiceData.items = updatedItems
        invoiceData.date = utility.formatDate(invoiceData.date)

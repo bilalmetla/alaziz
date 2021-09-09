@@ -10,9 +10,9 @@ export const InvoiceEdit = (props) => {
     const invoiceDetails = [
         { label: 'Serial Number', source: 'serialNumber' },
         { label: 'Book Number', source: 'bookNumber' },
-        { label: 'Business Type', source: 'businessType' },
+        { label: 'Business Type', source: 'businessType', type:'select', options:[{title:'supply', value:1},{ title:'service', value:2}] },
         { label: 'Invoice Type', source: 'invoiceType' },
-        { label: 'Date', source: 'date' },
+        { label: 'Date', type:'date', source: 'date' },
         {
             label: 'Items', isNewList:true, source: 'items', list: [
                 { label: 'Quantity', source: 'quantity' },

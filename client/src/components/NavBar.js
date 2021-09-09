@@ -10,6 +10,12 @@ const NavBar = () => {
                 <ul className="nav-menu-items">
                     <li className="navbar-toggle">
 
+                        <Link to="/" className="menu-bar" >
+                            Dashboard
+                        </Link>
+                    </li>
+                    <li className="navbar-toggle">
+
                         <Link to="/buyers" className="menu-bar" >
                             Buyers
                         </Link>

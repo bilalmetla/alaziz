@@ -118,8 +118,15 @@ exports.validateNTN = function (value) {
 };
 
 exports.formatDate = function (date) {
+    
     date = new Date(date)
-    return `${date.getDay()}-${date.getMonth()+1}-${date.getYear()}`
+    let month = date.getMonth() + 1
+    month = month < 10 ? "0" + month : month
+
+    let day = date.getDate()
+    day = day < 10 ? "0" + day : day
+
+    return `${day}-${month}-${date.getFullYear()}`
 }
 
 exports.logMessage = function (message) {

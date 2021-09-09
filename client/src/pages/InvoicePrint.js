@@ -53,6 +53,7 @@ export const InvoicePrint = (props) => {
                     header={invoiceDetails}
                     innerSource={'invoice'}
                     invoiceItems={itemsList}
+                    invoiceItemsHeader={itemsList}
                     grandTotals={grandTotals}
                 ></Print>
             </Row>

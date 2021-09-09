@@ -1,6 +1,6 @@
 const validations = require('../validations')
 const serialNumbers = require('./serialNumbers')
-
+const utility = require('../utility')
 
 
 exports.create = async function (newInvoice, db) {
@@ -8,7 +8,9 @@ exports.create = async function (newInvoice, db) {
     validations.invoice(newInvoice)
     await serialNumbers.getSerialNumber(db)
     newInvoice.serialNumber = process.serialNumber;
-    newInvoice.bookNumber = process.bookNumber
+    newInvoice.bookNumber = process.bookNumber;
+    newInvoice.createdDate = new Date()
+    newInvoice.date = utility.formatDate(newInvoice.date)
     //save it
     return new Promise((resolve, reject) => {
        return db.invoices.insert(newInvoice, (err, docs) => err ? reject(err): resolve(docs))    

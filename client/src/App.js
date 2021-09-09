@@ -9,7 +9,7 @@ import { About } from "./routes/About";
 import {
   BuyerList, BuyerEdit, BuyerCreate,
   BuyerInvoices, InvoiceEdit, InvoiceCreate,
-  InvoicePrint,
+  InvoicePrint,ReceiptPrint,
 } from "./pages";
 
 export const App = ({ title }) => (
@@ -33,6 +33,7 @@ export const App = ({ title }) => (
 
             <Route exact path="/buyers/:id/invoices/:invoiceId" render={(props) => <InvoiceEdit {...props} />} />
             <Route exact path="/buyers/:buyerId/invoices/:invoiceId/print" render={(props) => <InvoicePrint {...props} />} />
+            <Route exact path="/buyers/:buyerId/invoices/:invoiceId/print/receipt" render={(props) => <ReceiptPrint {...props} />} />
           
           </Switch>
         </Col>
@@ -46,15 +47,3 @@ export const App = ({ title }) => (
   
   );
 
-
-// export const About = (props) => (
-//     <App title="About"/>
-// );
-
-// export  const Settings = (props) => (
-//     <App title="Settings"/>
-// );
-
-// export const Home = (props) => (
-//     <App title="Home"/>
-// );

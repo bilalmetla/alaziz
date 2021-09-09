@@ -23,6 +23,7 @@ Router.put('/invoices/:id', invoiceController.updateInvoice);
 Router.get('/buyers/:buyerId/invoices/:invoiceId', invoiceController.printInvoice);
 
 Router.get('/buyers/:buyerId/invoices/:invoiceId/print', invoiceController.printInvoice);
+Router.get('/buyers/:buyerId/invoices/:invoiceId/print/receipt', invoiceController.printInvoice);
 Router.get('/buyers/:buyerId/invoices', invoiceController.getBuyerInvoicesById);
 
 module.exports = Router;

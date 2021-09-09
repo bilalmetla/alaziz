@@ -3,6 +3,7 @@ const validations = require('../validations')
 exports.create = async function (buyer, db) {
     //validate it
     validations.buyer(buyer)
+    buyer.createdDate = new Date()
     //save it
     return new Promise((resolve, reject) => {
        return db.buyers.insert(buyer, (err, docs) => err ? reject(err): resolve(docs))    
@@ -12,7 +13,7 @@ exports.create = async function (buyer, db) {
 
 exports.getAll = async function (db) {
     return new Promise((resolve, reject) => {
-       return db.buyers.find({}, (err, docs) => err ? reject(err): resolve(docs))    
+       return db.buyers.find({}).sort({createdDate: -1}).exec((err, docs) => err ? reject(err): resolve(docs))    
     })
     
 };

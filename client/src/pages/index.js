@@ -5,6 +5,7 @@ import { BuyerInvoices } from "./BuyerInvoices";
 import { InvoiceEdit } from "./InvoiceEdit";
 import { InvoiceCreate } from "./InvoiceCreate";
 import { InvoicePrint } from "./InvoicePrint";
+import { ReceiptPrint } from "./ReceiptPrint";
 
 export {
     BuyerList,
@@ -13,5 +14,6 @@ export {
     BuyerInvoices,
     InvoiceEdit,
     InvoiceCreate,
-    InvoicePrint
+    InvoicePrint,
+    ReceiptPrint,
 }

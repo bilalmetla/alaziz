@@ -1,4 +1,8 @@
 module.exports = {
+    companyDetails: Object.freeze({
+        NTNNumber:'7397385-6',
+        SRNNumber:'32-77-8761-341-78',
+    }),
     businessTypes: Object.freeze({
         SUPPLIES: 1,
         SERVICES: 2,

@@ -23,11 +23,15 @@ export const Print = (props) => {
     }, []);
 
 
+
     return (
         <>
             <div>
                 <img src={props.logo} style={{height: '173px'}} />
             </div>
+            {
+               props.isTitleATTop && props.InvoiceTitle && <h2>{ props.InvoiceTitle}</h2>
+            }
             {
                 props.header.map(row => {
                     return <Row>
@@ -36,7 +40,7 @@ export const Print = (props) => {
                                
                                 return <Col style={{display:'flex'}}>
                                     <p>{ col.label}</p>
-                                    <span>{ col.innerSource === undefined? buyer[col.source] : invoice[col.source]}</span>
+                                    <span>{ col.innerSource === undefined? buyer[col.source] : col.innerSource === 'invoice'? invoice[col.source]: grandTotals[col.source] }</span>
                                 </Col>
                             })
                         }
@@ -45,12 +49,13 @@ export const Print = (props) => {
                 })
             }
             {
-                props.InvoiceTitle && <h2>{ props.InvoiceTitle}</h2>
+                !props.isTitleATTop && props.InvoiceTitle && <h2>{ props.InvoiceTitle}</h2>
             }
             <table responsive>
                     <thead>
                     {
-                        props.invoiceItems.map((key, index) => {
+                        props.invoiceItemsHeader &&
+                        props.invoiceItemsHeader.map((key, index) => {
                             return <th>
                                 <td key={`heading-${index}`}>{ key.label }</td>
                             </th>
@@ -59,7 +64,7 @@ export const Print = (props) => {
                 </thead>
                 <tbody>
                     {
-                    
+                    props.invoiceItems &&
                         items.map(item => {
                             return <tr>{
                                 props.invoiceItems.map(il => {
@@ -72,6 +77,7 @@ export const Print = (props) => {
                         })
                     }
                     <tr>{
+                        props.grandTotals &&
                         props.grandTotals.map(t => {
                             return <td>
                                 {t.value && t.value}
