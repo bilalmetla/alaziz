@@ -141,7 +141,7 @@ exports.logMessage = function (message) {
 
 exports.logException = function (exception) {
    
-    console.log(exception.message, exception.stack)  
+    console.log(exception.message, exception)  
     
 };
 

@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import { Accordion, Col, Form, Button } from "react-bootstrap";
+
+
 const NavBar = () => {
     return (
         <div className="navbar">
@@ -27,6 +30,38 @@ const NavBar = () => {
                         </Link>
                     </li>
                 </ul>
+            
+                <Accordion flush >
+                    <Accordion.Item eventKey="0">
+                        <Accordion.Header>Reports</Accordion.Header>
+                        <Accordion.Body>
+                            <p>
+                            <Link to="/report/with-gst" className="menu-bar" >
+                                With GST
+                            </Link>
+                            </p>
+                        
+                            <p>
+                            <Link to="/without-gst" className="menu-bar" >
+                                Without GST
+                            </Link>
+                            </p>
+                            
+                            <p>
+                            <Link to="/with-pst" className="menu-bar" >
+                                With PST
+                            </Link>
+                            </p>
+
+                            <p>
+                            <Link to="/without-pst" className="menu-bar" >
+                                Without PST
+                            </Link>
+                            </p>
+
+                        </Accordion.Body>
+                    </Accordion.Item>
+                </Accordion>
             </nav>
         </div>
     );

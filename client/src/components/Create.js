@@ -53,9 +53,10 @@ export const Create = (props) => {
             return
         }
         let updateData = { ...editFormData }
-        updateData['buyerId'] = id
+        
         if (props.newListResource) {
             updateData[props.newListResource] = [...formDataItems]
+            updateData['buyerId'] = id
         }
         let response = await create(`${props.resource}`, updateData)
         //history.push(`/${props.resource}`)

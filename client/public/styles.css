@@ -15,3 +15,15 @@
 .buttons {
     margin-right: 5px;
 }
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    height: 200px;
+    background: blue;
+}
+.log{
+    height: 100px;
+width: 100px;
+margin-top: 50px;
+}

@@ -4,12 +4,13 @@ import {Container, Row, Col } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import NavBar from "./components/NavBar";
+import {Header} from "./components/Header";
 import { Home } from "./routes/Home";
 import { About } from "./routes/About";
 import {
   BuyerList, BuyerEdit, BuyerCreate,
   BuyerInvoices, InvoiceEdit, InvoiceCreate,
-  InvoicePrint,ReceiptPrint,
+  InvoicePrint,ReceiptPrint, ReportWithGST
 } from "./pages";
 
 export const App = ({ title }) => (
@@ -17,6 +18,13 @@ export const App = ({ title }) => (
   <HashRouter >
     {/* <Header/> */}
     <Container >
+      <Row>
+        <Header>
+          
+        </Header>
+
+        
+      </Row>
       <Row>
         <Col lg={4}>
           <NavBar />
@@ -34,6 +42,9 @@ export const App = ({ title }) => (
             <Route exact path="/buyers/:id/invoices/:invoiceId" render={(props) => <InvoiceEdit {...props} />} />
             <Route exact path="/buyers/:buyerId/invoices/:invoiceId/print" render={(props) => <InvoicePrint {...props} />} />
             <Route exact path="/buyers/:buyerId/invoices/:invoiceId/print/receipt" render={(props) => <ReceiptPrint {...props} />} />
+            
+            
+            <Route exact path="/report/with-gst" render={(props) => <ReportWithGST {...props} />} />
           
           </Switch>
         </Col>

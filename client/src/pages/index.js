@@ -6,6 +6,7 @@ import { InvoiceEdit } from "./InvoiceEdit";
 import { InvoiceCreate } from "./InvoiceCreate";
 import { InvoicePrint } from "./InvoicePrint";
 import { ReceiptPrint } from "./ReceiptPrint";
+import { ReportWithGST } from "./ReportWithGST";
 
 export {
     BuyerList,
@@ -16,4 +17,5 @@ export {
     InvoiceCreate,
     InvoicePrint,
     ReceiptPrint,
+    ReportWithGST,
 }

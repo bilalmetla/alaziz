@@ -3,6 +3,7 @@ const Router = Express.Router();
 
 const buyerController = require('../controllers/buyer');
 const invoiceController = require('../controllers/invoice');
+const reportsController = require('../controllers/reports');
 
 //middle ware methods
 require('./middlewares/log-request')(Router)
@@ -27,5 +28,8 @@ Router.delete('/buyers/:buyerId/invoices/:invoiceId', invoiceController.deleteIn
 Router.get('/buyers/:buyerId/invoices/:invoiceId/print', invoiceController.printInvoice);
 Router.get('/buyers/:buyerId/invoices/:invoiceId/print/receipt', invoiceController.printInvoice);
 Router.get('/buyers/:buyerId/invoices', invoiceController.getBuyerInvoicesById);
+
+//reports
+Router.post('/report/with-gst', reportsController.withGST);
 
 module.exports = Router;

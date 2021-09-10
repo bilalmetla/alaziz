@@ -3,14 +3,7 @@ import React from 'react';
 const url = 'http://127.0.0.1:3000/api'
 
 
-export const get = async (path) => {
-    if (path.charAt(0) == '/') {
-        path = path.substring(1)
-    }
-    
-    const response = await fetch(`${url}/${path}`);
-    return await response.json();
-}
+
 
 export const getList = async (path) => {
     if (path.charAt(0) == '/') {
@@ -66,3 +59,7 @@ export const deleteRecord = async (path) => {
     const response = await fetch(`${url}/${path}`, requestOptions);
     return await response.json();
 }
+
+
+export const get = getList;
+export const post = create;

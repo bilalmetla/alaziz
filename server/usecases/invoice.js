@@ -10,6 +10,7 @@ exports.create = async function (newInvoice, db) {
     newInvoice.serialNumber = process.serialNumber;
     newInvoice.bookNumber = process.bookNumber;
     newInvoice.createdDate = new Date()
+    newInvoice.date = new Date(newInvoice.date)
    
     //save it
     return new Promise((resolve, reject) => {
@@ -28,6 +29,7 @@ exports.update = async function (id, invoice, db) {
     
     validations.invoice(invoice)
     invoice.updatedDate = new Date()
+    invoice.date = new Date(invoice.date)
     //save it
     return new Promise((resolve, reject) => {
         return db.invoices.update({ _id: id }, { $set: invoice }, {}, (err, docs) => err ? reject(err): resolve(docs))
@@ -97,3 +99,51 @@ exports.deleteRecord = async function ({ buyerId, invoiceId }, db) {
     })
     
 };
+
+exports.findByDates = async function ({ startDate, endDate, businessType }, db) {
+    return new Promise((resolve, reject) => {
+        return db.invoices.find({
+            $and: [
+                {
+                    "date": {
+                        $gte: new Date(startDate),
+                        $lte: new Date(endDate)
+                    }
+                },
+                {
+                    businessType: businessType
+                },
+                {
+                    "items.rateOfST": {$ne:'0'}
+                }
+        ]
+        },
+            (err, invoices) => {
+                if (err) {
+                    return reject(err);
+                }
+                if (!invoices || invoices.length === 0) {
+                   return reject(new Error('No Invoice Found'))
+                }
+                const mergedInvoiceAndBuyer = []
+                invoices.forEach(function (inv, index) {
+                    
+                   return db.buyers.findOne({ _id: inv.buyerId }, function (err, buyer) {
+                        if (err) {
+                            return reject(err);
+                       }
+                       inv.items = utility.calculateValuesAndTaxes(inv.items)
+                        mergedInvoiceAndBuyer[index] = {...buyer, invoice: inv}
+                        if (index === invoices.length-1) {
+                            return resolve(mergedInvoiceAndBuyer);    
+                        }
+                        
+
+                    });
+                });
+
+                
+            })
+    })
+    
+}
