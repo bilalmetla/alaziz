@@ -1,6 +1,6 @@
 
 
-const invoiceGenerator = require('../invoice-generator')
+
 const constants = require('../constants')
 
 
