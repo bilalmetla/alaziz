@@ -54,3 +54,15 @@ export const update = async (path, data) => {
     const response = await fetch(`${url}/${path}`, requestOptions);
     return await response.json();
 }
+
+export const deleteRecord = async (path) => {
+    if (path.charAt(0) == '/') {
+        path = path.substring(1)
+    }
+    const requestOptions = {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+    };
+    const response = await fetch(`${url}/${path}`, requestOptions);
+    return await response.json();
+}

@@ -4,15 +4,15 @@ import { Create } from "../components/Create";
 
 export const InvoiceCreate = (props) => {
     const invoiceDetails = [
-        { label: 'Business Type', type:'select', options:[{title:'supply', value:1},{ title:'service', value:2}], source: 'businessType' },
-        { label: 'Invoice Type', type:'text', source: 'invoiceType' },
-        { label: 'Date', type:'date', source: 'date' },
+        { label: 'Business Type', props:{type:'select', required:true}, options:[{title:'supply', value:1},{ title:'service', value:2}], source: 'businessType' },
+        { label: 'Invoice Type', props:{type:'text', required:true}, source: 'invoiceType' },
+        { label: 'Date', props:{type:'date', required:true}, source: 'date' },
         {
-            label: 'Items', isNewList:true, source: 'items', list: [
-                { label: 'Quantity', type:'number', source: 'quantity' },
-                { label: 'Description', type:'text', source: 'description' },
-                { label: 'Price', type:'number', source: 'price' },
-                { label: 'Rate Of ST', type:'number', source: 'rateOfST' },
+            label: 'Items', isNewList:true, props:{}, source: 'items', list: [
+                { label: 'Quantity', props:{type:'number', required:true}, source: 'quantity' },
+                { label: 'Description', props:{type:'text', required:true}, source: 'description' },
+                { label: 'Price', props:{type:'number', required:true}, source: 'price' },
+                { label: 'Rate Of ST', props:{type:'number', required:true}, source: 'rateOfST' },
             ]
         },
        

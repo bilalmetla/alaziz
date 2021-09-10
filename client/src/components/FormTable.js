@@ -5,6 +5,7 @@ import {  Form, Button } from "react-bootstrap";
 
 export const FormTable = (props) => {
 
+   
     return (
         <>
             {
@@ -27,12 +28,28 @@ export const FormTable = (props) => {
                                                  return <td key={`heading-${index}`}>
                                                         <Form.Group className="mb-3">
                                                         <Form.Label>{ f.label}</Form.Label>
-                                                            <Form.Control type={f.type} name={f.source}  value={item[f.source]} onChange={(e)=> props.handleInputsChangeOfItems(e, index)} />
+                                                         <Form.Control
+                                                            {...f.props}
+                                                             name={f.source}
+                                                             value={item[f.source]}
+                                                             onChange={(e) => props.handleInputsChangeOfItems(e, index)}
+                                                         />
+                                                          <Form.Control.Feedback type="invalid" >
+                                                            {`Please enter a ${f.label}` }
+                                                        </Form.Control.Feedback>
                                                             
                                                         </Form.Group>
                                                         </td>
                                                     })
-                                                }
+                                            }
+                                                <Button
+                                                    variant="danger"
+                                                    size="sm"
+                                                    style={{ marginTop: '33px' }}
+                                                    onClick={(e)=> props.removeformDataItems(e, index)}
+                                                >
+                                                    Remove
+                                                </Button>
                                                 </tr>
                                      })
                                      }

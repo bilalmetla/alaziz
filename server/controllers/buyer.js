@@ -59,3 +59,17 @@ exports.updateBuyer = async function (req, res, next) {
    }
     
  }
+
+
+exports.deleteBuyer = async function (req, res, next) {
+   try {
+      let { id } = req.params;
+      await Buyer.deleteRecord(id, db);
+
+      response.send({ id }, res)
+
+   } catch (e) {
+      response.exception(e, res)
+   }
+    
+ }

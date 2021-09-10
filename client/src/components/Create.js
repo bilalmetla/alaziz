@@ -11,6 +11,8 @@ export const Create = (props) => {
     let history = useHistory();
     const [editFormData, setEditFormData] = useState({});
     const [formDataItems, setformDataItems] = useState([]);
+    const [validated, setValidated] = useState(false);
+
    const handleInputsChange = (event) =>{
        let key = event.target.name
        let value = event.target.value
@@ -32,8 +34,24 @@ export const Create = (props) => {
         newItemsList.push({})
         setformDataItems([...newItemsList])
     }
+
+    const removeformDataItems = (event, index) => {
+        let newItemsList = [...formDataItems]
+        newItemsList.splice(index, 1)
+        setformDataItems([...newItemsList])
+    }
     const submitForm = async (event) => {
         event.preventDefault()
+
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.stopPropagation();
+        }
+
+        setValidated(true);
+        if (!form.checkValidity()) {
+            return
+        }
         let updateData = { ...editFormData }
         updateData['buyerId'] = id
         if (props.newListResource) {
@@ -41,7 +59,7 @@ export const Create = (props) => {
         }
         let response = await create(`${props.resource}`, updateData)
         //history.push(`/${props.resource}`)
-        if (!response.error) {
+        if (!response.errorMessage) {
             history.goBack()
         }
         
@@ -55,7 +73,7 @@ export const Create = (props) => {
 
     return (
         <>
-            <Form>
+            <Form noValidate validated={validated} onSubmit={submitForm}>
                 <FormElements {...props}
                     handleInputsChange={handleInputsChange}
                     editFormData={editFormData}
@@ -64,11 +82,12 @@ export const Create = (props) => {
                 <FormTable {...props}
                     manageformDataItems={manageformDataItems}
                     formDataItems={formDataItems}
+                    removeformDataItems={removeformDataItems}
                     handleInputsChangeOfItems={handleInputsChangeOfItems}
                 />          
 
   
-                <Button className="submit-button" variant="primary" type="submit" onClick={submitForm}>
+                <Button className="submit-button" variant="primary" type="submit" >
                     Submit
                 </Button>
         </Form>

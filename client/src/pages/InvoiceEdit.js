@@ -8,17 +8,18 @@ export const InvoiceEdit = (props) => {
     console.log(props)
 
     const invoiceDetails = [
-        { label: 'Serial Number', source: 'serialNumber' },
-        { label: 'Book Number', source: 'bookNumber' },
-        { label: 'Business Type', source: 'businessType', type:'select', options:[{title:'supply', value:1},{ title:'service', value:2}] },
-        { label: 'Invoice Type', source: 'invoiceType' },
-        { label: 'Date', type:'date', source: 'date' },
+        { label: 'Serial Number', props:{type:'number', disabled:true}, source: 'serialNumber' },
+        { label: 'Book Number', props:{type:'number', disabled:true}, source: 'bookNumber' },
+        { label: 'Business Type', props:{type:'select', required:true}, source: 'businessType', options:[{title:'supply', value:1},{ title:'service', value:2}] },
+        { label: 'Invoice Type', props:{type:'text', required:true}, source: 'invoiceType' },
+        { label: 'Date', props:{type:'date', required:true}, source: 'date' },
         {
-            label: 'Items', isNewList:true, source: 'items', list: [
-                { label: 'Quantity', source: 'quantity' },
-                { label: 'Description', source: 'description' },
-                { label: 'Price', source: 'price' },
-                { label: 'Rate Of ST', source: 'rateOfST' },
+            label: 'Items', isNewList:true, props:{}, source: 'items', list: [
+                { label: 'Quantity', props:{type:'number', required:true}, source: 'quantity' },
+                { label: 'Description', props:{type:'text', required:true}, source: 'description' },
+                { label: 'Price', props:{type:'number', required:true}, source: 'price' },
+                { label: 'Rate Of ST', props:{type:'number', required:true}, source: 'rateOfST' },
+                // { label: 'Action', props:{type:'number', required:true}, source: 'rateOfST' },
             ]
         },
        

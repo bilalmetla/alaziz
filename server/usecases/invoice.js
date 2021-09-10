@@ -10,7 +10,7 @@ exports.create = async function (newInvoice, db) {
     newInvoice.serialNumber = process.serialNumber;
     newInvoice.bookNumber = process.bookNumber;
     newInvoice.createdDate = new Date()
-    newInvoice.date = utility.formatDate(newInvoice.date)
+   
     //save it
     return new Promise((resolve, reject) => {
        return db.invoices.insert(newInvoice, (err, docs) => err ? reject(err): resolve(docs))    
@@ -21,12 +21,16 @@ exports.create = async function (newInvoice, db) {
 exports.update = async function (id, invoice, db) {
     //validate it
     //let invoice = JSON.parse(JSON.stringify(data))
-    // delete invoice.serialNumber
-    // delete invoice.bookNumber
-   // validations.invoice(invoice)
+    delete invoice.serialNumber
+    delete invoice.bookNumber
+    delete invoice.createdDate
+    delete invoice.updatedDate
+    
+    validations.invoice(invoice)
+    invoice.updatedDate = new Date()
     //save it
     return new Promise((resolve, reject) => {
-       return db.invoices.update({_id: id}, invoice, {}, (err, docs) => err ? reject(err): resolve(docs))    
+        return db.invoices.update({ _id: id }, { $set: invoice }, {}, (err, docs) => err ? reject(err): resolve(docs))
     })
     
 };
@@ -82,6 +86,14 @@ exports.getInvoiceById = async function (id, db) {
 exports.findInvoiceByNumber = async function ({serialNumber, buyerId}, db) {
     return new Promise((resolve, reject) => {
         return db.invoices.findOne({ $and: [{ serialNumber: parseInt(serialNumber) }, { buyerId }] }, (err, docs) => err ? reject(err): resolve(docs))
+    })
+    
+};
+
+exports.deleteRecord = async function ({ buyerId, invoiceId }, db) {
+   
+    return new Promise((resolve, reject) => {
+        return db.invoices.remove({ $and: [{ _id: invoiceId }, {buyerId: buyerId}] }, (err, docs) => err ? reject(err): resolve(docs))
     })
     
 };

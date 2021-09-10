@@ -28,10 +28,21 @@ exports.getBuyerById = async function (id, db) {
 
 exports.update = async function (id, buyer, db) {
     //validate it
+    delete buyer.createdDate
+    delete buyer.updatedDate
     validations.buyer(buyer)
+    buyer.updatedDate = new Date()
     //save it
     return new Promise((resolve, reject) => {
-       return db.buyers.update({_id: id}, buyer, {}, (err, docs) => err ? reject(err): resolve(docs))    
+        return db.buyers.update({ _id: id }, {$set: buyer }, {}, (err, docs) => err ? reject(err): resolve(docs))
+    })
+    
+};
+
+exports.deleteRecord = async function (id, db) {
+   
+    return new Promise((resolve, reject) => {
+        return db.buyers.remove({ _id: id }, (err, docs) => err ? reject(err): resolve(docs))
     })
     
 };

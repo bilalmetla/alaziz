@@ -84,7 +84,7 @@ exports.printInvoice = async function (req, res, next) {
        buyerInfo['companySTRNNumber'] = constants.companyDetails.SRNNumber
        let updatedItems = utility.calculateValuesAndTaxes(invoiceData.items)
        invoiceData.items = updatedItems
-       invoiceData.date = utility.formatDate(invoiceData.date)
+     //  invoiceData.date = utility.formatDate(invoiceData.date)
       
        utility.calculateGrandTotals(invoiceData)
           
@@ -96,3 +96,15 @@ exports.printInvoice = async function (req, res, next) {
      
 }
   
+
+exports.deleteInvoice = async function (req, res, next) {
+   try {
+      let { buyerId, invoiceId } = req.params;
+      await Invoice.deleteRecord({ buyerId, invoiceId }, db);
+      response.send({ buyerId, invoiceId }, res)
+
+   } catch (e) {
+      response.exception(e, res)
+   }
+    
+ }

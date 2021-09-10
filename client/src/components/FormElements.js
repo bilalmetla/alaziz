@@ -10,15 +10,23 @@ export const FormElements = (props) => {
             {
                 props.form.map(f => {
                     if (!f.isNewList)
-                        if(f.type !== 'select')
+                        if(f.props.type !== 'select')
                         return <Form.Group className="mb-3" >
                             
                                 <Form.Label>{ f.label}</Form.Label>
-                                    <Form.Control type={f.type} name={f.source}  value={f.type ==='date'? new Date(props.editFormData[f.source]) :props.editFormData[f.source] } onChange={props.handleInputsChange} />
-                
+                            <Form.Control
+                                {...f.props}
+                                 name={f.source}
+                                value={f.props.type === 'date' ? props.editFormData[f.source] : props.editFormData[f.source]}
+                                onChange={props.handleInputsChange}
+                                
+                                />
+                            <Form.Control.Feedback type="invalid" >
+                                {`Please enter a ${f.label}` }
+                            </Form.Control.Feedback>
                             </Form.Group>
-                    
-                    if(f.type === 'select')
+                     
+                    if(f.props.type === 'select')
                         return <Form.Group className="mb-3" >
                             
                                 <Form.Label>{ f.label}</Form.Label>

@@ -4,12 +4,12 @@ import { Create } from "../components/Create";
 
 export const BuyerCreate = (props) => {
     const buyerDetails = [
-        {label:'Buyer Name', type:'text', source:'name'},
-        {label:'Address', type:'text', source:'address'},
-        {label:'Phone', type:'number', source:'phone'},
-        {label:'Representitve Name', type:'text', source:'representitveName'},
-        {label:'NTN Number', type:'text', source:'ntnNumber'},
-        {label:'NTN Name', type:'text', source:'ntnName'},
+        {label:'Buyer Name', props:{type:'text', required:true},  source:'name'},
+        {label:'Address', props:{type:'text', required:true}, source:'address'},
+        {label:'Phone', props:{type:'number', required:true}, source:'phone'},
+        {label:'Representitve Name', props:{type:'text', required:true}, source:'representitveName'},
+        {label:'NTN Number', props:{type:'text', required:true}, source:'ntnNumber'},
+        {label:'NTN Name', props:{type:'text', required:true}, source:'ntnName'},
     ]
     return (
         <>
