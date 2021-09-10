@@ -1,0 +1,17 @@
+
+
+.submit-button {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.space-between {
+    display: flex;
+    justify-content:space-between;
+}
+.align-right{
+    display: flex;
+    justify-content: right;
+}
+.buttons {
+    margin-right: 5px;
+}
