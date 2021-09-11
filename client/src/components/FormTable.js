@@ -12,7 +12,6 @@ export const FormTable = (props) => {
                     props.newListResource &&
                     <div className="space-between">
                         <h3>Item Details</h3>
-                        <Button variant="primary" onClick={props.manageformDataItems}>Add Item </Button>
                     </div>
                         
                 }
@@ -20,6 +19,11 @@ export const FormTable = (props) => {
                      props.form.map(form => {
                          if (form.isNewList)
                              return <table responsive>
+                                 <thead>
+                                     {
+                                         form.list.map((f, index) => <td key={`heading-${index}`}>{f.label}</td>)
+                                     }
+                                 </thead>
                                  <tbody>
                                      {
                                          props.formDataItems.map((item, index) => {
@@ -27,7 +31,7 @@ export const FormTable = (props) => {
                                              form.list.map(f => {
                                                  return <td key={`heading-${index}`}>
                                                         <Form.Group className="mb-3">
-                                                        <Form.Label>{ f.label}</Form.Label>
+                                                        {/* <Form.Label>{ f.label}</Form.Label> */}
                                                          <Form.Control
                                                             {...f.props}
                                                              name={f.source}
@@ -59,7 +63,9 @@ export const FormTable = (props) => {
                           
                             
                     })
-                }
+            }
+            <Button variant="primary" onClick={props.manageformDataItems}>Add Item </Button>
+
 
         </>
     )

@@ -13,13 +13,12 @@ export const BuyerCreate = (props) => {
     ]
     return (
         <>
-            <Row>
-                <Col>Buyers Create</Col>
-            </Row>
+           
             <Row>
                 <Create {...props}
                     resource="buyers"
                     form={buyerDetails}
+                    title={`Buyers Create`}
                 ></Create>
             </Row>
         </>

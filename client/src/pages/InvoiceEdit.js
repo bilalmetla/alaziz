@@ -26,9 +26,7 @@ export const InvoiceEdit = (props) => {
     ]
     return (
         <>
-            <Row>
-                <Col>Invoice Edit</Col>
-            </Row>
+           
             <Row>
             <div className="align-right" >
                     <Link className="buttons"  to={`${props.match.url}/print`} >Print Invoice</Link>{' '}
@@ -40,6 +38,7 @@ export const InvoiceEdit = (props) => {
                     resource="invoices"
                     form={invoiceDetails}
                     newListResource='items'
+                    title={`Invoice Edit`}
                 ></Edit>
             </Row>
         </>
