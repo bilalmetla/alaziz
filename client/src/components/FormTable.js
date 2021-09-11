@@ -1,5 +1,6 @@
 import React from 'react';
 import {  Form, Button } from "react-bootstrap";
+import styles from '../Styles/FormTable.module.css'; 
 
 
 
@@ -7,7 +8,7 @@ export const FormTable = (props) => {
 
    
     return (
-        <>
+        <div className={styles.form_table_wrapper}>
             {
                     props.newListResource &&
                     <div className="space-between">
@@ -18,7 +19,7 @@ export const FormTable = (props) => {
                 {
                      props.form.map(form => {
                          if (form.isNewList)
-                             return <table responsive>
+                             return <table responsive className={styles.table_scroll}>
                                  <thead>
                                      {
                                          form.list.map((f, index) => <td key={`heading-${index}`}>{f.label}</td>)
@@ -30,7 +31,7 @@ export const FormTable = (props) => {
                                             return  <tr>{
                                              form.list.map(f => {
                                                  return <td key={`heading-${index}`}>
-                                                        <Form.Group className="mb-3">
+                                                        <Form.Group >
                                                         {/* <Form.Label>{ f.label}</Form.Label> */}
                                                          <Form.Control
                                                             {...f.props}
@@ -49,11 +50,11 @@ export const FormTable = (props) => {
                                                 <Button
                                                     variant="danger"
                                                     size="sm"
-                                                    style={{ marginTop: '33px' }}
                                                     onClick={(e)=> props.removeformDataItems(e, index)}
                                                 >
                                                     Remove
                                                 </Button>
+                                                
                                                 </tr>
                                      })
                                      }
@@ -64,9 +65,9 @@ export const FormTable = (props) => {
                             
                     })
             }
-            <Button variant="primary" onClick={props.manageformDataItems}>Add Item </Button>
+            <Button className={styles.add_items_btn} variant="primary" onClick={props.manageformDataItems}>Add Item </Button>
 
 
-        </>
+        </div>
     )
 }

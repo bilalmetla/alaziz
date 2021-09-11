@@ -1,0 +1,31 @@
+button, input, optgroup, select, textarea{
+    max-height: 25px;
+    padding: 0 8px !important;
+}
+tbody tr td{
+    padding: 1px !important;
+}
+
+.add_items_btn {
+    margin:  10px 0;
+    background-color: #080182 ;
+    padding: 8px 3px !important;
+    display: flex;
+    align-items: center;
+}
+.space-between {
+    margin-top: 50px;
+}
+.form_table_wrapper{
+    margin-top: 40px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 6px 3px rgb(8 1 130 / 27%);
+    -webkit-box-shadow: 0px 0px 6px 3px rgb(8 1 130 / 27%);
+    -moz-box-shadow: 0px 0px 6px 3px rgba(8,1,130,0.27);
+    padding: 35px 5px;
+}
+.table_scroll{
+    display: block;
+    height: 250px;
+    overflow-y: scroll;
+}

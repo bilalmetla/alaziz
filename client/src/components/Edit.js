@@ -5,6 +5,7 @@ import { deleteRecord, getOne, update } from "./DataProvider";
 import { FormElements } from "./FormElements";
 import { FormTable } from "./FormTable";
 import { FormsHeading } from "./FormsHeading";
+import styles from '../Styles/Edit.module.css';
 
 
 
@@ -103,9 +104,9 @@ export const Edit = (props) => {
                     handleInputsChangeOfItems={handleInputsChangeOfItems}
                 />
   
-                <div className="space-between">
+                <div className={styles.btns}>
 
-                <Button className="submit-button" variant="primary" type="submit" >
+                <Button className={ styles.btn_color} variant="primary" type="submit" >
                 Update
                     </Button>
                     
