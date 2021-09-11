@@ -9,14 +9,15 @@ export const ReportWithGST = (props) => {
         {label:'End Date', props:{type:'date', required:true, name:'endDate'}, },
     ]
     const reportDetails = [
-        {label:'Buyer NTN', source:'' },
-        {label:'Buyer NTN Name', source:'' },
-        {label:'Type', source:'' },
-        {label:'Bill No.', source:'' },
-        {label:'Value Of Sale', source:'' },
-        {label:'Sale Tax', source:'' },
+        {label:'Buyer NTN', source:'name' },
+        {label:'Buyer NTN Name', source:'ntnName' },
+        {label:'Name Of Item', source:'description' },
+        {label:'Type', source:'invoiceType' },
+        {label:'Bill No.', source:'serialNumber' },
+        {label:'Value Of Sale', source:'valueExcelST' },
+        {label:'Sale Tax', source:'rateOfST' },
         {label:'WHST', source:'' },
-        {label:'Total Value Of Sale', source:'' },
+        {label:'Total Value Of Sale', source:'valueOfIncludingST' },
 
     ]
 
@@ -30,7 +31,8 @@ export const ReportWithGST = (props) => {
             <ReportInputs {...props}
                 resource="reports"
                 form={inputs}
-                getData={reportData}
+                keys={reportDetails}
+                title={'GST Report'}
             >
                 
         </ReportInputs>

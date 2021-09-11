@@ -92,6 +92,8 @@ exports.calculateValuesAndTaxes = function (items) {
 
 };
 
+
+
 exports.validateNumberOnly = function (value) {
     return isNaN(value)?'':value
 }

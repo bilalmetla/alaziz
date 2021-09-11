@@ -3,6 +3,7 @@ import { Row, Col, Form, Button } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { post } from "./DataProvider";
 import { FormElements } from "./FormElements";
+import { ReportTable } from "./ReportTable";
 
 
 
@@ -11,6 +12,7 @@ export const ReportInputs = (props) => {
     let history = useHistory();
     const [editFormData, setEditFormData] = useState({});
     const [validated, setValidated] = useState(false);
+    const [tableData, settableData] = useState([]);
 
    const handleInputsChange = (event) =>{
        let key = event.target.name
@@ -37,7 +39,7 @@ export const ReportInputs = (props) => {
        
         let response = await post(`${props.match.url}`, updateData)
         if (!response.errorMessage) {
-            props.getData(response)    
+            settableData(response)    
         }
         
         
@@ -58,7 +60,13 @@ export const ReportInputs = (props) => {
                 <Button className="submit-button" variant="primary" type="submit" >
                     Submit
                 </Button>
-        </Form>
+            </Form>
+            
+            <ReportTable {...props}
+                data={tableData}
+            >
+
+            </ReportTable>
         </>
     )
 }
