@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { Row, Col, Table, } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getList } from "./DataProvider";
+import styles from '../Styles/List.module.css'; 
+import { FormsHeading } from "./FormsHeading";
 
 export const List = (props) => {
 
@@ -53,8 +55,9 @@ export const List = (props) => {
     }
 
     return (
-        <>
-            <Link to={`${props.match.url}/create`} style={{display: 'flex', justifyContent: 'end'}}>Create</Link>
+        <div className={styles.list_wrapper}>
+            <FormsHeading {...props} />
+            <div className={styles.create_btn}><Link to={`${props.match.url}/create`} >Create</Link></div>
                 <Table responsive>
                 <thead>
                     {
@@ -80,6 +83,6 @@ export const List = (props) => {
                     </tbody>
                 </Table>
 
-        </>
+        </div>
     );
 } 

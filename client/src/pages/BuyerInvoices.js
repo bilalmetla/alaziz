@@ -18,14 +18,12 @@ export const BuyerInvoices = (props) => {
     return (
         <>
             <Row>
-                <Col>Invoices List</Col>
-            </Row>
-            <Row>
                 <List {...props}
                     resource="buyerInvoices"
                     keys={invoiceDetails}
                     actions={actions}
                     createResource='invoices'
+                    title={"Invoices List"}
                 />
             </Row>
         

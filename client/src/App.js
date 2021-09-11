@@ -12,6 +12,7 @@ import {
   BuyerInvoices, InvoiceEdit, InvoiceCreate,
   InvoicePrint,ReceiptPrint, ReportWithGST
 } from "./pages";
+import styles from './Styles/App.module.css';  
 
 export const App = ({ title }) => (
   
@@ -26,10 +27,10 @@ export const App = ({ title }) => (
         
       </Row>
       <Row>
-        <Col lg={4}>
+        <Col lg={3}>
           <NavBar />
         </Col>
-        <Col lg={8}>
+        <Col lg={9} className={styles.main_col}>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/about" component={About} />  
