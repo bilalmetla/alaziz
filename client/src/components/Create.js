@@ -74,6 +74,9 @@ export const Create = (props) => {
 
     return (
         <>
+            <Row>
+                <Col>{props.title}</Col>
+            </Row>
             <Form noValidate validated={validated} onSubmit={submitForm}>
                 <FormElements {...props}
                     handleInputsChange={handleInputsChange}

@@ -19,14 +19,13 @@ export const InvoiceCreate = (props) => {
     ]
     return (
         <>
-            <Row>
-                <Col>Invoice Create</Col>
-            </Row>
+            
             <Row>
                 <Create {...props}
                     resource="invoices"
                     form={invoiceDetails}
                     newListResource='items'
+                    title={"Invoice Create"}
                 ></Create>
             </Row>
         </>
