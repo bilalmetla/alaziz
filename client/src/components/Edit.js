@@ -4,6 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import { deleteRecord, getOne, update } from "./DataProvider";
 import { FormElements } from "./FormElements";
 import { FormTable } from "./FormTable";
+import { FormsHeading } from "./FormsHeading";
 
 
 
@@ -87,7 +88,7 @@ export const Edit = (props) => {
 
     return (
         <>
-            
+            <FormsHeading {...props} />
             <Form noValidate validated={validated} onSubmit={submitForm}>
 
                 <FormElements {...props}

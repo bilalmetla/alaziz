@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { create } from "./DataProvider";
 import { FormElements } from "./FormElements";
 import { FormTable } from "./FormTable";
+import { FormsHeading } from "./FormsHeading";
 
 
 export const Create = (props) => {
@@ -74,9 +75,7 @@ export const Create = (props) => {
 
     return (
         <>
-            <Row>
-                <Col>{props.title}</Col>
-            </Row>
+            <FormsHeading {...props} />
             <Form noValidate validated={validated} onSubmit={submitForm}>
                 <FormElements {...props}
                     handleInputsChange={handleInputsChange}

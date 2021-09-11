@@ -3,6 +3,7 @@ import { Row, Col, Table, } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getList } from "./DataProvider";
 import styles from '../Styles/List.module.css'; 
+import { FormsHeading } from "./FormsHeading";
 
 export const List = (props) => {
 
@@ -55,9 +56,7 @@ export const List = (props) => {
 
     return (
         <div className={styles.list_wrapper}>
-            <Row>
-                <Col><div className={styles.buyer_text_wrapper}><p className={styles.buyer_text}>{props.title}</p></div></Col>
-            </Row>
+            <FormsHeading {...props} />
             <div className={styles.create_btn}><Link to={`${props.match.url}/create`} >Create</Link></div>
                 <Table responsive>
                 <thead>
