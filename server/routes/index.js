@@ -31,5 +31,8 @@ Router.get('/buyers/:buyerId/invoices', invoiceController.getBuyerInvoicesById);
 
 //reports
 Router.post('/report/with-gst', reportsController.withGST);
+Router.post('/report/without-gst', reportsController.withOutGST);
+Router.post('/report/with-pst', reportsController.withPST);
+Router.post('/report/without-pst', reportsController.withOutPST);
 
 module.exports = Router;

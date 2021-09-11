@@ -100,7 +100,14 @@ exports.deleteRecord = async function ({ buyerId, invoiceId }, db) {
     
 };
 
-exports.findByDates = async function ({ startDate, endDate, businessType }, db) {
+exports.findByDates = async function ({ startDate, endDate, businessType, isGST }, db) {
+    let gstCondition = ''
+    if (isGST) {
+       gstCondition = {$ne:'0'}
+    }
+    if (!isGST) {
+        gstCondition = '0'
+    }
     return new Promise((resolve, reject) => {
         return db.invoices.find({
             $and: [
@@ -114,7 +121,7 @@ exports.findByDates = async function ({ startDate, endDate, businessType }, db) 
                     businessType: businessType
                 },
                 {
-                    "items.rateOfST": {$ne:'0'}
+                    "items.rateOfST": gstCondition
                 }
         ]
         },

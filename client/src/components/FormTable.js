@@ -1,7 +1,12 @@
 import React from 'react';
 import {  Form, Button } from "react-bootstrap";
+<<<<<<< HEAD
 import styles from '../Styles/FormTable.module.css'; 
 
+=======
+import { Archive } from 'react-bootstrap-icons';
+import { FormsHeading } from "./FormsHeading";
+>>>>>>> e7822d980c26cddc1218aded5dd85588d74e428d
 
 
 export const FormTable = (props) => {
@@ -11,9 +16,7 @@ export const FormTable = (props) => {
         <div className={styles.form_table_wrapper}>
             {
                     props.newListResource &&
-                    <div className="space-between">
-                        <h3>Item Details</h3>
-                    </div>
+                    <FormsHeading title={`Item Details`} />
                         
                 }
                 {
@@ -52,7 +55,7 @@ export const FormTable = (props) => {
                                                     size="sm"
                                                     onClick={(e)=> props.removeformDataItems(e, index)}
                                                 >
-                                                    Remove
+                                                    <Archive />
                                                 </Button>
                                                 
                                                 </tr>
@@ -65,7 +68,11 @@ export const FormTable = (props) => {
                             
                     })
             }
-            <Button className={styles.add_items_btn} variant="primary" onClick={props.manageformDataItems}>Add Item </Button>
+            {
+                props.newListResource &&
+                <Button className={styles.add_items_btn} variant="primary" onClick={props.manageformDataItems}>Add Item </Button>
+
+            }
 
 
         </div>
