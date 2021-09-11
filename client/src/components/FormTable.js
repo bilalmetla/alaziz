@@ -1,12 +1,8 @@
 import React from 'react';
 import {  Form, Button } from "react-bootstrap";
-<<<<<<< HEAD
 import styles from '../Styles/FormTable.module.css'; 
-
-=======
 import { Archive } from 'react-bootstrap-icons';
 import { FormsHeading } from "./FormsHeading";
->>>>>>> e7822d980c26cddc1218aded5dd85588d74e428d
 
 
 export const FormTable = (props) => {

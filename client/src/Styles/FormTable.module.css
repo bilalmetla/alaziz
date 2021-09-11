@@ -27,5 +27,5 @@ tbody tr td{
 .table_scroll{
     display: block;
     height: 250px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
