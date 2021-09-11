@@ -2,7 +2,7 @@ import React from 'react';
 import {Row, Col,  } from "react-bootstrap";
 import { ReportInputs } from "../components/ReportInputs";
 
-export const ReportWithGST = (props) => {
+export const ReportWithOutPST = (props) => {
 
     const inputs = [
         {label:'Start Date', props:{type:'date', required:true, name:'startDate'}, },
@@ -29,7 +29,7 @@ export const ReportWithGST = (props) => {
                 resource="reports"
                 form={inputs}
                 keys={reportDetails}
-                title={'GST Report'}
+                title={'With Out PST Report'}
             >
                 
         </ReportInputs>

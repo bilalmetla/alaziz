@@ -10,7 +10,8 @@ import { About } from "./routes/About";
 import {
   BuyerList, BuyerEdit, BuyerCreate,
   BuyerInvoices, InvoiceEdit, InvoiceCreate,
-  InvoicePrint,ReceiptPrint, ReportWithGST
+  InvoicePrint, ReceiptPrint,
+  ReportWithGST, ReportWithOutGST, ReportWithPST,ReportWithOutPST 
 } from "./pages";
 import styles from './Styles/App.module.css';  
 
@@ -46,6 +47,9 @@ export const App = ({ title }) => (
             
             
             <Route exact path="/report/with-gst" render={(props) => <ReportWithGST {...props} />} />
+            <Route exact path="/report/without-gst" render={(props) => <ReportWithOutGST {...props} />} />
+            <Route exact path="/report/with-pst" render={(props) => <ReportWithPST {...props} />} />
+            <Route exact path="/report/without-pst" render={(props) => <ReportWithOutPST {...props} />} />
           
           </Switch>
         </Col>

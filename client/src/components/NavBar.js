@@ -43,19 +43,19 @@ const NavBar = () => {
                             </p>
                         
                             <p className={styles.report_links}>
-                            <Link to="/without-gst" className="menu-bar" >
+                            <Link to="/report/without-gst" className="menu-bar" >
                                 Without GST
                             </Link>
                             </p>
                             
                             <p className={styles.report_links}>
-                            <Link to="/with-pst" className="menu-bar" >
+                            <Link to="/report/with-pst" className="menu-bar" >
                                 With PST
                             </Link>
                             </p>
 
                             <p className={styles.report_links}>
-                            <Link to="/without-pst" className="menu-bar" >
+                            <Link to="/report/without-pst" className="menu-bar" >
                                 Without PST
                             </Link>
                             </p>

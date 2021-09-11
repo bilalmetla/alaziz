@@ -7,6 +7,9 @@ import { InvoiceCreate } from "./InvoiceCreate";
 import { InvoicePrint } from "./InvoicePrint";
 import { ReceiptPrint } from "./ReceiptPrint";
 import { ReportWithGST } from "./ReportWithGST";
+import { ReportWithOutGST } from "./ReportWithOutGST";
+import { ReportWithPST } from "./ReportWithPST";
+import { ReportWithOutPST } from "./ReportWithOutPST";
 
 export {
     BuyerList,
@@ -18,4 +21,7 @@ export {
     InvoicePrint,
     ReceiptPrint,
     ReportWithGST,
+    ReportWithOutGST,
+    ReportWithPST,
+    ReportWithOutPST,
 }
