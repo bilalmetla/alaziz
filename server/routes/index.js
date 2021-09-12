@@ -14,7 +14,7 @@ require('./middlewares/log-request')(Router)
 
 Router.get('/units', unitController.getAll);
 Router.get('/units/:id', unitController.getById);
-Router.post('/units', unitController.create);
+Router.post('/units/create', unitController.create);
 Router.put('/units/:id', unitController.update);
 Router.delete('/units/:id', unitController.remove);
 Router.get('/units/:id/buyers', unitController.getBuyersOFUnit);

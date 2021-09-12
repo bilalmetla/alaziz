@@ -4,6 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import { post } from "./DataProvider";
 import { FormElements } from "./FormElements";
 import { ReportTable } from "./ReportTable";
+import styles from '../Styles/ReportInputs.module.css';
 
 
 
@@ -56,10 +57,11 @@ export const ReportInputs = (props) => {
                 />
                         
 
-  
-                <Button className="submit-button" variant="primary" type="submit" >
-                    Submit
-                </Button>
+                <div className={styles.report_input_btn}>
+                    <Button className="submit-button" variant="primary" type="submit" >
+                        Submit
+                    </Button>
+                </div> 
             </Form>
             
             <ReportTable {...props}
