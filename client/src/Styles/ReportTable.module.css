@@ -1,0 +1,26 @@
+.report_table_wrapper{
+    table-layout: fixed;
+    width: 100%;
+}
+
+.report_table_wrapper thead td {
+    font-size: 12px !important;
+    padding: 10px 0;
+}
+.report_table_wrapper thead th {
+    padding: 0 2px;
+}
+.report_btn{
+    display: flex;
+    justify-content: end;
+    margin-bottom: 10px;
+    
+}
+.report_btn button{
+    background-color: #080182;
+    border: none;
+    outline: none;
+}
+.report_btn button:hover{
+    background-color: #040050 !important;
+}

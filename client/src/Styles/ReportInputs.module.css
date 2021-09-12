@@ -1,0 +1,12 @@
+.report_input_btn {
+    display: flex;
+    justify-content: end;
+}
+.report_input_btn button{
+    background-color: #080182;
+    border: none;
+    outline: none;
+}
+.report_input_btn button:hover{
+    background-color: #040050 !important;
+}

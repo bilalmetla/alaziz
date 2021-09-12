@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {  Form, Button } from "react-bootstrap";
 import { FormsHeading } from "./FormsHeading";
+import styles from '../Styles/ReportTable.module.css';
 
 
 export const ReportTable = (props) => {
@@ -84,12 +85,13 @@ export const ReportTable = (props) => {
         <>
             { <FormsHeading {...props} />  }
 
-            {
+             { 
                 props.data && props.data.length > 0 &&
+                <div className={styles.report_btn}>
                 <Button onClick={()=>exportTableToCSV(`${props.title}-${new Date().getMonth()+1}.csv`)}> Excel File</Button>
-
+                </div>
             }
-                      <table responsive>
+                      <table responsive className={styles.report_table_wrapper}>
                 <thead>
                     <tr>
                                     {
