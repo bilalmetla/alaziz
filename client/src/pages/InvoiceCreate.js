@@ -2,7 +2,7 @@ import React from 'react';
 import {Row, Col,  } from "react-bootstrap";
 import { Create } from "../components/Create";
 import NavBar from "../components/NavBar";
-
+import { Header } from "../components/Header";
 
 export const InvoiceCreate = (props) => {
     const invoiceDetails = [
@@ -21,12 +21,14 @@ export const InvoiceCreate = (props) => {
     ]
     return (
         <>
-            
+            <Row>
+                <Header />
+            </Row>
             <Row>
             <Col lg={3}>
                     <NavBar lg={3} />
                 </Col>
-                <Col lg={9} >
+                <Col lg={9} className="main_col">
                 <Create {...props}
                     resource="invoices"
                     form={invoiceDetails}

@@ -1,6 +1,7 @@
 const Express = require('express');
 const Router = Express.Router();
 
+const unitController = require('../controllers/unit');
 const buyerController = require('../controllers/buyer');
 const invoiceController = require('../controllers/invoice');
 const reportsController = require('../controllers/reports');
@@ -11,10 +12,29 @@ require('./middlewares/log-request')(Router)
 
 
 
+Router.get('/units', unitController.getAll);
+Router.get('/units/:id', unitController.getById);
+Router.post('/units', unitController.create);
+Router.put('/units/:id', unitController.update);
+Router.delete('/units/:id', unitController.remove);
+Router.get('/units/:id/buyers', unitController.getBuyersOFUnit);
+Router.post('/units/:unitId/buyers/create', buyerController.createBuyer);
+Router.get('/units/:unitId/buyers/:buyerId', buyerController.getBuyerById);
+Router.put('/units/:unitId/buyers/:buyerId', buyerController.updateBuyer);
+Router.get('/units/:unitId/buyers/:buyerId/invoices', invoiceController.getBuyerInvoicesById);
+Router.get('/units/:unitId/buyers/:buyerId/invoices/:invoiceId', invoiceController.getInvoiceById);
+Router.put('/units/:unitId/buyers/:buyerId/invoices/:id', invoiceController.updateInvoice);
+Router.post('/units/:unitId/buyers/:buyerId/invoices/create', invoiceController.createInvoice);
+Router.get('/units/:unitId/buyers/:buyerId/invoices/:invoiceId/print', invoiceController.printInvoice);
+Router.get('/units/:unitId/buyers/:buyerId/invoices/:invoiceId/print/receipt', invoiceController.printInvoice);
+Router.get('/units/:unitId/buyers/:buyerId/invoices', invoiceController.getBuyerInvoicesById);
+
+
+
 Router.get('/buyers', buyerController.getBuyers);
-Router.get('/buyers/:id', buyerController.getBuyerById);
+Router.get('/buyers/:buyerId', buyerController.getBuyerById);
 Router.post('/buyers', buyerController.createBuyer);
-Router.put('/buyers/:id', buyerController.updateBuyer);
+Router.put('/buyers/:buyerId', buyerController.updateBuyer);
 Router.delete('/buyers/:id', buyerController.deleteBuyer);
 
 

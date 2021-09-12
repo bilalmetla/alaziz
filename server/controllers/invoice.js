@@ -8,6 +8,8 @@ const constants = require('../constants')
 exports.createInvoice = async function (req, res, next) {
     try {
        let data = req.body
+       let { buyerId } = req.params
+       data.buyerId = buyerId
        let record  = await Invoice.create(data, db)
        utility.mapToClientResponse(record)
        response.send(record, res)

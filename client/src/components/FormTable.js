@@ -9,14 +9,15 @@ export const FormTable = (props) => {
 
    
     return (
-        <>{props.newListResource &&
+        <>{props.newListResource && 
             <div className={styles.form_table_wrapper}>
                 {
-                    props.newListResource &&
+                    
                     <FormsHeading title={`Item Details`} />
                         
                 }
                 {
+                    props.formDataItems.length>0 &&
                     props.form.map(form => {
                         if (form.isNewList)
                             return <table responsive className={styles.table_scroll}>
@@ -27,13 +28,14 @@ export const FormTable = (props) => {
                                 </thead>
                                 <tbody>
                                     {
+                                        
                                         props.formDataItems.map((item, index) => {
                                             return <tr>{
                                                 form.list.map(f => {
-                                                    return <td key={`heading-${index}`}>
-                                                        <Form.Group >
+                                                    return <td key={`heading-${index}`} >
+                                                        <Form.Group className={styles.form_table_elements}>
                                                             {/* <Form.Label>{ f.label}</Form.Label> */}
-                                                            <Form.Control
+                                                            <Form.Control className={styles.form_table_elements}
                                                                 {...f.props}
                                                                 name={f.source}
                                                                 value={item[f.source]}
@@ -47,7 +49,7 @@ export const FormTable = (props) => {
                                                     </td>;
                                                 })
                                             }
-                                                <Button
+                                                <Button 
                                                     variant="danger"
                                                     size="sm"
                                                     onClick={(e) => props.removeformDataItems(e, index)}

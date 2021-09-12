@@ -2,7 +2,7 @@ import React from 'react';
 import {Row, Col,  } from "react-bootstrap";
 import { List } from "../components/List";
 import NavBar from "../components/NavBar";
-
+import { Header } from "../components/Header";
 
 
 
@@ -22,10 +22,13 @@ export const BuyerInvoices = (props) => {
     return (
         <>
             <Row>
+                <Header />
+            </Row>
+            <Row>
             <Col lg={3}>
                     <NavBar lg={3} />
                 </Col>
-                <Col lg={9} >
+                <Col lg={9} className="main_col">
                 <List {...props}
                     resource="buyerInvoices"
                     keys={invoiceDetails}

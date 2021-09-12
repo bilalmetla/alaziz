@@ -61,7 +61,7 @@ export const Edit = (props) => {
             updateData[props.newListResource] = [...formDataItems]
         }
         
-        const response = await update(`${props.resource}/${id}`, updateData)
+        const response = await update(`${props.match.url}`, updateData)
         if (!response.errorMessage) {
             history.goBack()
         }

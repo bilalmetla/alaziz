@@ -12,10 +12,16 @@ const NavBar = () => {
             </Link> */}
             <nav className={styles.navMenu}>
                 <ul className="nav-menu-items">
-                    <li className="navbar-toggle">
+                    {/* <li className="navbar-toggle">
 
                         <Link to="/" className="menu-bar" >
                             Dashboard
+                        </Link>
+                    </li> */}
+                    <li className="navbar-toggle">
+
+                        <Link to="/units" className="menu-bar" >
+                            Units
                         </Link>
                     </li>
                     <li className="navbar-toggle">
@@ -24,12 +30,12 @@ const NavBar = () => {
                             Buyers
                         </Link>
                     </li>
-                    <li className="navbar-toggle">
+                    {/* <li className="navbar-toggle">
 
                         <Link to="/about" className="menu-bar" >
                             About
                         </Link>
-                    </li>
+                    </li> */}
                 </ul>
             
                 <Accordion flush  >

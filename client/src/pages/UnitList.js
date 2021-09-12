@@ -4,18 +4,18 @@ import { List } from "../components/List";
 import NavBar from "../components/NavBar";
 import { Header } from "../components/Header";
 
-export const BuyerList = (props) => {
-    const buyersDetails = [
-        { label: 'Byuer Name', source: 'name' },
+export const UnitList = (props) => {
+    const details = [
+        { label: 'Unit Name', source: 'name' },
         { label: 'Address', source: 'address' },
-        { label: 'Representitve Name', source: 'representitveName' },
+        { label: 'Orginizer Name', source: 'organizerName' },
         { label: 'Phone', source: 'phone' },
-        // { label: 'NTN Number', source: 'ntnNumber' },
-        // { label: 'NTN Name', source: 'ntnName' },
+        { label: 'userName', source: 'userName' },
+        // { label: 'Password', source: 'password' },
     ]
     const actions = [
         { label: 'Edit', resource:'',   },
-        { label: 'Invoices', resource:`${props.match.url}/:id/invoices`,  },
+        { label: 'Buyers', resource:`${props.match.url}/:id/buyers`,  },
     ]
     return (
         <>
@@ -29,10 +29,10 @@ export const BuyerList = (props) => {
             
             <Col lg={9} className="main_col">
                 <List  {...props}
-                    resource="buyers"
-                    keys={buyersDetails}
+                    resource="units"
+                    keys={details}
                     actions={actions}
-                    title={"Buyers Info"}
+                    title={"Unit List"}
                 />
                 </Col>
             </Row>

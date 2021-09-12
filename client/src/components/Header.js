@@ -11,9 +11,9 @@ export const Header = ({children})=>{
                     <img className="log" src='logo192.png' />
 
                 </div>
-                <div className="header-heading">
+                {/* <div className="header-heading">
                     <h1>AL-AZIZ TRADERS</h1>
-                </div>
+                </div> */}
                 {/* <ul className="space-between">
                     <li>
                         <Link to="/">Home</Link>

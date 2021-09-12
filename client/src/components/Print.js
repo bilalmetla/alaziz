@@ -31,7 +31,8 @@ export const Print = (props) => {
                 <img src={props.logo} style={{height: '173px'}} />
             </div>
             {
-               props.isTitleATTop && props.InvoiceTitle && <h2>{ props.InvoiceTitle}</h2>
+                props.isTitleATTop && props.InvoiceTitle &&
+                <h2>{props.InvoiceTitle}</h2>
             }
             {
                 props.header.map(row => {

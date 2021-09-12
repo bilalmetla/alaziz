@@ -2,7 +2,7 @@ import React from 'react';
 import {Row, Col,  } from "react-bootstrap";
 import { ReportInputs } from "../components/ReportInputs";
 import NavBar from "../components/NavBar";
-
+import { Header } from "../components/Header";
 
 export const ReportWithOutPST = (props) => {
 
@@ -26,11 +26,14 @@ export const ReportWithOutPST = (props) => {
     
     return (
         <>
+            <Row>
+                <Header />
+            </Row>
         <Row>
                 <Col lg={3}>
                     <NavBar lg={3} />
                 </Col>
-                <Col lg={9} >
+                <Col lg={9} className="main_col">
             <ReportInputs {...props}
                 resource="reports"
                 form={inputs}

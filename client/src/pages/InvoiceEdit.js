@@ -3,6 +3,9 @@ import {Row, Col, Button } from "react-bootstrap";
 import { Edit } from "../components/Edit";
 import { Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import { Header } from "../components/Header";
+
+
 
 export const InvoiceEdit = (props) => {
 
@@ -28,12 +31,14 @@ export const InvoiceEdit = (props) => {
     return (
         <>
            
-            
+           <Row>
+                <Header />
+            </Row>
             <Row>
             <Col lg={3}>
                     <NavBar lg={3} />
                 </Col>
-                <Col lg={9} >
+                <Col lg={9} className="main_col">
                 <Row>
                     <div className="align-right" >
                             <Link className="buttons"  to={`${props.match.url}/print`} target="_blank">Print Invoice</Link>{' '}

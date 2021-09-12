@@ -5,14 +5,14 @@ import NavBar from "../components/NavBar";
 import { Header } from "../components/Header";
 
 
-export const BuyerEdit = (props) => {
-    const buyerDetails = [
-        {label:'Buyer Name', props:{type:'text', required:true}, source:'name'},
+export const UnitEdit = (props) => {
+    const details = [
+        {label:'Unit Name', props:{type:'text', required:true},  source:'name'},
         {label:'Address', props:{type:'text', required:true}, source:'address'},
         {label:'Phone', props:{type:'number', required:true}, source:'phone'},
-        {label:'Representitve Name', props:{type:'text', required:true}, source:'representitveName'},
-        {label:'NTN Number', props:{type:'text', required:true}, source:'ntnNumber'},
-        {label:'NTN Name', props:{type:'text', required:true}, source:'ntnName'},
+        {label:'User Name', props:{type:'number', required:true}, source:'userName'},
+        {label:'Password', props:{type:'number', required:true}, source:'password'},
+        {label:'Orginazer Name', props:{type:'text', required:true}, source:'organizerName'},
     ]
     return (
         <>
@@ -25,9 +25,9 @@ export const BuyerEdit = (props) => {
                 </Col>
                 <Col lg={9} className="main_col" >
                 <Edit {...props}
-                    resource="buyers"
-                    form={buyerDetails}
-                    title={`Buyers Edit`}
+                    resource="units"
+                    form={details}
+                    title={`Unit Edit`}
                 ></Edit>
                 </Col>
             </Row>

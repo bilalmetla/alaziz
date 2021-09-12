@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {  Form, Button } from "react-bootstrap";
-
+import { FormsHeading } from "./FormsHeading";
 
 
 export const ReportTable = (props) => {
@@ -80,13 +80,7 @@ export const ReportTable = (props) => {
 
     return (
         <>
-            {
-                    
-                    <div className="space-between">
-                    <h3>{ props.title}</h3>
-                    </div>
-                        
-                }
+            { <FormsHeading {...props} />  }
 
             {
                 props.data && props.data.length > 0 &&

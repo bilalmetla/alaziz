@@ -57,9 +57,8 @@ export const Create = (props) => {
         
         if (props.newListResource) {
             updateData[props.newListResource] = [...formDataItems]
-            updateData['buyerId'] = id
         }
-        let response = await create(`${props.resource}`, updateData)
+        let response = await create(`${props.match.url}`, updateData)
         //history.push(`/${props.resource}`)
         if (!response.errorMessage) {
             history.goBack()
