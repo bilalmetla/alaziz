@@ -18,8 +18,9 @@ import styles from './Styles/App.module.css';
 export const App = ({ title }) => (
   
   <HashRouter >
+    <div className={styles.wrapper}>
     {/* <Header/> */}
-    <Container >
+    <Container className={styles.container} >
       <Row>
         <Header>
           
@@ -56,8 +57,9 @@ export const App = ({ title }) => (
       </Row>
     </Container>
       
-     
+    </div>
     </HashRouter>  
+    
 
  
   
