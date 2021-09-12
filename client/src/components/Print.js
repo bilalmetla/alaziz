@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getList } from "./DataProvider";
+import styles from '../Styles/Print.module.css'; 
 
 
 
@@ -25,8 +26,8 @@ export const Print = (props) => {
 
 
     return (
-        <>
-            <div>
+        <div className={styles.invoice_wrapper}>
+            <div className={styles.image_wrapper}>
                 <img src={props.logo} style={{height: '173px'}} />
             </div>
             {
@@ -51,7 +52,7 @@ export const Print = (props) => {
             {
                 !props.isTitleATTop && props.InvoiceTitle && <h2>{ props.InvoiceTitle}</h2>
             }
-            <table responsive>
+            <table responsive className={styles.table_wrapper}>
                     <thead>
                     {
                         props.invoiceItemsHeader &&
@@ -91,6 +92,6 @@ export const Print = (props) => {
             
 
            
-        </>
+        </div>
     )
 }

@@ -17,12 +17,11 @@ import styles from './Styles/App.module.css';
 
 export const App = ({ title }) => (
 
-  <HashRouter>
+  
+  <HashRouter >
+    <div className={styles.wrapper}>
     {/* <Header/> */}
-    <Container >
-      {/* <Row>
-        <Header></Header>
-      </Row> */}
+    <Container className={styles.container} >
      
           <Switch>
             <Route exact path="/" component={Home} />
@@ -48,8 +47,10 @@ export const App = ({ title }) => (
           </Switch>
        
     </Container>
+
+    </div>
+    </HashRouter>  
     
-  </HashRouter>
 
  
   
