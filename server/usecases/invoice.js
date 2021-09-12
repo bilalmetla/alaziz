@@ -78,9 +78,9 @@ exports.getInvoiceAll = async function ( db) {
     
 };
 
-exports.getInvoiceById = async function (id, db) {
+exports.getInvoiceById = async function ({invoiceId, buyerId}, db) {
     return new Promise((resolve, reject) => {
-        return db.invoices.findOne({_id:id},(err, docs) => err ? reject(err): resolve(docs)) 
+        return db.invoices.findOne({ $and:[{ _id: invoiceId }, {buyerId: buyerId} ] },(err, docs) => err ? reject(err): resolve(docs))
     })
     
 };

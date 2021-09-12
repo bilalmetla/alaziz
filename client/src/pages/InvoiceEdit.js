@@ -2,6 +2,7 @@ import React from 'react';
 import {Row, Col, Button } from "react-bootstrap";
 import { Edit } from "../components/Edit";
 import { Link } from "react-router-dom";
+import NavBar from "../components/NavBar";
 
 export const InvoiceEdit = (props) => {
 
@@ -27,19 +28,27 @@ export const InvoiceEdit = (props) => {
     return (
         <>
            
+            
             <Row>
-            <div className="align-right" >
-                    <Link className="buttons"  to={`${props.match.url}/print`} >Print Invoice</Link>{' '}
-                    <Link className="buttons" to={`${props.match.url}/print/receipt`} >Print Receipt</Link>{' '}
-            </div>
-            </Row>
-            <Row>
+            <Col lg={3}>
+                    <NavBar lg={3} />
+                </Col>
+                <Col lg={9} >
+                <Row>
+                    <div className="align-right" >
+                            <Link className="buttons"  to={`${props.match.url}/print`} target="_blank">Print Invoice</Link>{' '}
+                            <Link className="buttons" to={`${props.match.url}/print/receipt`} target="_blank" >Print Receipt</Link>{' '}
+                    </div>
+                    </Row>
+                    
                 <Edit {...props}
                     resource="invoices"
                     form={invoiceDetails}
                     newListResource='items'
                     title={`Invoice Edit`}
                 ></Edit>
+
+                </Col>
             </Row>
         </>
     )

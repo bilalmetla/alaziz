@@ -1,6 +1,7 @@
 import React from 'react';
 import {Row, Col,  } from "react-bootstrap";
 import { ReportInputs } from "../components/ReportInputs";
+import NavBar from "../components/NavBar";
 
 export const ReportWithOutGST = (props) => {
 
@@ -25,6 +26,11 @@ export const ReportWithOutGST = (props) => {
     return (
         <>
         
+        <Row>
+                <Col lg={3}>
+                    <NavBar lg={3} />
+                </Col>
+                <Col lg={9} >
             <ReportInputs {...props}
                 resource="reports"
                 form={inputs}
@@ -32,7 +38,9 @@ export const ReportWithOutGST = (props) => {
                 title={'With Out GST Report'}
             >
                 
-        </ReportInputs>
+                    </ReportInputs>
+                    </Col>
+            </Row>
         </>
     )
 }

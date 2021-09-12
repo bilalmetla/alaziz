@@ -1,6 +1,8 @@
 import React from 'react';
 import {Row, Col,  } from "react-bootstrap";
 import { Create } from "../components/Create";
+import NavBar from "../components/NavBar";
+
 
 export const InvoiceCreate = (props) => {
     const invoiceDetails = [
@@ -21,12 +23,18 @@ export const InvoiceCreate = (props) => {
         <>
             
             <Row>
+            <Col lg={3}>
+                    <NavBar lg={3} />
+                </Col>
+                <Col lg={9} >
                 <Create {...props}
                     resource="invoices"
                     form={invoiceDetails}
                     newListResource='items'
                     title={"Invoice Create"}
                 ></Create>
+
+                </Col>
             </Row>
         </>
     )

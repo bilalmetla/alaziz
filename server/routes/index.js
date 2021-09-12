@@ -19,7 +19,7 @@ Router.delete('/buyers/:id', buyerController.deleteBuyer);
 
 
 Router.get('/invoices', invoiceController.getInvoices);
-Router.get('/buyers/:buyerId/invoices/:id', invoiceController.getInvoiceById);
+Router.get('/buyers/:buyerId/invoices/:invoiceId', invoiceController.getInvoiceById);
 Router.post('/invoices', invoiceController.createInvoice);
 Router.put('/invoices/:id', invoiceController.updateInvoice);
 // Router.get('/buyers/:buyerId/invoices/:invoiceId', invoiceController.printInvoice);

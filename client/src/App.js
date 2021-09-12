@@ -16,22 +16,14 @@ import {
 import styles from './Styles/App.module.css';  
 
 export const App = ({ title }) => (
-  
-  <HashRouter >
+
+  <HashRouter>
     {/* <Header/> */}
     <Container >
-      <Row>
-        <Header>
-          
-        </Header>
-
-        
-      </Row>
-      <Row>
-        <Col lg={3}>
-          <NavBar />
-        </Col>
-        <Col lg={9} className={styles.main_col}>
+      {/* <Row>
+        <Header></Header>
+      </Row> */}
+     
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/about" component={About} />  
@@ -42,8 +34,7 @@ export const App = ({ title }) => (
             <Route exact path="/buyers/:id/invoices/create" render={(props) => <InvoiceCreate {...props} />} />
 
             <Route exact path="/buyers/:id/invoices/:invoiceId" render={(props) => <InvoiceEdit {...props} />} />
-            <Route exact path="/buyers/:buyerId/invoices/:invoiceId/print" render={(props) => <InvoicePrint {...props} />} />
-            <Route exact path="/buyers/:buyerId/invoices/:invoiceId/print/receipt" render={(props) => <ReceiptPrint {...props} />} />
+            
             
             
             <Route exact path="/report/with-gst" render={(props) => <ReportWithGST {...props} />} />
@@ -51,13 +42,14 @@ export const App = ({ title }) => (
             <Route exact path="/report/with-pst" render={(props) => <ReportWithPST {...props} />} />
             <Route exact path="/report/without-pst" render={(props) => <ReportWithOutPST {...props} />} />
           
+            <Route exact path="/buyers/:buyerId/invoices/:invoiceId/print" render={(props) => <InvoicePrint {...props} />} />
+          <Route exact path="/buyers/:buyerId/invoices/:invoiceId/print/receipt" render={(props) => <ReceiptPrint {...props} />} />
+          
           </Switch>
-        </Col>
-      </Row>
+       
     </Container>
-      
-     
-    </HashRouter>  
+    
+  </HashRouter>
 
  
   

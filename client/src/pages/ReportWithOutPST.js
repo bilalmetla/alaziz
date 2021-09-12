@@ -1,6 +1,8 @@
 import React from 'react';
 import {Row, Col,  } from "react-bootstrap";
 import { ReportInputs } from "../components/ReportInputs";
+import NavBar from "../components/NavBar";
+
 
 export const ReportWithOutPST = (props) => {
 
@@ -24,7 +26,11 @@ export const ReportWithOutPST = (props) => {
     
     return (
         <>
-        
+        <Row>
+                <Col lg={3}>
+                    <NavBar lg={3} />
+                </Col>
+                <Col lg={9} >
             <ReportInputs {...props}
                 resource="reports"
                 form={inputs}
@@ -32,7 +38,9 @@ export const ReportWithOutPST = (props) => {
                 title={'With Out PST Report'}
             >
                 
-        </ReportInputs>
+                </ReportInputs>
+                </Col>
+            </Row>
         </>
     )
 }

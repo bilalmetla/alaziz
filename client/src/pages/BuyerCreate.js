@@ -1,6 +1,7 @@
 import React from 'react';
 import {Row, Col,  } from "react-bootstrap";
 import { Create } from "../components/Create";
+import NavBar from "../components/NavBar";
 
 export const BuyerCreate = (props) => {
     const buyerDetails = [
@@ -15,11 +16,16 @@ export const BuyerCreate = (props) => {
         <>
            
             <Row>
-                <Create {...props}
-                    resource="buyers"
-                    form={buyerDetails}
-                    title={`Buyers Create`}
-                ></Create>
+                <Col lg={3}>
+                    <NavBar lg={3} />
+                </Col>
+                <Col lg={9} >
+                    <Create {...props}
+                        resource="buyers"
+                        form={buyerDetails}
+                        title={`Buyers Create`}
+                    ></Create>
+                </Col>
             </Row>
         </>
     )

@@ -62,9 +62,10 @@ exports.getInvoices = async function (req, res, next) {
 
 exports.getInvoiceById = async function (req, res, next) {
     try {
-       let {id} = req.params
-       let record = await Invoice.getInvoiceById(id, db)
+       let {invoiceId, buyerId} = req.params
+       let record = await Invoice.getInvoiceById({invoiceId, buyerId}, db)
        utility.mapToClientResponse(record)
+       record.date = utility.formatDateDisplay(record.date)
        response.send(record, res)
  
     } catch (e) {
@@ -76,7 +77,7 @@ exports.getInvoiceById = async function (req, res, next) {
 exports.printInvoice = async function (req, res, next) {
     try {
        let {invoiceId, buyerId} = req.params
-       let invoiceData = await Invoice.getInvoiceById(invoiceId, db)
+       let invoiceData = await Invoice.getInvoiceById({invoiceId, buyerId}, db)
        utility.mapToClientResponse(invoiceData)
        let buyerInfo = await Buyer.getBuyerById(buyerId, db)
        utility.mapToClientResponse(buyerInfo)
@@ -84,10 +85,9 @@ exports.printInvoice = async function (req, res, next) {
        buyerInfo['companySTRNNumber'] = constants.companyDetails.SRNNumber
        let updatedItems = utility.calculateValuesAndTaxes(invoiceData.items)
        invoiceData.items = updatedItems
-     //  invoiceData.date = utility.formatDate(invoiceData.date)
+       invoiceData.date = utility.formatDatePrint(invoiceData.date)
       
        utility.calculateGrandTotals(invoiceData)
-          
        response.send({...buyerInfo, invoice:invoiceData}, res)
  
     } catch (e) {

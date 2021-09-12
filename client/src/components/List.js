@@ -32,7 +32,7 @@ export const List = (props) => {
         return list.map((item, index) => {
             return <tr key={`row-${index}`}>{
                  props.keys.map((key, keyIndex) => {
-                    return <td key={`key-${keyIndex}`}> {item[key.source]}</td>;
+                    return <td key={`key-${keyIndex}`}> {key.label === 'Date'? item[key.source].split('T')[0] :item[key.source]}</td>;
                  })
 
             }
@@ -75,11 +75,11 @@ export const List = (props) => {
 
                         tableData  
                     }
-                        <tr>
+                        {/* <tr>
                             <td>
 
                             </td>
-                        </tr>
+                        </tr> */}
                     </tbody>
                 </Table>
 

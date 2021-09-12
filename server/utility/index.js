@@ -119,7 +119,19 @@ exports.validateNTN = function (value) {
     return value.indexOf("-") < 1?'':value
 };
 
-exports.formatDate = function (date) {
+exports.formatDateDisplay = function (date) {
+    
+    date = new Date(date)
+    let month = date.getMonth() + 1
+    month = month < 10 ? "0" + month : month
+
+    let day = date.getDate()
+    day = day < 10 ? "0" + day : day
+
+    return `${date.getFullYear()}-${month}-${day}`
+}
+
+exports.formatDatePrint = function (date) {
     
     date = new Date(date)
     let month = date.getMonth() + 1
