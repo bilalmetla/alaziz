@@ -27,30 +27,34 @@ export const Print = (props) => {
 
     return (
         <div className={styles.invoice_wrapper}>
+            <div className={styles.invoice_flex}>
             <div className={styles.image_wrapper}>
                 <img src={props.logo} style={{height: '173px'}} />
             </div>
             {
-               props.isTitleATTop && props.InvoiceTitle && <h2>{ props.InvoiceTitle}</h2>
+               props.isTitleATTop && props.InvoiceTitle && <div className={styles.invoice_title}><h2>{ props.InvoiceTitle}</h2></div>
             }
             {
                 props.header.map(row => {
-                    return <Row>
+                    return <Row> 
+                        
                         {
-                            row.map(col => {
+                            row.map((col,index) => {
                                
-                                return <Col style={{display:'flex'}}>
-                                    <p>{ col.label}</p>
-                                    <span>{ col.innerSource === undefined? buyer[col.source] : col.innerSource === 'invoice'? invoice[col.source]: grandTotals[col.source] }</span>
+                                return <Col className={styles.invoice_text_wrapper} style={index%2===0?{display:'flex'}:{display:'flex',justifyContent:'end'}} >
+                                    <h6 >{ col.label}</h6>
+                                    <p >{ col.innerSource === undefined? buyer[col.source] : col.innerSource === 'invoice'? invoice[col.source]: grandTotals[col.source] }</p>
                                 </Col>
                             })
                         }
+                       
+                   
                     </Row>
                     
                 })
             }
             {
-                !props.isTitleATTop && props.InvoiceTitle && <h2>{ props.InvoiceTitle}</h2>
+                !props.isTitleATTop && props.InvoiceTitle && <div className={styles.invoice_title}><h2>{ props.InvoiceTitle}</h2></div>
             }
             <table responsive className={styles.table_wrapper}>
                     <thead>
@@ -90,7 +94,7 @@ export const Print = (props) => {
                 </tbody>
                 </table>
             
-
+            </div>
            
         </div>
     )

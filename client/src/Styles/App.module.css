@@ -4,9 +4,9 @@
     margin-top: 10px;
     min-height: 400px;
     border-radius: 15px;
-    /* box-shadow: 0px 0px 6px 3px rgb(8 1 130 / 27%);
+    box-shadow: 0px 0px 6px 3px rgb(8 1 130 / 27%);
     -webkit-box-shadow: 0px 0px 6px 3px rgb(8 1 130 / 27%);
-    -moz-box-shadow: 0px 0px 6px 3px rgba(8,1,130,0.27); */
+    -moz-box-shadow: 0px 0px 6px 3px rgba(8,1,130,0.27);
 }
 .container {
     max-width: 1400px !important;
