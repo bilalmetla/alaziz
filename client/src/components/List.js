@@ -29,6 +29,9 @@ export const List = (props) => {
     }, []);
 
     const mapTableData = (list) => {
+        if (!list || list.length === 0 || typeof list === 'string') {
+            return
+        }
         return list.map((item, index) => {
             return <tr key={`row-${index}`}>{
                  props.keys.map((key, keyIndex) => {

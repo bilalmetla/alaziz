@@ -14,15 +14,17 @@ export const ReportWithOutGST = (props) => {
         {label:'End Date', props:{type:'date', required:true, name:'endDate'}, },
     ]
     const reportDetails = [
-        {label:'Buyer NTN', source:'name' },
+        {label:'Buyer NTN', source:'ntnNumber' },
         {label:'Buyer NTN Name', source:'ntnName' },
         {label:'Name Of Item', source:'description' },
         {label:'Type', source:'invoiceType' },
         {label:'Bill No.', source:'serialNumber' },
         {label:'Value Of Sale', source:'valueExcelST' },
-        {label:'Sale Tax', source:'rateOfST' },
-        {label:'WHST', source:'' },
+        {label:'WHST', source:'totalSTPayable' },
+        {label:'20%', source:'totalSTPayable20Percent' },
         {label:'Total Value Of Sale', source:'valueOfIncludingST' },
+        {label:'Buyer Name', source:'name' },
+        {label:'Buyer Address', source:'address' },
 
     ]
 

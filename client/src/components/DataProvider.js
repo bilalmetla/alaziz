@@ -1,6 +1,14 @@
 import React from 'react';
+import { constants } from "../constants";
 
-const url = 'http://127.0.0.1:3000/api'
+let url = 'http://127.0.0.1:3000/api'
+
+if (constants.isLocal) {
+    url = constants.localServer
+} else {
+    url = constants.productionServer
+}
+
 
 
 

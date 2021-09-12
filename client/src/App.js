@@ -10,7 +10,8 @@ import {
   BuyerInvoices, InvoiceEdit, InvoiceCreate,
   InvoicePrint, ReceiptPrint,
   ReportWithGST, ReportWithOutGST, ReportWithPST, ReportWithOutPST,
-  UnitList,UnitCreate,UnitEdit,
+  UnitList, UnitCreate, UnitEdit,
+  Login
 } from "./pages";
 import styles from './Styles/App.module.css';  
 
@@ -23,8 +24,9 @@ export const App = ({ title }) => (
     <Container className={styles.container} >
      
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={Login} />
             <Route exact path="/about" component={About} />  
+            <Route exact path="/login" component={Login} />  
             
           
           <Route exact path="/units" component={UnitList} />

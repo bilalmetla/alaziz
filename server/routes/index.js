@@ -5,10 +5,23 @@ const unitController = require('../controllers/unit');
 const buyerController = require('../controllers/buyer');
 const invoiceController = require('../controllers/invoice');
 const reportsController = require('../controllers/reports');
+const userController = require('../controllers/user');
 
 //middle ware methods
 require('./middlewares/log-request')(Router)
 
+Router.post('/login', userController.login)
+
+/**
+ * check for sessions and login users
+ */
+Router.use((req, res, next) => {
+    console.log('req.session', req.session)
+    if (!req.session || !req.session.user) {
+        res.send({errorMessage:"Login Required!"})
+    }
+    next()
+  })
 
 
 
