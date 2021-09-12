@@ -33,15 +33,15 @@ Router.get('/units/:unitId/buyers/:buyerId/invoices', invoiceController.getBuyer
 
 Router.get('/buyers', buyerController.getBuyers);
 Router.get('/buyers/:buyerId', buyerController.getBuyerById);
-Router.post('/buyers', buyerController.createBuyer);
+Router.post('/buyers/create', buyerController.createBuyer);
 Router.put('/buyers/:buyerId', buyerController.updateBuyer);
 Router.delete('/buyers/:id', buyerController.deleteBuyer);
 
 
 Router.get('/invoices', invoiceController.getInvoices);
 Router.get('/buyers/:buyerId/invoices/:invoiceId', invoiceController.getInvoiceById);
-Router.post('/invoices', invoiceController.createInvoice);
-Router.put('/invoices/:id', invoiceController.updateInvoice);
+Router.post('/buyers/:buyerId/invoices/create', invoiceController.createInvoice);
+Router.put('/buyers/:buyerId/invoices/:id', invoiceController.updateInvoice);
 // Router.get('/buyers/:buyerId/invoices/:invoiceId', invoiceController.printInvoice);
 Router.delete('/buyers/:buyerId/invoices/:invoiceId', invoiceController.deleteInvoice);
 
