@@ -43,9 +43,10 @@ export const Login = function (props) {
             alert.show(response.errorMessage || 'Error')
             return 
         }
-        if (response && !response.errorMessage) {
-            sessionStorage.setItem('userId', response.id)
-            sessionStorage.setItem('isAdminLogin', response.isAdminLogin || false)
+     
+
+        sessionStorage.setItem('userId', response.id)
+        sessionStorage.setItem('isAdminLogin', response.isAdminLogin || false)
             //sessionStorage.setItem('isUnitLogin', response.isUnitLogin)
 
             if (response.isUnitLogin) {
@@ -54,15 +55,10 @@ export const Login = function (props) {
                 history.push(`/units`)
             }
             
-        }
+        
         
     }
     
-    useEffect(() => {
-        sessionStorage.removeItem('userId')
-        sessionStorage.removeItem('isAdminLogin')
-    })
-
     
     return (
         <>

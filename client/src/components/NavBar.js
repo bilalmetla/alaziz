@@ -17,7 +17,7 @@ const NavBar = () => {
         
       
 
-        if (!usid && !constants.isLocal) {
+        if (!usid) {
             history.push('/login')
         }  
         
