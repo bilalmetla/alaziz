@@ -1,14 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { create } from "./DataProvider";
 import { FormElements } from "./FormElements";
 import { FormTable } from "./FormTable";
 import { FormsHeading } from "./FormsHeading";
-
+import { useAlert } from 'react-alert'
+import { LoaderContext } from "../providers/Loader";
 
 export const Create = (props) => {
-    let { id } = props.match.params
+    const { setLoading } = useContext(LoaderContext)
+    const alert = useAlert()
     let history = useHistory();
     const [editFormData, setEditFormData] = useState({});
     const [formDataItems, setformDataItems] = useState([]);
@@ -58,8 +60,13 @@ export const Create = (props) => {
         if (props.newListResource) {
             updateData[props.newListResource] = [...formDataItems]
         }
+        setLoading(true)
         let response = await create(`${props.match.url}`, updateData)
-        //history.push(`/${props.resource}`)
+        setLoading(false)
+        if (!response || response.errorMessage) {
+            alert.show(response.errorMessage || 'Error')
+            return 
+        }
         if (!response.errorMessage) {
             history.goBack()
         }

@@ -10,8 +10,8 @@ export const UnitEdit = (props) => {
         {label:'Unit Name', props:{type:'text', required:true},  source:'name'},
         {label:'Address', props:{type:'text', required:true}, source:'address'},
         {label:'Phone', props:{type:'number', required:true}, source:'phone'},
-        {label:'User Name', props:{type:'number', required:true}, source:'userName'},
-        {label:'Password', props:{type:'number', required:true}, source:'password'},
+        {label:'User Name', props:{type:'text', required:true}, source:'userName'},
+        {label:'Password', props:{type:'text', required:true}, source:'password'},
         {label:'Orginazer Name', props:{type:'text', required:true}, source:'organizerName'},
     ]
     return (

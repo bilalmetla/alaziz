@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { post } from "./DataProvider";
 import { FormElements } from "./FormElements";
 import { ReportTable } from "./ReportTable";
 import styles from '../Styles/ReportInputs.module.css';
-
-
+import { useAlert } from 'react-alert'
+import { LoaderContext } from "../providers/Loader";
 
 export const ReportInputs = (props) => {
-    
-    let history = useHistory();
+    const { setLoading } = useContext(LoaderContext)
+    const alert = useAlert()
     const [editFormData, setEditFormData] = useState({});
     const [validated, setValidated] = useState(false);
     const [tableData, settableData] = useState([]);
@@ -38,10 +38,15 @@ export const ReportInputs = (props) => {
         }
         let updateData = { ...editFormData }
        
+        setLoading(true)
         let response = await post(`${props.match.url}`, updateData)
-        if (!response.errorMessage) {
-            settableData(response)    
+        setLoading(false)
+        if (!response || response.errorMessage) {
+            alert.show(response.errorMessage || 'Error')
+            return 
         }
+       
+        settableData(response)
         
         
     }

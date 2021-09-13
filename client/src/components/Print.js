@@ -1,13 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getList } from "./DataProvider";
 import styles from '../Styles/Print.module.css'; 
-
-
+import { useAlert } from 'react-alert'
+import { LoaderContext } from "../providers/Loader";
 
 export const Print = (props) => {
-      let { buyerId, invoiceId } = props.match.params
+    const { setLoading } = useContext(LoaderContext)
+    const alert = useAlert()
+    let { buyerId, invoiceId } = props.match.params
     const [buyer, setbuyer] = useState({});
     const [invoice, setinvoice] = useState({});
     const [items, setitems] = useState([]);
@@ -15,7 +17,14 @@ export const Print = (props) => {
     
     useEffect(async () => {
         
+        setLoading(true)
         const fetchedData = await getList(`${props.match.url}`)
+        setLoading(false)
+        if (!fetchedData || fetchedData.errorMessage) {
+            alert.show(fetchedData.errorMessage || 'Error')
+            return 
+        }
+
         await setbuyer(fetchedData)
         await setinvoice(fetchedData[props.innerSource])
         await setitems(fetchedData[props.innerSource]['items'])

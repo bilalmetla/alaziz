@@ -1,13 +1,15 @@
 
-import React, {useState} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-
+import { useAlert } from 'react-alert'
+import { LoaderContext } from "../providers/Loader";
 import { post } from "../components/DataProvider";
 
 
 export const Login = function (props) {
-    
+    const { setLoading } = useContext(LoaderContext)
+    const alert = useAlert()
     let history = useHistory();
     const [editFormData, setEditFormData] = useState({});
     const [validated, setValidated] = useState(false);
@@ -34,12 +36,17 @@ export const Login = function (props) {
         }
         let updateData = { ...editFormData }
         
-       
+        setLoading(true)
         let response = await post(`/login`, updateData)
+        setLoading(false)
+        if (!response || response.errorMessage) {
+            alert.show(response.errorMessage || 'Error')
+            return 
+        }
         if (response && !response.errorMessage) {
             sessionStorage.setItem('userId', response.id)
-            sessionStorage.setItem('isAdminLogin', response.isAdminLogin)
-            sessionStorage.setItem('isUnitLogin', response.isUnitLogin)
+            sessionStorage.setItem('isAdminLogin', response.isAdminLogin || false)
+            //sessionStorage.setItem('isUnitLogin', response.isUnitLogin)
 
             if (response.isUnitLogin) {
                 history.push(`/units/${response.id}/buyers`) 
@@ -50,6 +57,12 @@ export const Login = function (props) {
         }
         
     }
+    
+    useEffect(() => {
+        sessionStorage.removeItem('userId')
+        sessionStorage.removeItem('isAdminLogin')
+    })
+
     
     return (
         <>
@@ -68,6 +81,7 @@ export const Login = function (props) {
                                     name="userName"
                                     type="text"
                                     onChange={handleInputsChange}
+                                    required
                                 />
 
                             <Form.Control.Feedback type="invalid" >
@@ -81,6 +95,7 @@ export const Login = function (props) {
                                     name="password"
                                     type="password"
                                     onChange={handleInputsChange}
+                                    required
                                 />
 
                             <Form.Control.Feedback type="invalid" >

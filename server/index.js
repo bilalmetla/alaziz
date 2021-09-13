@@ -8,16 +8,19 @@ const path = require('path')
 const session       = require('express-session');
 
 
-
 const app = express()
 
 // app.use(cors({
 //     exposedHeaders: ['Content-Range'],
 //   }));
 app.use(cors())
+//if (config.isdevInstance) {
+  app.use( express.static('../client/build'))  
+//} else {
+ // app.use( express.static('public'))  
+//}
 
-//app.use( express.static('public'))
-app.use( express.static('../client/build'))
+
 
 // app.get("/", (req, res) => {
 //   res.sendFile("index.html", {root:'build'});

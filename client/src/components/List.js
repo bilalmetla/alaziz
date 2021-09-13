@@ -1,12 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import { Row, Col, Table, } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getList } from "./DataProvider";
 import styles from '../Styles/List.module.css'; 
 import { FormsHeading } from "./FormsHeading";
+import { useAlert } from 'react-alert'
+import { LoaderContext } from "../providers/Loader";
 
 export const List = (props) => {
-
+    const { setLoading } = useContext(LoaderContext)
+    
+    const alert = useAlert()
     const [tableData, settableData] = useState([]);
 
     useEffect(async () => {
@@ -17,8 +21,13 @@ export const List = (props) => {
         } else {
             resource = props.resource
         }
+        setLoading(true)
         const fetchedData = await getList(resource)
-        //setbuyersList(fetchedData)
+        setLoading(false)
+        if (!fetchedData || fetchedData.errorMessage) {
+            alert.show(fetchedData.errorMessage || 'Error')
+            return 
+        }
         settableData(mapTableData(fetchedData))
 
 
@@ -29,9 +38,10 @@ export const List = (props) => {
     }, []);
 
     const mapTableData = (list) => {
-        if (!list || list.length === 0 || typeof list === 'string') {
+        if (!list || list.errorMessage) {
             return
         }
+       
         return list.map((item, index) => {
             return <tr key={`row-${index}`}>{
                  props.keys.map((key, keyIndex) => {

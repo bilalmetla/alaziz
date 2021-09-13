@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { deleteRecord, getOne, update } from "./DataProvider";
@@ -6,12 +6,12 @@ import { FormElements } from "./FormElements";
 import { FormTable } from "./FormTable";
 import { FormsHeading } from "./FormsHeading";
 import styles from '../Styles/Edit.module.css';
-
-
+import { useAlert } from 'react-alert'
+import { LoaderContext } from "../providers/Loader";
 
 export const Edit = (props) => {
-    
-    let { id } = props.match.params
+    const { setLoading } = useContext(LoaderContext)
+    const alert = useAlert()
     let history = useHistory();
     const [editFormData, setEditFormData] = useState({});
     const [formDataItems, setformDataItems] = useState([]);
@@ -61,7 +61,13 @@ export const Edit = (props) => {
             updateData[props.newListResource] = [...formDataItems]
         }
         
+        setLoading(true)
         const response = await update(`${props.match.url}`, updateData)
+        setLoading(false)
+        if (!response || response.errorMessage) {
+            alert.show(response.errorMessage || 'Error')
+            return 
+        }
         if (!response.errorMessage) {
             history.goBack()
         }
@@ -71,7 +77,13 @@ export const Edit = (props) => {
    
     const deleteItem = async (event) => {
         event.preventDefault()
+        setLoading(true)
         const response = await deleteRecord(`${props.match.url}`)
+        setLoading(false)
+        if (!response || response.errorMessage) {
+            alert.show(response.errorMessage || 'Error')
+            return 
+        }
         if (!response.errorMessage) {
             history.goBack()
         }
@@ -79,7 +91,14 @@ export const Edit = (props) => {
     
     useEffect(async () => {
         //`${props.resource}/${id}`
+        setLoading(true)
         const fetchedData = await getOne(`${props.match.url}`)
+        setLoading(false)
+        if (!fetchedData || fetchedData.errorMessage) {
+            alert.show(fetchedData.errorMessage || 'Error')
+            return 
+        }
+
         await setEditFormData(fetchedData)
         if (fetchedData[props.newListResource]) {
             await setformDataItems(fetchedData[props.newListResource])
