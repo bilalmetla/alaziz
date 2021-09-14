@@ -9,4 +9,6 @@ module.exports = joi.object().keys({
     ntnName: joi.string().min(3).required(),
     email: joi.string().min(3).allow('', null).optional(),
     unitId: joi.string().allow('', null).optional(),
+    createdDate: joi.string().allow('', null).optional(),
+    updatedDate: joi.string().allow('', null).optional(),
   })

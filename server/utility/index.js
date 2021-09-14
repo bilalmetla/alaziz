@@ -73,9 +73,9 @@ const receivedSaleTax = function (businessType, grandTotalSTPayable) {
 
 
 
-exports.calculateValuesAndTaxes = function (items) {
-    
-    return items.map(item => {
+exports.calculateValuesAndTaxes = function (invoices) {
+    let items = invoices.items
+    invoices.items = items.map(item => {
         let valueExcelST = parseInt(item.quantity) * parseInt(item.price)
         let totalSTPayable = (valueExcelST * parseInt(item.rateOfST)) / 100
         let valueOfIncludingST = valueExcelST + totalSTPayable
@@ -119,28 +119,28 @@ exports.validateNTN = function (value) {
     return value.indexOf("-") < 1?'':value
 };
 
-exports.formatDateDisplay = function (date) {
+exports.formatDateDisplay = function (record, property) {
     
-    date = new Date(date)
+    let date = new Date(record[property])
     let month = date.getMonth() + 1
     month = month < 10 ? "0" + month : month
 
     let day = date.getDate()
     day = day < 10 ? "0" + day : day
 
-    return `${date.getFullYear()}-${month}-${day}`
+    record[property] =  `${date.getFullYear()}-${month}-${day}`
 }
 
-exports.formatDatePrint = function (date) {
+exports.formatDatePrint = function (record, property) {
     
-    date = new Date(date)
+    date = new Date(record[property])
     let month = date.getMonth() + 1
     month = month < 10 ? "0" + month : month
 
     let day = date.getDate()
     day = day < 10 ? "0" + day : day
 
-    return `${day}-${month}-${date.getFullYear()}`
+    record[property] = `${day}-${month}-${date.getFullYear()}`
 }
 
 exports.logMessage = function (message) {

@@ -33,9 +33,7 @@ exports.create = async function (req, res, next) {
    try {
       let data = req.body;
       let id = data.id;
-      delete data.id;
       await Unit.update(id, data, db);
-
       response.send({id, ...data}, res)
 
    } catch (e) {

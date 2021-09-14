@@ -21,7 +21,6 @@ exports.getBuyerById = async function (req, res, next) {
 
       let { buyerId } = req.params
       let records = await Buyer.getBuyerById(buyerId, db);
-      //records = { _id: records._id, ...records.buyer }
       utility.mapToClientResponse(records)
       response.send(records, res)
       
@@ -37,7 +36,6 @@ exports.getBuyerById = async function (req, res, next) {
       let { unitId } = req.params;
       data.unitId = unitId
       let createdBuyer = await Buyer.create(data, db);
-      
       utility.mapToClientResponse(createdBuyer)
       response.send(createdBuyer, res)
 
@@ -51,10 +49,7 @@ exports.updateBuyer = async function (req, res, next) {
    try {
       let data = req.body;
       let { buyerId } = req.params;
-      let id = data.id;
-      delete data.id;
       await Buyer.update(buyerId, data, db);
-
       response.send({buyerId, ...data}, res)
 
    } catch (e) {
@@ -68,7 +63,6 @@ exports.deleteBuyer = async function (req, res, next) {
    try {
       let { id } = req.params;
       await Buyer.deleteRecord(id, db);
-
       response.send({ id }, res)
 
    } catch (e) {

@@ -3,51 +3,18 @@ global.__basedir = __dirname;
 const express = require('express')
 const config = require('./conf')
 const utility = require('./utility')
-const cors = require('cors')
-const path = require('path')
-const session       = require('express-session');
 
 
 const app = express()
-
-// app.use(cors({
-//     exposedHeaders: ['Content-Range'],
-//   }));
-app.use(cors())
-//if (config.isdevInstance) {
-  app.use( express.static('../client/build'))  
-//} else {
- // app.use( express.static('public'))  
-//}
-
-
-
-// app.get("/", (req, res) => {
-//   res.sendFile("index.html", {root:'build'});
-// })
-
-app.use(express.json());       // to support JSON-encoded bodies
-app.use(express.urlencoded()); // to support URL-encoded bodies
-const port = process.env.PORT || config.port
-
-app.use(session({
-    secret: 'lifeless-secret-01890',
-  saveUninitialized: true,
-  resave:true,
-  cookie: {
-    httpOnly: true,
-    maxAge:3600000,
-      
-    }
-}));
-  
-
+app.use( express.static('../client/build'))  
+//app.use( express.static('public'))  
+const appuse = require('./app')
+appuse.map(lib=> require(`./app/${lib}`)(app) )
 
 const routes = require('./routes');
 app.use('/api', routes)
 
-
-
+const port = process.env.PORT || config.port
 app.listen(port, () => {
     utility.logMessage(`Example app listening at port :${port}`)
 })

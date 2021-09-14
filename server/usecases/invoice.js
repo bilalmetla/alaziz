@@ -4,33 +4,35 @@ const utility = require('../utility')
 
 
 exports.create = async function (newInvoice, db) {
-    //validate it
+
     validations.invoice(newInvoice)
+
     await serialNumbers.getSerialNumber(db)
-    newInvoice.serialNumber = process.serialNumber;
-    newInvoice.bookNumber = process.bookNumber;
+
+    attachInvoiceSerials(newInvoice)
     newInvoice.createdDate = new Date()
     newInvoice.date = new Date(newInvoice.date)
    
-    //save it
     return new Promise((resolve, reject) => {
        return db.invoices.insert(newInvoice, (err, docs) => err ? reject(err): resolve(docs))    
     })
     
 };
 
+const attachInvoiceSerials = (invoice) => {
+    invoice.serialNumber = process.serialNumber;
+    invoice.bookNumber = process.bookNumber;
+}
+
 exports.update = async function (id, invoice, db) {
-    //validate it
-    //let invoice = JSON.parse(JSON.stringify(data))
-    delete invoice.serialNumber
-    delete invoice.bookNumber
-    delete invoice.createdDate
-    delete invoice.updatedDate
+
+    delete invoice.id
     
     validations.invoice(invoice)
+   
     invoice.updatedDate = new Date()
     invoice.date = new Date(invoice.date)
-    //save it
+
     return new Promise((resolve, reject) => {
         return db.invoices.update({ _id: id }, { $set: invoice }, {}, (err, docs) => err ? reject(err): resolve(docs))
     })
@@ -108,23 +110,32 @@ exports.findByDates = async function ({ startDate, endDate, businessType, isGST 
     if (!isGST) {
         gstCondition = '0'
     }
-    return new Promise((resolve, reject) => {
-        return db.invoices.find({
-            $and: [
-                {
-                    "date": {
-                        $gte: new Date(startDate),
-                        $lte: new Date(endDate)
-                    }
-                },
-                {
-                    businessType: businessType
-                },
-                {
-                    "items.rateOfST": gstCondition
+    let where = {
+        $and: [
+            {
+                "date": {
+                    $gte: new Date(startDate),
+                    $lte: new Date(endDate)
                 }
-        ]
-        },
+            },
+            {
+                businessType: businessType
+            },
+            {
+                "items.rateOfST": gstCondition
+            }
+    ]
+    }
+    let invoices = await getInvoicesByDates(where, db)
+    let mergedInvoiceAndBuyer = await combineBuyerInvoices(invoices, db)
+    
+    return mergedInvoiceAndBuyer
+    
+};
+
+const getInvoicesByDates = async function (where, db) {
+    return new Promise((resolve, reject) => {
+        return db.invoices.find(where,
             (err, invoices) => {
                 if (err) {
                     return reject(err);
@@ -132,25 +143,30 @@ exports.findByDates = async function ({ startDate, endDate, businessType, isGST 
                 if (!invoices || invoices.length === 0) {
                    return reject(new Error('No Invoice Found'))
                 }
-                const mergedInvoiceAndBuyer = []
-                invoices.forEach(function (inv, index) {
-                    
-                   return db.buyers.findOne({ _id: inv.buyerId }, function (err, buyer) {
-                        if (err) {
-                            return reject(err);
-                       }
-                       inv.items = utility.calculateValuesAndTaxes(inv.items)
-                        mergedInvoiceAndBuyer[index] = {...buyer, invoice: inv}
-                        if (index === invoices.length-1) {
-                            return resolve(mergedInvoiceAndBuyer);    
-                        }
-                        
-
-                    });
-                });
-
-                
+                return resolve(invoices)                
             })
     })
+}
+
+
+const combineBuyerInvoices = async function (invoices, db) {
+    return new Promise((resolve, reject) => {
+        const mergedInvoiceAndBuyer = []
+        invoices.forEach(function (inv, index) {
+            
+           return db.buyers.findOne({ _id: inv.buyerId }, function (err, buyer) {
+                if (err) {
+                    return reject(err);
+               }
+                utility.calculateValuesAndTaxes(inv)
+                mergedInvoiceAndBuyer[index] = {...buyer, invoice: inv}
+                if (index === invoices.length-1) {
+                    return resolve(mergedInvoiceAndBuyer);    
+                }
+                
+    
+            });
+        });
+     })
     
 }

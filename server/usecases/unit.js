@@ -1,10 +1,11 @@
 const validations = require('../validations')
 
 exports.create = async function (record, db) {
-    //validate it
+
     validations.unit(record)
+
     record.createdDate = new Date()
-    //save it
+
     return new Promise((resolve, reject) => {
        return db.units.insert(record, (err, docs) => err ? reject(err): resolve(docs))    
     })
@@ -19,12 +20,13 @@ exports.getAll = async function (db) {
 };
 
 exports.update = async function (id, record, db) {
-    //validate it
-    delete record.createdDate
-    delete record.updatedDate
+
+    delete record.id
+
     validations.unit(record)
+    
     record.updatedDate = new Date()
-    //save it
+
     return new Promise((resolve, reject) => {
         return db.units.update({ _id: id }, {$set: record }, {}, (err, docs) => err ? reject(err): resolve(docs))
     })

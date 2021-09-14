@@ -24,7 +24,6 @@ exports.updateInvoice = async function (req, res, next) {
     try {
        let data = req.body
        let id = data.id;
-      delete data.id;
        await Invoice.update(id, data, db)
        response.send({id, ...data}, res)
  
@@ -67,7 +66,7 @@ exports.getInvoiceById = async function (req, res, next) {
        let {invoiceId, buyerId} = req.params
        let record = await Invoice.getInvoiceById({invoiceId, buyerId}, db)
        utility.mapToClientResponse(record)
-       record.date = utility.formatDateDisplay(record.date)
+       utility.formatDateDisplay(record, 'date')
        response.send(record, res)
  
     } catch (e) {
@@ -79,18 +78,10 @@ exports.getInvoiceById = async function (req, res, next) {
 exports.printInvoice = async function (req, res, next) {
     try {
        let {invoiceId, buyerId} = req.params
-       let invoiceData = await Invoice.getInvoiceById({invoiceId, buyerId}, db)
-       utility.mapToClientResponse(invoiceData)
-       let buyerInfo = await Buyer.getBuyerById(buyerId, db)
+       let invoices = await invoicesForPrint({invoiceId, buyerId})
+       let buyerInfo = await buyerForPrint(buyerId)
        utility.mapToClientResponse(buyerInfo)
-       buyerInfo['companyNTNNumber'] = constants.companyDetails.NTNNumber
-       buyerInfo['companySTRNNumber'] = constants.companyDetails.SRNNumber
-       let updatedItems = utility.calculateValuesAndTaxes(invoiceData.items)
-       invoiceData.items = updatedItems
-       invoiceData.date = utility.formatDatePrint(invoiceData.date)
-      
-       utility.calculateGrandTotals(invoiceData)
-       response.send({...buyerInfo, invoice:invoiceData}, res)
+       response.send({...buyerInfo, invoice: invoices}, res)
  
     } catch (e) {
        response.exception(e, res)
@@ -98,6 +89,26 @@ exports.printInvoice = async function (req, res, next) {
      
 }
   
+const invoicesForPrint = async function ({ invoiceId, buyerId }) {
+
+   let invoiceData = await Invoice.getInvoiceById({invoiceId, buyerId}, db)
+   utility.calculateValuesAndTaxes(invoiceData)
+   utility.calculateGrandTotals(invoiceData)
+   utility.formatDatePrint(invoiceData, 'date')
+
+}
+
+const buyerForPrint = async function (buyerId) {
+   let buyerInfo = await Buyer.getBuyerById(buyerId, db)
+   getCompanyDetails(buyerInfo)
+ }
+
+const getCompanyDetails = function (buyerInfo) {
+   buyerInfo['companyNTNNumber'] = constants.companyDetails.NTNNumber
+   buyerInfo['companySTRNNumber'] = constants.companyDetails.SRNNumber
+  
+}
+ 
 
 exports.deleteInvoice = async function (req, res, next) {
    try {
