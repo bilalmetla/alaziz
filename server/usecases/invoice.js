@@ -110,8 +110,7 @@ exports.findByDates = async function ({ startDate, endDate, businessType, isGST 
     if (!isGST) {
         gstCondition = '0'
     }
-    let where = {
-        $and: [
+    let where = { $and: [
             {
                 "date": {
                     $gte: new Date(startDate),
@@ -124,8 +123,7 @@ exports.findByDates = async function ({ startDate, endDate, businessType, isGST 
             {
                 "items.rateOfST": gstCondition
             }
-    ]
-    }
+    ]}
     let invoices = await getInvoicesByDates(where, db)
     let mergedInvoiceAndBuyer = await combineBuyerInvoices(invoices, db)
     
