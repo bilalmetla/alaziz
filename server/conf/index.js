@@ -3,5 +3,5 @@ module.exports = {
     isNedb: true,
     isMongodb: false,
 
-    isdevInstance: false,
+    isdevInstance: true,
 }

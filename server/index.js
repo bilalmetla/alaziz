@@ -33,7 +33,7 @@ const port = process.env.PORT || config.port
 app.use(session({
     secret: 'lifeless-secret-01890',
   saveUninitialized: true,
-  resave:false,
+  resave:true,
   cookie: {
     httpOnly: true,
     maxAge:3600000,

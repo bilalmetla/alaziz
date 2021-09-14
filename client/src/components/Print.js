@@ -64,8 +64,10 @@ export const Print = (props) => {
                 })
             }
             {
-                !props.isTitleATTop && props.InvoiceTitle && <div className={styles.invoice_title}><h2>{ props.InvoiceTitle}</h2></div>
-            }
+                    !props.isTitleATTop && props.InvoiceTitle &&
+                    <div className={styles.invoice_title}><h2>{props.InvoiceTitle}</h2></div>
+                }
+               
             <table responsive className={styles.table_wrapper}>
                     <thead>
                     {
@@ -103,6 +105,7 @@ export const Print = (props) => {
                     </tr>
                 </tbody>
                 </table>
+                
             
             </div>
            

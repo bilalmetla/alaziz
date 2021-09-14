@@ -23,7 +23,7 @@ Router.use((req, res, next) => {
     if (!req.session || !req.session.user) {
         res.send({errorMessage:"Login Required!"})
     }
-    next()
+    return next()
   })
 
 
