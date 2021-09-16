@@ -1,6 +1,7 @@
 const validations = require('../validations')
 const serialNumbers = require('./serialNumbers')
 const utility = require('../utility')
+var ObjectId = require('mongodb').ObjectID;
 
 
 exports.create = async function (newInvoice, db) {
@@ -14,7 +15,7 @@ exports.create = async function (newInvoice, db) {
     newInvoice.date = new Date(newInvoice.date)
    
     return new Promise((resolve, reject) => {
-       return db.invoices.insert(newInvoice, (err, docs) => err ? reject(err): resolve(docs))    
+       return db.collection('invoices').insert(newInvoice, (err, docs) => err ? reject(err): resolve(docs))    
     })
     
 };
@@ -34,62 +35,38 @@ exports.update = async function (id, invoice, db) {
     invoice.date = new Date(invoice.date)
 
     return new Promise((resolve, reject) => {
-        return db.invoices.update({ _id: id }, { $set: invoice }, {}, (err, docs) => err ? reject(err): resolve(docs))
+        return db.collection('invoices').update({ _id: ObjectId(id) }, { $set: invoice }, {}, (err, docs) => err ? reject(err): resolve(docs))
     })
     
 };
 
-exports.findBySerialNumber = async function (serialNumber, db) {
-    return new Promise((resolve, reject) => {
-        return db.invoices.find({ "serialNumber": parseInt(serialNumber) }, (err, invoice) => {
-            if (err)
-                return reject(err);
-            
-            if (!invoice || invoice.length === 0) {
-               return reject( new Error(`Invoice is not find by serialNumber: ${serialNumber}`))
-            }
-           
-            return db.buyers.find({ _id: invoice[0].buyerId }, (err, buyer) => {
-                    if (err)
-                    return reject(err);
-                
-                    if (!buyer || buyer.length === 0) {
-                        return reject( new Error(`buyer is not find`))
-                     }
-                    buyer[0].invoices = invoice
-                    return resolve(buyer[0])
-            })
-            
-            
-       }) 
-    })
-    
-};
 
 exports.getBuyerInvoicesById = async function (buyerId, db) {
     return new Promise((resolve, reject) => {
-        return db.invoices.find({ "buyerId": buyerId }).sort({ serialNumber: -1 }).exec((err, docs) => err ? reject(err): resolve(docs)) 
+        return db.collection('invoices').find({ "buyerId": buyerId }).sort({ serialNumber: -1 })
+        .toArray((err, docs) => err ? reject(err): resolve(docs))
     })
     
 };
 
 exports.getInvoiceAll = async function ( db) {
     return new Promise((resolve, reject) => {
-        return db.invoices.find({},(err, docs) => err ? reject(err): resolve(docs)) 
+        return db.collection('invoices').find({})
+                            .toArray((err, docs) => err ? reject(err): resolve(docs))
     })
     
 };
 
 exports.getInvoiceById = async function ({invoiceId, buyerId}, db) {
     return new Promise((resolve, reject) => {
-        return db.invoices.findOne({ $and:[{ _id: invoiceId }, {buyerId: buyerId} ] },(err, docs) => err ? reject(err): resolve(docs))
+        return db.collection('invoices').findOne({ $and:[{ _id: ObjectId(invoiceId) }, {buyerId: buyerId } ] },(err, docs) => err ? reject(err): resolve(docs))
     })
     
 };
 
 exports.findInvoiceByNumber = async function ({serialNumber, buyerId}, db) {
     return new Promise((resolve, reject) => {
-        return db.invoices.findOne({ $and: [{ serialNumber: parseInt(serialNumber) }, { buyerId }] }, (err, docs) => err ? reject(err): resolve(docs))
+        return db.collection('invoices').findOne({ $and: [{ serialNumber: parseInt(serialNumber) }, { buyerId }] }, (err, docs) => err ? reject(err): resolve(docs))
     })
     
 };
@@ -97,7 +74,7 @@ exports.findInvoiceByNumber = async function ({serialNumber, buyerId}, db) {
 exports.deleteRecord = async function ({ buyerId, invoiceId }, db) {
    
     return new Promise((resolve, reject) => {
-        return db.invoices.remove({ $and: [{ _id: invoiceId }, {buyerId: buyerId}] }, (err, docs) => err ? reject(err): resolve(docs))
+        return db.collection('invoices').remove({ $and: [{ _id: ObjectId(invoiceId) }, {buyerId: buyerId}] }, (err, docs) => err ? reject(err): resolve(docs))
     })
     
 };
@@ -133,8 +110,8 @@ exports.findByDates = async function ({ startDate, endDate, businessType, isGST 
 
 const getInvoicesByDates = async function (where, db) {
     return new Promise((resolve, reject) => {
-        return db.invoices.find(where,
-            (err, invoices) => {
+        return db.collection('invoices').find(where)
+            .toArray((err, invoices) => {
                 if (err) {
                     return reject(err);
                 }
@@ -152,7 +129,7 @@ const combineBuyerInvoices = async function (invoices, db) {
         const mergedInvoiceAndBuyer = []
         invoices.forEach(function (inv, index) {
             
-           return db.buyers.findOne({ _id: inv.buyerId }, function (err, buyer) {
+           return db.collection('buyers').findOne({ _id: ObjectId(inv.buyerId) }, function (err, buyer) {
                 if (err) {
                     return reject(err);
                }

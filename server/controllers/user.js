@@ -18,7 +18,7 @@ exports.login = async function (req, res, next) {
 
        let user = await userLogin({ userName, password })
        if (user) {
-            req.session.user = user;
+           req.session.user = user;
             return response.send(user, res)
         }
 

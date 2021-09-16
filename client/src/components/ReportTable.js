@@ -96,9 +96,7 @@ export const ReportTable = (props) => {
                     <tr>
                                     {
                                         props.keys.map((key, index) => {
-                                            return <th>
-                                                <td key={`heading-${index}`}>{ key.label }</td>
-                                            </th>
+                                            return <th  key={`heading-${index}`}>{ key.label }</th>
                                         })
                         }
                     </tr>

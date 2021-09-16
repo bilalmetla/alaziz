@@ -160,9 +160,9 @@ exports.logException = function (exception) {
 };
 
 exports.mapToClientResponse = function (result) {
-    // if (!result) {
-    //     return  
-    // }  
+    if (!result) {
+        return  
+    }  
      if (result && result[0]) {
         result.map(item => {
             item.id = item._id;

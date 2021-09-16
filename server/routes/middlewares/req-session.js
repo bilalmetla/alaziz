@@ -7,7 +7,7 @@ module.exports = (Router) => {
     Router.use((req, res, next) => {
         utility.logMessage(req.session)
         if (!req.session || !req.session.user) {
-            res.send({errorMessage:"Login Required!"})
+          return  res.send({errorMessage:"Login Required!"})
         }
         return next()
     })

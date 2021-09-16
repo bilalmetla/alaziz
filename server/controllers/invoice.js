@@ -95,12 +95,14 @@ const invoicesForPrint = async function ({ invoiceId, buyerId }) {
    utility.calculateValuesAndTaxes(invoiceData)
    utility.calculateGrandTotals(invoiceData)
    utility.formatDatePrint(invoiceData, 'date')
-
+   return invoiceData
 }
 
 const buyerForPrint = async function (buyerId) {
    let buyerInfo = await Buyer.getBuyerById(buyerId, db)
    getCompanyDetails(buyerInfo)
+
+   return buyerInfo
  }
 
 const getCompanyDetails = function (buyerInfo) {

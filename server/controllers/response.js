@@ -5,7 +5,7 @@ exports.send = async function (responseData, res) {
     utility.logMessage(responseData)
     //res.header.add('Content-Range','bytes : 0-9/*')
     //res.set('Access-Control-Expose-Headers', 'Content-Range')
-    res.setHeader('Content-Range', `bytes ${0}-${9}/${responseData.length}`);
+   // res.setHeader('Content-Range', `bytes ${0}-${9}/${responseData.length}`);
 
     res.send(responseData )
 }
