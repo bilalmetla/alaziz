@@ -1,8 +1,6 @@
+const USERS = 'users'
 
-
-exports.getForLogin = function ({ userName, password }, db) {
-    return new Promise((resolve, reject) => {
-        return db.collection('users').find({ $and: [{ "userName": userName }, { "password": password }] })
-        .toArray((err, docs) => err ? reject(err): resolve(docs))
-     })
+exports.getForLogin = async function ({ userName, password }, db) {
+    let where = { $and: [{ "userName": userName }, { "password": password }] }
+    return await db.find(USERS, where)
 }

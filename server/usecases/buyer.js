@@ -1,30 +1,25 @@
 const validations = require('../validations')
-var ObjectId = require('mongodb').ObjectID;
 
+const BUYERS = 'buyers'
 
 exports.create = async function (buyer, db) {
 
     validations.buyer(buyer)
     buyer.createdDate = new Date()
-    return new Promise((resolve, reject) => {
-       return db.collection('buyers').insert(buyer, (err, docs) => err ? reject(err): resolve(docs))    
-    })
+
+    return await db.insert(BUYERS, buyer)
     
 };
 
 exports.getAll = async function (db) {
-    return new Promise((resolve, reject) => {
-        return db.collection('buyers').find({}).sort({ createdDate: -1 })
-        .toArray((err, docs) => err ? reject(err): resolve(docs))
-    })
-    
+    let where = {}
+    let sort = { createdDate: -1 }
+    return await db.findAndSort(BUYERS, where, sort)
 };
 
 exports.getBuyerById = async function (id, db) {
-    return new Promise((resolve, reject) => {
-       return db.collection('buyers').findOne({_id: ObjectId(id)}, (err, docs) => err ? reject(err): resolve(docs))    
-    })
-    
+    let where = {_id: id}
+    return db.findOne(BUYERS, where)    
 };
 
 
@@ -34,18 +29,11 @@ exports.update = async function (id, buyer, db) {
     validations.buyer(buyer)
     
     buyer.updatedDate = new Date()
-    
-
-    return new Promise((resolve, reject) => {
-        return db.collection('buyers').update({ _id: ObjectId(id) }, {$set: buyer }, {}, (err, docs) => err ? reject(err): resolve(docs))
-    })
-    
+    let where = { _id: id }
+    return await db.update(BUYERS, where, buyer)  
 };
 
 exports.deleteRecord = async function (id, db) {
-   
-    return new Promise((resolve, reject) => {
-        return db.collection('buyers').remove({ _id: ObjectId(id) }, (err, docs) => err ? reject(err): resolve(docs))
-    })
-    
+    let where = { _id: id }
+    return await db.remove(BUYERS, where)    
 };

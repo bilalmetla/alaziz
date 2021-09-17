@@ -1,7 +1,9 @@
 const validations = require('../validations')
 const serialNumbers = require('./serialNumbers')
+const Buyer = require('./buyer')
 const utility = require('../utility')
-var ObjectId = require('mongodb').ObjectID;
+
+const INVOICES = 'invoices'
 
 
 exports.create = async function (newInvoice, db) {
@@ -13,10 +15,8 @@ exports.create = async function (newInvoice, db) {
     attachInvoiceSerials(newInvoice)
     newInvoice.createdDate = new Date()
     newInvoice.date = new Date(newInvoice.date)
-   
-    return new Promise((resolve, reject) => {
-       return db.collection('invoices').insert(newInvoice, (err, docs) => err ? reject(err): resolve(docs))    
-    })
+
+    return await db.insert(INVOICES, newInvoice)
     
 };
 
@@ -34,49 +34,34 @@ exports.update = async function (id, invoice, db) {
     invoice.updatedDate = new Date()
     invoice.date = new Date(invoice.date)
 
-    return new Promise((resolve, reject) => {
-        return db.collection('invoices').update({ _id: ObjectId(id) }, { $set: invoice }, {}, (err, docs) => err ? reject(err): resolve(docs))
-    })
-    
+    let where = { _id: id }
+    return await db.update(INVOICES, where, invoice)    
 };
 
 
 exports.getBuyerInvoicesById = async function (buyerId, db) {
-    return new Promise((resolve, reject) => {
-        return db.collection('invoices').find({ "buyerId": buyerId }).sort({ serialNumber: -1 })
-        .toArray((err, docs) => err ? reject(err): resolve(docs))
-    })
-    
+    let where = { "buyerId": buyerId }
+    return await db.find(INVOICES, where)    
 };
 
-exports.getInvoiceAll = async function ( db) {
-    return new Promise((resolve, reject) => {
-        return db.collection('invoices').find({})
-                            .toArray((err, docs) => err ? reject(err): resolve(docs))
-    })
-    
+exports.getInvoiceAll = async function (db) {
+    let where = { }
+    return await db.find(INVOICES, where)       
 };
 
-exports.getInvoiceById = async function ({invoiceId, buyerId}, db) {
-    return new Promise((resolve, reject) => {
-        return db.collection('invoices').findOne({ $and:[{ _id: ObjectId(invoiceId) }, {buyerId: buyerId } ] },(err, docs) => err ? reject(err): resolve(docs))
-    })
-    
+exports.getInvoiceById = async function ({ invoiceId, buyerId }, db) {
+    let where = { $and:[{ _id: invoiceId }, {buyerId: buyerId } ] }
+    return db.findOne(INVOICES, where)     
 };
 
-exports.findInvoiceByNumber = async function ({serialNumber, buyerId}, db) {
-    return new Promise((resolve, reject) => {
-        return db.collection('invoices').findOne({ $and: [{ serialNumber: parseInt(serialNumber) }, { buyerId }] }, (err, docs) => err ? reject(err): resolve(docs))
-    })
-    
+exports.findInvoiceByNumber = async function ({ serialNumber, buyerId }, db) {
+    let where = { $and: [{ serialNumber: parseInt(serialNumber) }, { buyerId }] }
+    return db.findOne(INVOICES, where)    
 };
 
 exports.deleteRecord = async function ({ buyerId, invoiceId }, db) {
-   
-    return new Promise((resolve, reject) => {
-        return db.collection('invoices').remove({ $and: [{ _id: ObjectId(invoiceId) }, {buyerId: buyerId}] }, (err, docs) => err ? reject(err): resolve(docs))
-    })
-    
+   let where = { $and: [{ _id: invoiceId }, {buyerId: buyerId}] }
+    return await db.remove(INVOICES, where)    
 };
 
 exports.findByDates = async function ({ startDate, endDate, businessType, isGST }, db) {
@@ -109,39 +94,22 @@ exports.findByDates = async function ({ startDate, endDate, businessType, isGST 
 };
 
 const getInvoicesByDates = async function (where, db) {
-    return new Promise((resolve, reject) => {
-        return db.collection('invoices').find(where)
-            .toArray((err, invoices) => {
-                if (err) {
-                    return reject(err);
-                }
-                if (!invoices || invoices.length === 0) {
-                   return reject(new Error('No Invoice Found'))
-                }
-                return resolve(invoices)                
-            })
-    })
+    let invoices = await db.find(INVOICES, where)
+    if (!invoices || invoices.length === 0) {
+        throw new Error('No Invoice Found')
+    }
+    
+    return invoices;
 }
 
 
 const combineBuyerInvoices = async function (invoices, db) {
-    return new Promise((resolve, reject) => {
-        const mergedInvoiceAndBuyer = []
-        invoices.forEach(function (inv, index) {
-            
-           return db.collection('buyers').findOne({ _id: ObjectId(inv.buyerId) }, function (err, buyer) {
-                if (err) {
-                    return reject(err);
-               }
-                utility.calculateValuesAndTaxes(inv)
-                mergedInvoiceAndBuyer[index] = {...buyer, invoice: inv}
-                if (index === invoices.length-1) {
-                    return resolve(mergedInvoiceAndBuyer);    
-                }
-                
-    
-            });
-        });
-     })
+    const mergedInvoiceAndBuyer = []
+    for (let inv of invoices) {
+        let buyer = await Buyer.getBuyerById(inv.buyerId)
+        utility.calculateValuesAndTaxes(inv)
+        mergedInvoiceAndBuyer.push({...buyer, invoice: inv})
+    }
+    return mergedInvoiceAndBuyer;
     
 }

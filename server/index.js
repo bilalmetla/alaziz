@@ -9,7 +9,10 @@ const utility = require('./utility')
 const cookieParser = require('cookie-parser')
 if (!config.isNedb) {
     const mng = require('./db/mongodb')
-    await mng.connect().catch(console.error)    
+    await mng.connect().catch(ex => {
+        console.error(ex)
+        process.exit(1)
+    })    
 }
 
 

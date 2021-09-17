@@ -1,26 +1,21 @@
 const validations = require('../validations')
-var ObjectId = require('mongodb').ObjectID;
 
-
+const UNITS = 'units'
+const BUYERS = 'buyers'
 
 exports.create = async function (record, db) {
 
     validations.unit(record)
-
     record.createdDate = new Date()
 
-    return new Promise((resolve, reject) => {
-       return db.collection('units').insert(record, (err, docs) => err ? reject(err): resolve(docs))    
-    })
+    return await db.insert(UNITS, record)
     
 };
 
 exports.getAll = async function (db) {
-    return new Promise((resolve, reject) => {
-        return db.collection('units').find({}).sort({ createdDate: -1 })
-        .toArray((err, docs) => err ? reject(err): resolve(docs))
-    })
-    
+    let where = {}
+    let sort = { createdDate: -1 }
+    return await db.findAndSort(UNITS, where, sort)
 };
 
 exports.update = async function (id, record, db) {
@@ -30,43 +25,30 @@ exports.update = async function (id, record, db) {
     validations.unit(record)
     
     record.updatedDate = new Date()
-
-    return new Promise((resolve, reject) => {
-        return db.collection('units').update({ _id: ObjectId(id) }, {$set: record }, {}, (err, docs) => err ? reject(err): resolve(docs))
-    })
-    
+    let where = { _id: id }
+    return await db.update(UNITS, where, record)    
 };
 
 exports.getById = async function (id, db) {
-    return new Promise((resolve, reject) => {
-       return db.collection('units').findOne({_id: ObjectId(id)}, (err, docs) => err ? reject(err): resolve(docs))    
-    })
-    
+    let where = {_id: id}
+    return db.findOne(UNITS, where)      
 };
 
 
 
 exports.deleteRecord = async function (id, db) {
-   
-    return new Promise((resolve, reject) => {
-        return db.collection('units').remove({ _id: ObjectId(id) }, (err, docs) => err ? reject(err): resolve(docs))
-    })
-    
+    let where = { _id: id }
+    return await db.remove(UNITS, where)    
 };
 
-exports.getUnitBuyers = async function({ unitId }, db){
-    return new Promise((resolve, reject) => {
-        return db.collection('buyers')
-            .find({ "unitId": unitId })
-            .toArray((err, docs) => err ? reject(err): resolve(docs))
-     })
+exports.getUnitBuyers = async function ({ unitId }, db) {
+    
+    let where = { "unitId": unitId }
+    return await db.find(BUYERS, where)
 }
 
-exports.getForLogin = function ({userName, password}, db) {
-    return new Promise((resolve, reject) => {
-        return db.collection('units')
-            .find({ $and: [{ "userName": userName }, { "password": password }] })
-        .toArray((err, docs) => err ? reject(err): resolve(docs))
-        
-     })
+exports.getForLogin = async function ({userName, password}, db) {
+ 
+    let where = { $and: [{ "userName": userName }, { "password": password }] }
+    return await db.find(UNITS, where)
 }

@@ -2,7 +2,7 @@ const session       = require('express-session');
 
 module.exports = app => {
     app.use(session({
-        secret: 'lifeless-secret-01890',
+        secret: process.env.SESSION_SECRET,
       saveUninitialized: true,
       resave:false,
       cookie: {

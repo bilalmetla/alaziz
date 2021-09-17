@@ -27,6 +27,6 @@
 }
 .table_scroll{
     display: block;
-    height: 250px;
+    max-height: 250px;
     overflow-y: auto;
 }

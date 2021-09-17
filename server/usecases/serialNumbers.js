@@ -1,35 +1,24 @@
 
-var ObjectId = require('mongodb').ObjectID;
-
+const SERIAL_NUMBERS = 'serialNumbers'
 
 exports.getSerialNumber = async function (db) {
-    return new Promise((resolve, reject)=>{
-        db.collection('serialNumbers')
-            .find({})
-        .toArray( (err, docs) => {
-                if (err) {
-                return reject(err);
-                }
-            
-                if (!docs || docs.length === 0) {
-                return insertSerial(reject, resolve, db) 
-                }
-                
-                return incrementSerialNumber(docs[0], reject, resolve, db)
-                        
-           })
-     })
+    let docs = await db.find(SERIAL_NUMBERS, {})
+    if (!docs || docs.length === 0) {
+        return await insertSerial(db) 
+    }
+        
+    return await incrementSerialNumber(docs[0], db)
 }
 
 
-function incrementSerialNumber(serials, reject, resolve, db) {
+async function incrementSerialNumber(serials, db) {
     incrementByOne(serials)
     let serialId = serials._id
     let data = {
         serialNumber: process.serialNumber,
         bookNumber: process.bookNumber
     }
-    return updateSerial(serialId, data, reject, resolve, db)
+    return await updateSerial(serialId, data, db)
 }
 
 function incrementByOne(serials) {
@@ -42,19 +31,14 @@ function incrementByOne(serials) {
     }
 }
 
-function updateSerial(id, data, reject, resolve, db) {
-    db.collection('serialNumbers').update({ _id: ObjectId(id) }, { $set: data }, {}, (err, docs) => {
-        if (err) {
-         return reject(err);
-        }
-     
-        return resolve(docs);
-       })
+async function updateSerial(id, data, db) {
+    let where = { _id: id }
+    return await db.update(SERIAL_NUMBERS, where, data)
 }
 
 
 
-function insertSerial(reject, resolve, db) {
+async function insertSerial(db) {
     process.serialNumber = 1
     process.bookNumber = 1
     let data = {
@@ -62,11 +46,5 @@ function insertSerial(reject, resolve, db) {
         bookNumber: process.bookNumber
     }
 
-    db.collection('serialNumbers').insert(data, (err, docs) => {
-        if (err) {
-            return reject(err);
-           }
-        
-           return resolve(docs);
-    })
+    await db.insert(SERIAL_NUMBERS, data)
 }

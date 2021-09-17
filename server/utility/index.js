@@ -181,3 +181,17 @@ exports.mapToClientResponse = function (result) {
     
 };
 
+
+exports.is = {
+    array: x => Object.prototype.toString.call(x) === IS_ARRAY_PROTO || Array.isArray(x),
+    object: (x) => {
+      if (Object.prototype.toString.call(x) === IS_OBJECT_PROTO) {
+        return true;
+      }
+      if (x === null || x === undefined) {
+        return false;
+      }
+      const prototype = Object.getPrototypeOf(x);
+      return prototype === null || prototype === Object.prototype;
+    },
+  };
