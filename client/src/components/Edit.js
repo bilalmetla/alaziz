@@ -21,15 +21,17 @@ export const Edit = (props) => {
        let key = event.target.name
        let value = event.target.value
        let formData = { ...editFormData }
-       formData[key] = value
+       formData[key] = captilizeEachWord(value)
         setEditFormData({...formData})
     }
+
+    const captilizeEachWord = value => value.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase())
 
     const handleInputsChangeOfItems = (event, index) =>{
         let key = event.target.name
         let value = event.target.value
         let changedData = [...formDataItems ]
-        changedData[index][key] = value
+        changedData[index][key] = captilizeEachWord(value)
         setformDataItems([...changedData])
      }
 
@@ -66,6 +68,9 @@ export const Edit = (props) => {
         setLoading(false)
         if (!response || response.errorMessage) {
             alert.show(response.errorMessage || 'Error')
+            if (response.code === 'ER0401') {
+                history.push('/login')
+            }
             return 
         }
         if (!response.errorMessage) {
@@ -82,6 +87,9 @@ export const Edit = (props) => {
         setLoading(false)
         if (!response || response.errorMessage) {
             alert.show(response.errorMessage || 'Error')
+            if (response.code === 'ER0401') {
+                history.push('/login')
+            }
             return 
         }
         if (!response.errorMessage) {
@@ -96,6 +104,9 @@ export const Edit = (props) => {
         setLoading(false)
         if (!fetchedData || fetchedData.errorMessage) {
             alert.show(fetchedData.errorMessage || 'Error')
+            if (fetchedData.code === 'ER0401') {
+                history.push('/login')
+            }
             return 
         }
 

@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react';
 import { Row, Col, Form, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { getList } from "./DataProvider";
 import styles from '../Styles/Print.module.css'; 
 import { useAlert } from 'react-alert'
@@ -8,6 +8,7 @@ import { LoaderContext } from "../providers/Loader";
 
 export const Print = (props) => {
     const { setLoading } = useContext(LoaderContext)
+    let history = useHistory();
     const alert = useAlert()
     let { buyerId, invoiceId } = props.match.params
     const [buyer, setbuyer] = useState({});
@@ -22,6 +23,9 @@ export const Print = (props) => {
         setLoading(false)
         if (!fetchedData || fetchedData.errorMessage) {
             alert.show(fetchedData.errorMessage || 'Error')
+            if (fetchedData.code === 'ER0401') {
+                history.push('/login')
+            }
             return 
         }
 
@@ -38,7 +42,7 @@ export const Print = (props) => {
         <div className={styles.invoice_wrapper}>
             <div className={styles.invoice_flex}>
             <div className={styles.image_wrapper}>
-                <img src={props.logo} style={{height: '173px'}} />
+                <img src={props.logo} />
             </div>
             {
                     props.isTitleATTop && props.InvoiceTitle &&
@@ -53,7 +57,7 @@ export const Print = (props) => {
                                
                                 return <Col className={styles.invoice_text_wrapper} style={index%2===0?{display:'flex'}:{display:'flex',justifyContent:'end'}} >
                                     <h6 >{ col.label}</h6>
-                                    <p >{ col.innerSource === undefined? buyer[col.source] : col.innerSource === 'invoice'? invoice[col.source]: grandTotals[col.source] }</p>
+                                    <p >{ col.innerSource === undefined? buyer[col.source] : col.innerSource === 'invoice'? invoice[col.source]: grandTotals[col.source]?.toLocaleString()}</p>
                                 </Col>
                             })
                         }
@@ -86,7 +90,7 @@ export const Print = (props) => {
                             return <tr>{
                                 props.invoiceItems.map(il => {
                                     return <td>
-                                        {item[il.source]}
+                                        {item[il.source]?.toLocaleString()}
                                         </td>
                                        })
                             }</tr>
@@ -98,7 +102,7 @@ export const Print = (props) => {
                         props.grandTotals.map(t => {
                             return <td>
                                 {t.value && t.value}
-                                {t.source && grandTotals[t.source]}
+                                {t.source && grandTotals[t.source]?.toLocaleString()}
                             </td>;
                         })
                     }
@@ -106,6 +110,10 @@ export const Print = (props) => {
                 </tbody>
                 </table>
                 
+                {
+                    props.signature &&
+                    <h6>Signature:</h6>
+                }
             
             </div>
            

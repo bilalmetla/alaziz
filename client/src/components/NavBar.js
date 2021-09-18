@@ -3,20 +3,24 @@ import { Link } from "react-router-dom";
 import { Accordion, Col, Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import styles from '../Styles/NavBar.module.css';   
-import { constants } from "../constants";
+
 
 const NavBar = () => {
     let history = useHistory();
     const [userId, setuserId] = useState('');
     const [isAdminLogin, setisAdminLogin] = useState('true');
+    const [user, setuser] = useState({});
     
 
     useEffect(() => {
         let isAdLogin = sessionStorage.getItem('isAdminLogin')
         let usid = sessionStorage.getItem('userId')
+        let user = sessionStorage.getItem('user')
+        if (user) {
+            user = JSON.parse(user)
+        }
+        setuser(user)
         
-      
-
         if (!usid) {
             history.push('/login')
         }  
@@ -32,10 +36,12 @@ const NavBar = () => {
 
     return (
         <div className={styles.navBar}>
-            {/* <Link to="#" className="menu-bar" >
-                Menu
-            </Link> */}
+            
             <nav className={styles.navMenu}>
+                <div className={styles.userInfo}>
+                    <h3>{ user.name }</h3>
+                    <p>{ user.address }</p>
+                </div>
                 <ul className="nav-menu-items">
                     {/* <li className="navbar-toggle">
 

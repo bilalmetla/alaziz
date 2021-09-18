@@ -19,7 +19,7 @@ export const ReportWithGST = (props) => {
         {label:'Type', source:'invoiceType' },
         {label:'Bill No.', source:'serialNumber' },
         {label:'Value Of Sale', source:'valueExcelST' },
-        {label:'WHST', source:'totalSTPayable' },
+        {label:'GST', source:'totalSTPayable' },
         {label:'20%', source:'totalSTPayable20Percent' },
         {label:'Total Value Of Sale', source:'valueOfIncludingST' },
         {label:'Buyer Name', source:'name' },

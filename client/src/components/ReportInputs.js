@@ -10,6 +10,7 @@ import { LoaderContext } from "../providers/Loader";
 
 export const ReportInputs = (props) => {
     const { setLoading } = useContext(LoaderContext)
+    let history = useHistory();
     const alert = useAlert()
     const [editFormData, setEditFormData] = useState({});
     const [validated, setValidated] = useState(false);
@@ -43,6 +44,9 @@ export const ReportInputs = (props) => {
         setLoading(false)
         if (!response || response.errorMessage) {
             alert.show(response.errorMessage || 'Error')
+            if (response.code === 'ER0401') {
+                history.push('/login')
+            }
             return 
         }
        

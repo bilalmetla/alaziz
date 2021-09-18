@@ -13,8 +13,10 @@ export const UnitCreate = (props) => {
         {label:'Address', props:{type:'text', required:true}, source:'address'},
         {label:'Phone', props:{type:'number', required:true}, source:'phone'},
         {label:'User Name', props:{type:'text', required:true}, source:'userName'},
-        {label:'Password', props:{type:'text', required:true}, source:'password'},
-        {label:'Orginazer Name', props:{type:'text', required:true}, source:'organizerName'},
+        {label:'Password', props:{type:'password', required:true}, source:'password'},
+        { label: 'Orginazer Name', props: { type: 'text', required: true }, source: 'organizerName' },
+        {label:'Email', props:{type:'email',}, source:'email'},
+        {label:'CNIC', props:{type:'cnic', required:true}, source:'cnic'},
         
     ]
     return (

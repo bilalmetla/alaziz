@@ -12,7 +12,9 @@ export const BuyerEdit = (props) => {
         {label:'Phone', props:{type:'number', required:true}, source:'phone'},
         {label:'Representitve Name', props:{type:'text', required:true}, source:'representitveName'},
         {label:'NTN Number', props:{type:'text', required:true}, source:'ntnNumber'},
-        {label:'NTN Name', props:{type:'text', required:true}, source:'ntnName'},
+        { label: 'NTN Name', props: { type: 'text', required: true }, source: 'ntnName' },
+        {label:'Email', props:{type:'email',}, source:'email'},
+        {label:'CNIC', props:{type:'cnic', required:true}, source:'cnic'},
     ]
     return (
         <>

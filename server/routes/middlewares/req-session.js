@@ -3,12 +3,16 @@ const utility = require('../../utility')
 
 
 module.exports = (Router) => {
-    if(!config.isdevInstance)
+   
     Router.use((req, res, next) => {
-        utility.logMessage(req.session)
+      utility.logMessage(req.session)
+
+      if (config.isdevInstance !== 'true') {
         if (!req.session || !req.session.user) {
-          return  res.send({errorMessage:"Login Required!"})
+          return  res.send({errorMessage:"Login Required!", code:'ER0401'})
         }
+      }
+        
         return next()
     })
 }

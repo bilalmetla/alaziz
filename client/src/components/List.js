@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react';
 import { Row, Col, Table, } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { getList } from "./DataProvider";
 import styles from '../Styles/List.module.css'; 
 import { FormsHeading } from "./FormsHeading";
@@ -9,7 +9,7 @@ import { LoaderContext } from "../providers/Loader";
 
 export const List = (props) => {
     const { setLoading } = useContext(LoaderContext)
-    
+    let history = useHistory();
     const alert = useAlert()
     const [tableData, settableData] = useState([]);
 
@@ -26,6 +26,9 @@ export const List = (props) => {
         setLoading(false)
         if (!fetchedData || fetchedData.errorMessage) {
             alert.show(fetchedData.errorMessage || 'Error')
+            if (fetchedData.code === 'ER0401') {
+                history.push('/login')
+            }
             return 
         }
         settableData(mapTableData(fetchedData))

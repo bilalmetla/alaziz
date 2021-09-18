@@ -55,6 +55,7 @@ export const InvoicePrint = (props) => {
                     invoiceItems={itemsList}
                     invoiceItemsHeader={itemsList}
                     grandTotals={grandTotals}
+                    signature={{value:'Signature'}}
                 ></Print>
             </Row>
         </>

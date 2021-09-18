@@ -4,8 +4,8 @@ dotenv.config();
 
 module.exports = {
     port: 3000,
-    isNedb: true,
-    isMongodb: false,
+    isNedb: false,
+    isMongodb: true,
     mongodbConfig: {
         "name": "ALAZIZ",
         "connector": "mongodb",

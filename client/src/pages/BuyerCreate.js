@@ -15,6 +15,8 @@ export const BuyerCreate = (props) => {
         {label:'Representitve Name', props:{type:'text', required:true}, source:'representitveName'},
         {label:'NTN Number', props:{type:'text', required:true}, source:'ntnNumber'},
         {label:'NTN Name', props:{type:'text', required:true}, source:'ntnName'},
+        {label:'Email', props:{type:'email',}, source:'email'},
+        {label:'CNIC', props:{type:'cnic', required:true}, source:'cnic'},
     ]
     return (
         <>

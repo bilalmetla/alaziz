@@ -16,7 +16,12 @@ if (!config.isNedb) {
 }
 
 
-const app = express()
+    const app = express()
+    
+    app.enable('trust proxy')
+    app.use((req, res, next) => {
+        req.secure ? next() : res.redirect('https://' + req.headers.host + req.url)
+    })
 app.use( express.static('../client/build'))  
 //app.use( express.static('public'))  
     
