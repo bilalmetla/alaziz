@@ -9,14 +9,14 @@ import { Header } from "../components/Header";
 
 export const BuyerCreate = (props) => {
     const buyerDetails = [
-        {label:'Buyer Name', props:{type:'text', required:true},  source:'name'},
-        {label:'Address', props:{type:'text', required:true}, source:'address'},
+        {label:'Buyer Name', props:{type:'text', required:true},  source:'name', isCaptalized:true},
+        {label:'Address', props:{type:'text', required:true}, source:'address', isCaptalized:true},
         {label:'Phone', props:{type:'number', required:true}, source:'phone'},
-        {label:'Representitve Name', props:{type:'text', required:true}, source:'representitveName'},
+        {label:'Representitve Name', props:{type:'text', required:true}, source:'representitveName', isCaptalized:true},
         {label:'NTN Number', props:{type:'text', required:true}, source:'ntnNumber'},
-        {label:'NTN Name', props:{type:'text', required:true}, source:'ntnName'},
+        {label:'NTN Name', props:{type:'text', required:true}, source:'ntnName', isCaptalized:true},
         {label:'Email', props:{type:'email',}, source:'email'},
-        {label:'CNIC', props:{type:'cnic', required:true}, source:'cnic'},
+        {label:'CNIC', props:{type:'text', required:true}, source:'cnic'},
     ]
     return (
         <>

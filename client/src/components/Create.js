@@ -16,21 +16,21 @@ export const Create = (props) => {
     const [formDataItems, setformDataItems] = useState([]);
     const [validated, setValidated] = useState(false);
 
-   const handleInputsChange = (event) =>{
+   const handleInputsChange = (event, isCaptalized) =>{
        let key = event.target.name
        let value = event.target.value
        let formData = { ...editFormData }
-       formData[key] = captilizeEachWord(value)
+       formData[key] = isCaptalized === true? captilizeEachWord(value): value
        setEditFormData({...formData})
     }
 
     const captilizeEachWord = value => value.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase())
 
-    const handleInputsChangeOfItems = (event, index) =>{
+    const handleInputsChangeOfItems = (event, index, isCaptalized) =>{
         let key = event.target.name
         let value = event.target.value
         let changedData = [...formDataItems ]
-        changedData[index][key] = captilizeEachWord(value)
+        changedData[index][key] = isCaptalized === true? captilizeEachWord(value): value
         setformDataItems([...changedData])
     }
     

@@ -6,15 +6,15 @@ import { Header } from "../components/Header";
 
 export const BuyerList = (props) => {
     const buyersDetails = [
-        { label: 'Byuer Name', source: 'name' },
-        { label: 'Address', source: 'address' },
-        { label: 'Representitve Name', source: 'representitveName' },
-        { label: 'Phone', source: 'phone' },
-        // { label: 'NTN Number', source: 'ntnNumber' },
-        // { label: 'NTN Name', source: 'ntnName' },
+        { label: 'Byuer Name', field: 'name' },
+        { label: 'Address', field: 'address' },
+        { label: 'Representitve Name', field: 'representitveName' },
+        { label: 'Phone', field: 'phone' },
+        // { label: 'NTN Number', field: 'ntnNumber' },
+        // { label: 'NTN Name', field: 'ntnName' },
     ]
     const actions = [
-        { label: 'Edit', resource:'',   },
+        { label: 'View', resource:'buyers/:id',   },
         { label: 'Invoices', resource:`${props.match.url}/:id/invoices`,  },
     ]
     return (

@@ -39,7 +39,7 @@ export const FormTable = (props) => {
                                                                 {...f.props}
                                                                 name={f.source}
                                                                 value={item[f.source]}
-                                                                onChange={(e) => props.handleInputsChangeOfItems(e, index)}
+                                                                onChange={(e) => props.handleInputsChangeOfItems(e, index, f.isCaptalized)}
                                                             />
                                                             <Form.Control.Feedback type="invalid" >
                                                                 {`Please enter a ${f.label}`}

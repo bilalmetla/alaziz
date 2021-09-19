@@ -6,6 +6,7 @@ import styles from '../Styles/List.module.css';
 import { FormsHeading } from "./FormsHeading";
 import { useAlert } from 'react-alert'
 import { LoaderContext } from "../providers/Loader";
+import { MDBTable, MDBTableBody, MDBTableHead, MDBDataTable  } from 'mdbreact';
 
 export const List = (props) => {
     const { setLoading } = useContext(LoaderContext)
@@ -31,7 +32,7 @@ export const List = (props) => {
             }
             return 
         }
-        settableData(mapTableData(fetchedData))
+        settableData(mergeActionsToData(fetchedData))
 
 
         return () => {
@@ -40,65 +41,51 @@ export const List = (props) => {
 
     }, []);
 
-    const mapTableData = (list) => {
+    const DatatablePage = (result) => {
+        const data = {
+            columns: [...props.keys, {label:'Actions', field:'actions'} ],
+            rows:  tableData
+        }
+
+        return (
+            <MDBDataTable responsive
+              striped
+                bordered
+                hover
+              small
+              data={data}
+            />
+          );
+    }
+    const mergeActionsToData = list => {
         if (!list || list.errorMessage) {
             return
         }
-       
-        return list.map((item, index) => {
-            return <tr key={`row-${index}`}>{
-                 props.keys.map((key, keyIndex) => {
-                    return <td key={`key-${keyIndex}`}> {key.label === 'Date'? item[key.source].split('T')[0] :item[key.source]}</td>;
-                 })
-
+        return list.map(item => {
+            
+           let buttons =  props.actions.map(ac => {
+                let resource = ac.resource
+                Object.keys(item).forEach(key => {
+                    resource = resource.replace(`:${key}`, `${item[key]}`);
+                })
+                return <Link to={`${resource}`} style={{marginRight:'5px'}}>{ac.label }</Link>
+           })
+            
+            return {
+                ...item,
+                actions: buttons
             }
-            {
-                    props.actions.map((action, acIndex) => {
-                        let resource = action.resource
-                        if (resource) {
-                            Object.keys(item).forEach(key => {
-                                resource = resource.replace(`:${key}`, `${item[key]}`);
-                            })
-                        } else {
-                            resource = `${props.resource}/${item['id']}`
-                        }
-                            return<td key={`action-${acIndex}`}> <Link to={`${resource}`}>{action.label }</Link> </td>
-                        })
-            }
-            </tr>;
         })
-
     }
 
+    
     return (
         <div className={styles.list_wrapper}>
             <FormsHeading {...props} />
             <div className={styles.create_btn}><Link to={`${props.match.url}/create`} >Create</Link></div>
-                <Table responsive>
-                <thead>
-                    {
-                        props.keys.map((key, index) => {
-                            return <th>
-                                <td key={`heading-${index}`}>{ key.label }</td>
-                            </th>
-                         })
-                    }
-
-
-                </thead>
-                <tbody>
-                    {
-
-                        tableData  
-                    }
-                        {/* <tr>
-                            <td>
-
-                            </td>
-                        </tr> */}
-                    </tbody>
-                </Table>
-
+            {
+                DatatablePage() 
+            }
         </div>
     );
 } 

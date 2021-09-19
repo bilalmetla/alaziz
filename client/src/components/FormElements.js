@@ -18,7 +18,7 @@ export const FormElements = (props) => {
                                 {...f.props}
                                  name={!f.source? f.props.name: f.source}
                                 value={f.props.type === 'date' ? props.editFormData[f.source] : props.editFormData[f.source]}
-                                onChange={props.handleInputsChange}
+                                onChange={(event)=>props.handleInputsChange(event, f.isCaptalized)}
                                 
                                 />
                             <Form.Control.Feedback type="invalid" >
@@ -33,7 +33,7 @@ export const FormElements = (props) => {
                             <Form.Select
                                 name={!f.source? f.props.name: f.source}
                                 value={props.editFormData[f.source]}
-                                onChange={props.handleInputsChange} >
+                                onChange={(event)=>props.handleInputsChange(event, f.isCaptalized)} >
                                 <option></option>
                                 {f.options.map(op => <option value={op.value}>{op.title}</option>)}
                                 

@@ -6,16 +6,16 @@ import { Header } from "../components/Header";
 
 export const UnitList = (props) => {
     const details = [
-        { label: 'Unit Name', source: 'name' },
-        { label: 'Address', source: 'address' },
-        { label: 'Orginizer Name', source: 'organizerName' },
-        { label: 'Phone', source: 'phone' },
-        { label: 'userName', source: 'userName' },
-        // { label: 'Password', source: 'password' },
+        { label: 'Unit Name', field: 'name' },
+        { label: 'Address', field: 'address' },
+        { label: 'Orginizer Name', field: 'organizerName' },
+        { label: 'Phone', field: 'phone' },
+        { label: 'userName', field: 'userName' },
+        
     ]
     const actions = [
-        { label: 'Edit', resource:'',   },
-        { label: 'Buyers', resource:`${props.match.url}/:id/buyers`,  },
+        { label: 'View', resource:'/units/:id',   },
+        { label: 'Buyers', resource:`${props.match.url}/:id/buyers`},
     ]
     return (
         <>

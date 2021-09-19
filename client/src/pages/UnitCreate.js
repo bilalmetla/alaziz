@@ -9,14 +9,14 @@ import { Header } from "../components/Header";
 
 export const UnitCreate = (props) => {
     const details = [
-        {label:'Unit Name', props:{type:'text', required:true},  source:'name'},
-        {label:'Address', props:{type:'text', required:true}, source:'address'},
+        {label:'Unit Name', props:{type:'text', required:true},  source:'name', isCaptalized:true},
+        {label:'Address', props:{type:'text', required:true}, source:'address', isCaptalized:true},
         {label:'Phone', props:{type:'number', required:true}, source:'phone'},
         {label:'User Name', props:{type:'text', required:true}, source:'userName'},
         {label:'Password', props:{type:'password', required:true}, source:'password'},
-        { label: 'Orginazer Name', props: { type: 'text', required: true }, source: 'organizerName' },
+        { label: 'Orginazer Name', props: { type: 'text', required: true }, source: 'organizerName', isCaptalized:true },
         {label:'Email', props:{type:'email',}, source:'email'},
-        {label:'CNIC', props:{type:'cnic', required:true}, source:'cnic'},
+        {label:'CNIC', props:{type:'text', required:true}, source:'cnic'},
         
     ]
     return (

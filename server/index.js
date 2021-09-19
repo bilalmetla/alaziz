@@ -18,12 +18,20 @@ if (!config.isNedb) {
 
     const app = express()
     
-    app.enable('trust proxy')
-    app.use((req, res, next) => {
-        req.secure ? next() : res.redirect('https://' + req.headers.host + req.url)
-    })
-app.use( express.static('../client/build'))  
-//app.use( express.static('public'))  
+    if (!config.isdevInstance) {
+        app.enable('trust proxy')
+        app.use((req, res, next) => {
+            req.secure ? next() : res.redirect('https://' + req.headers.host + req.url)
+        })
+    }
+ 
+    if (config.isdevInstance) {
+        app.use( express.static('../client/build'))  
+    } else {
+        app.use( express.static('public'))  
+    }
+
+
     
     const appuse = require('./app')
     app.use(cookieParser());

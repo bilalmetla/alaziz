@@ -14,7 +14,7 @@ export const UnitEdit = (props) => {
         {label:'Password', props:{type:'text', required:true}, source:'password'},
         { label: 'Orginazer Name', props: { type: 'text', required: true }, source: 'organizerName' },
         {label:'Email', props:{type:'email',}, source:'email'},
-        {label:'CNIC', props:{type:'cnic', required:true}, source:'cnic'},
+        {label:'CNIC', props:{type:'text', required:true}, source:'cnic'},
     ]
     return (
         <>

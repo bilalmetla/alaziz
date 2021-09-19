@@ -7,7 +7,7 @@ module.exports = (Router) => {
     Router.use((req, res, next) => {
       utility.logMessage(req.session)
 
-      if (config.isdevInstance !== 'true') {
+      if (!config.isdevInstance) {
         if (!req.session || !req.session.user) {
           return  res.send({errorMessage:"Login Required!", code:'ER0401'})
         }
