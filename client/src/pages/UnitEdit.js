@@ -11,10 +11,12 @@ export const UnitEdit = (props) => {
         {label:'Address', props:{type:'text', required:true}, source:'address'},
         {label:'Phone', props:{type:'number', required:true}, source:'phone'},
         {label:'User Name', props:{type:'text', required:true}, source:'userName'},
-        {label:'Password', props:{type:'text', required:true}, source:'password'},
+        {label:'Password', props:{type:'password', required:true}, source:'password'},
         { label: 'Orginazer Name', props: { type: 'text', required: true }, source: 'organizerName' },
         {label:'Email', props:{type:'email',}, source:'email'},
         {label:'CNIC', props:{type:'text', required:true}, source:'cnic'},
+        {label:'Serial Number', props:{type:'number', required:true}, source:'serialNumber'},
+        {label:'Book Number', props:{type:'number', required:true}, source:'bookNumber'},
     ]
     return (
         <>

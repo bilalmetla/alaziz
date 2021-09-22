@@ -1,7 +1,7 @@
 const joi = require('joi');
 
 module.exports = joi.object().keys({ 
-    businessType: joi.number().required(),
+    businessType: joi.string().required(),
     invoiceType: joi.string().required(),
     date: joi.string().required(),
     buyerId: joi.string().required(),
@@ -10,6 +10,7 @@ module.exports = joi.object().keys({
     updatedDate: joi.string().allow('', null).optional(),
     serialNumber: joi.number().allow('', null).optional(),
     bookNumber: joi.number().allow('', null).optional(),
+    status: joi.string().allow('', null).optional(),
 
     
     items: joi.array().items(

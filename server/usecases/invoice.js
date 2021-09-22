@@ -1,28 +1,43 @@
 const validations = require('../validations')
-const serialNumbers = require('./serialNumbers')
+
 const Buyer = require('./buyer')
-const utility = require('../utility')
+const utility = require('../utility');
+const constants = require('../constants');
 
 const INVOICES = 'invoices'
+const UNITS = 'units'
 
-
-exports.create = async function (newInvoice, db) {
+exports.create = async function (newInvoice, unit, db) {
 
     validations.invoice(newInvoice)
-
-    await serialNumbers.getSerialNumber(db)
-
-    attachInvoiceSerials(newInvoice)
+   // await serialNumbers.getSerialNumber(db)
+   
     newInvoice.createdDate = new Date()
     newInvoice.date = new Date(newInvoice.date)
+    newInvoice.status = constants.invoiceStatues.UNPAID
 
+    await db.update(UNITS, { _id: unit.id || unit._id }, getSerialNumbers(unit))  
+    attachInvoiceSerials(newInvoice, unit)
     return await db.insert(INVOICES, newInvoice)
-    
 };
 
-const attachInvoiceSerials = (invoice) => {
-    invoice.serialNumber = process.serialNumber;
-    invoice.bookNumber = process.bookNumber;
+
+const getSerialNumbers =  function (unit) {
+
+        unit.serialNumber = parseInt(unit.serialNumber)
+        unit.serialNumber++
+        if (unit.serialNumber > 100) {
+            unit.serialNumber = 1
+            unit.bookNumber = parseInt(unit.bookNumber)
+            unit.bookNumber++
+        }    
+    
+    return {serialNumber: unit.serialNumber, bookNumber: unit.bookNumber}
+    
+}
+const attachInvoiceSerials = (invoice, unit) => {
+    invoice.serialNumber = unit.serialNumber;
+    invoice.bookNumber = unit.bookNumber;
 }
 
 exports.update = async function (id, invoice, db) {
@@ -106,7 +121,7 @@ const getInvoicesByDates = async function (where, db) {
 const combineBuyerInvoices = async function (invoices, db) {
     const mergedInvoiceAndBuyer = []
     for (let inv of invoices) {
-        let buyer = await Buyer.getBuyerById(inv.buyerId)
+        let buyer = await Buyer.getBuyerById(inv.buyerId, db)
         utility.calculateValuesAndTaxes(inv)
         mergedInvoiceAndBuyer.push({...buyer, invoice: inv})
     }

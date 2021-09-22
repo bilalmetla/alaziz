@@ -17,6 +17,7 @@ export const BuyerList = (props) => {
         { label: 'View', resource:'buyers/:id',   },
         { label: 'Invoices', resource:`${props.match.url}/:id/invoices`,  },
     ]
+    
     return (
         <>
             <Row>
@@ -32,7 +33,8 @@ export const BuyerList = (props) => {
                     resource="buyers"
                     keys={buyersDetails}
                     actions={actions}
-                    title={"Buyers Info"}
+                        title={"Buyers Info"}
+                        hideGoBack={true}
                 />
                 </Col>
             </Row>

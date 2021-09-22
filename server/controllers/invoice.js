@@ -10,7 +10,8 @@ exports.createInvoice = async function (req, res, next) {
        let data = req.body
        let { buyerId } = req.params
        data.buyerId = buyerId
-       let record  = await Invoice.create(data, db)
+       let unit = req.session.user
+       let record  = await Invoice.create(data, unit, db)
        utility.mapToClientResponse(record)
        response.send(record, res)
  

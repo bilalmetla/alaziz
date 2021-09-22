@@ -120,6 +120,10 @@ export const Edit = (props) => {
     return (
         <>
             <FormsHeading {...props} />
+            <div className={styles.create_btn}>
+            <Link to='#' onClick={() => history.goBack()} >Go Back</Link>
+            </div>
+
             <Form noValidate validated={validated} onSubmit={submitForm}>
 
                 <FormElements {...props}

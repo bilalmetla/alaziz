@@ -14,7 +14,7 @@ export const InvoicePrint = (props) => {
             { label: 'STRN#:', source: 'companySTRNNumber' },
         ],
         [
-            { label: 'Date:', source: 'date', innerSource:'invoice' },
+            { label: 'Date:', source: 'date', innerSource:'' },
             { label: 'Book No:', source: 'bookNumber', innerSource:'invoice' },
             { label: 'Sr.No:', source: 'serialNumber', innerSource:'invoice' },
         ]
@@ -48,7 +48,7 @@ export const InvoicePrint = (props) => {
             <Row>
                 <Print {...props}
                     resource="buyers/:buyerId/invoices/:invoiceId"
-                    logo={'logo-invoice.png'}
+                    // logo={'logo-invoice.png'}
                     InvoiceTitle='BILL'
                     header={invoiceDetails}
                     innerSource={'invoice'}

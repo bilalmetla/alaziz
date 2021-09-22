@@ -40,7 +40,8 @@ const NavBar = () => {
             <nav className={styles.navMenu}>
                 <div className={styles.userInfo}>
                     <h3>{ user.name }</h3>
-                    <p>{ user.address }</p>
+                    <p>{user.address}</p>
+                    <hr></hr>
                 </div>
                 <ul className="nav-menu-items">
                     {/* <li className="navbar-toggle">
@@ -64,14 +65,14 @@ const NavBar = () => {
                             </Link>
                         </li>
                     }
-                    {isAdminLogin === 'true' &&
+                    {/* {isAdminLogin === 'true' &&
                         <li className="navbar-toggle">
 
                             <Link to={`/buyers`} className="menu-bar" >
                                 Buyers
                             </Link>
                         </li>
-                    }
+                    } */}
                     {/* <li className="navbar-toggle">
 
                         <Link to="/about" className="menu-bar" >

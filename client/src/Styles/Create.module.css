@@ -1,0 +1,19 @@
+
+
+.create_btn{
+    display: flex;
+    justify-content: end;
+    
+}
+.create_btn a{
+    background-color: #080182;
+    color: #fff;
+    text-decoration-line: none;
+    padding: 10px 50px;
+    border-radius: 5px;
+    margin-bottom: 25px;
+    margin-right: 5px;
+}
+.create_btn a:hover{
+    background-color: #05005a;
+}

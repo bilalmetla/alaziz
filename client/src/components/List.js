@@ -2,7 +2,7 @@ import React, {useEffect, useState, useContext} from 'react';
 import { Row, Col, Table, } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { getList } from "./DataProvider";
-import styles from '../Styles/List.module.css'; 
+import styles from '../Styles/Create.module.css'; 
 import { FormsHeading } from "./FormsHeading";
 import { useAlert } from 'react-alert'
 import { LoaderContext } from "../providers/Loader";
@@ -82,7 +82,15 @@ export const List = (props) => {
     return (
         <div className={styles.list_wrapper}>
             <FormsHeading {...props} />
-            <div className={styles.create_btn}><Link to={`${props.match.url}/create`} >Create</Link></div>
+            <div className={styles.create_btn}>   
+                {
+                    props.hideGoBack ||
+                    <Link to='#' onClick={() => history.goBack()} >Go Back</Link>
+                }    
+                
+                <Link to={`${props.match.url}/create`} >Create</Link>
+            </div>
+            
             {
                 DatatablePage() 
             }

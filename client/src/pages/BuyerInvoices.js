@@ -12,11 +12,11 @@ export const BuyerInvoices = (props) => {
         // { label: 'Book Number', field: 'bookNumber' },
         { label: 'Business Type', field: 'businessType' },
         { label: 'Invoice Type', field: 'invoiceType' },
-        // { label: 'Date', field: 'date' },
+         { label: 'Status', field: 'status' },
        
     ]
     const actions = [
-        { label: 'Edit', resource:`${props.match.url}/:id`,   },
+        { label: 'View', resource:`${props.match.url}/:id`,   },
     ]
 
     return (

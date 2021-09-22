@@ -32,7 +32,8 @@ export const UnitList = (props) => {
                     resource="units"
                     keys={details}
                     actions={actions}
-                    title={"Unit List"}
+                        title={"Unit List"}
+                        hideGoBack={true}
                 />
                 </Col>
             </Row>

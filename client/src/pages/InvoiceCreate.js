@@ -6,7 +6,7 @@ import { Header } from "../components/Header";
 
 export const InvoiceCreate = (props) => {
     const invoiceDetails = [
-        { label: 'Business Type', props:{type:'select', required:true}, options:[{title:'supply', value:1},{ title:'service', value:2}], source: 'businessType' },
+        { label: 'Business Type', props:{type:'select', required:true}, source: 'businessType', options:[{title:'Supply', value:'Supply'},{ title:'Service', value:'Service'}] },
         { label: 'Invoice Type', props:{type:'text', required:true}, source: 'invoiceType', isCaptalized:true },
         { label: 'Date', props:{type:'date', required:true}, source: 'date' },
         {

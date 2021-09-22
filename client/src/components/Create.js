@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react';
 import { Row, Col, Form, Button } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import styles from '../Styles/List.module.css'; 
 import { create } from "./DataProvider";
 import { FormElements } from "./FormElements";
 import { FormTable } from "./FormTable";
@@ -87,6 +88,9 @@ export const Create = (props) => {
     return (
         <>
             <FormsHeading {...props} />
+            <div className={styles.create_btn}>                
+                <Link to='#' onClick={() => history.goBack()} >Go Back</Link>
+            </div>
             <Form noValidate validated={validated} onSubmit={submitForm}>
                 <FormElements {...props}
                     handleInputsChange={handleInputsChange}

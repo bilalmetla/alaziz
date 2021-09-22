@@ -14,9 +14,10 @@ export const InvoiceEdit = (props) => {
     const invoiceDetails = [
         { label: 'Serial Number', props:{type:'number', disabled:true}, source: 'serialNumber' },
         { label: 'Book Number', props:{type:'number', disabled:true}, source: 'bookNumber' },
-        { label: 'Business Type', props:{type:'select', required:true}, source: 'businessType', options:[{title:'supply', value:1},{ title:'service', value:2}] },
+        { label: 'Business Type', props:{type:'select', required:true}, source: 'businessType', options:[{title:'Supply', value:'Supply'},{ title:'Service', value:'Service'}] },
         { label: 'Invoice Type', props:{type:'text', required:true}, source: 'invoiceType', isCaptalized:true },
-        { label: 'Date', props:{type:'date', required:true}, source: 'date' },
+        { label: 'Status', props:{type:'select', required:true}, source: 'status', options:[{title:'Unpaid', value:'Unpaid'},{ title:'Paid', value:'Paid'},{ title:'Cancelled', value:'Cancelled'}] },
+        { label: 'Date', props: { type: 'date', required: true }, source: 'date' },
         {
             label: 'Items', isNewList:true, props:{}, source: 'items', list: [
                 { label: 'Quantity', props:{type:'number', required:true}, source: 'quantity' },

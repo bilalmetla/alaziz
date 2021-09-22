@@ -4,8 +4,8 @@ module.exports = {
         SRNNumber:'32-77-8761-341-78',
     }),
     businessTypes: Object.freeze({
-        SUPPLIES: 1,
-        SERVICES: 2,
+        SUPPLIES: 'Supply',
+        SERVICES: 'Service',
     }),
     businessTypeIncomeTaxes: Object.freeze({
         SUPPLIES: 4.5,
@@ -18,5 +18,11 @@ module.exports = {
     receivedSaleTaxes: Object.freeze({
         SUPPLIES: 80,
         SERVICES: 0
+    }),
+
+    invoiceStatues: Object.freeze({
+        UNPAID:'Unpaid',
+        PAID:'Paid',
+        CANCELLED:'Cancelled',
     })
 }

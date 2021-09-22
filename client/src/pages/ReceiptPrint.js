@@ -5,7 +5,7 @@ import { Print } from "../components/Print";
 export const ReceiptPrint = (props) => {
     const invoiceDetails = [
         [
-            { label: 'Date:', source: 'date', innerSource:'invoice' },
+            { label: 'Date:', source: 'date', innerSource:'' },
             { label: 'Book No:', source: 'bookNumber', innerSource:'invoice' },
             { label: 'Sr.No:', source: 'serialNumber', innerSource:'invoice' },
         ],
@@ -34,7 +34,7 @@ export const ReceiptPrint = (props) => {
 
     const receiptDetailSale = [
         [
-            { label: 'Date:', source: 'date', innerSource:'invoice' },
+            { label: 'Date:', source: 'date', innerSource:'' },
             { label: 'Book No:', source: 'bookNumber', innerSource:'invoice' },
             { label: 'Sr.No:', source: 'serialNumber', innerSource:'invoice' },
         ],
@@ -73,7 +73,7 @@ export const ReceiptPrint = (props) => {
             <Row>
                 <Print {...props}
                     resource="buyers/:buyerId/invoices/:invoiceId"
-                    logo={'logo-invoice.png'}
+                    // logo={'logo-invoice.png'}
                     InvoiceTitle='Received'
                     isTitleATTop={true}
                     header={invoiceDetails}
@@ -86,7 +86,7 @@ export const ReceiptPrint = (props) => {
             <Row>
                 <Print {...props}
                     resource="buyers/:buyerId/invoices/:invoiceId"
-                    logo={'logo-invoice.png'}
+                    // logo={'logo-invoice.png'}
                     InvoiceTitle='Sales Tax Bill'
                     header={receiptDetailSale}
                     innerSource={'invoice'}

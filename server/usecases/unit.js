@@ -7,7 +7,8 @@ exports.create = async function (record, db) {
 
     validations.unit(record)
     record.createdDate = new Date()
-
+    record.serialNumber = 1
+    record.bookNumber = 1
     return await db.insert(UNITS, record)
     
 };
