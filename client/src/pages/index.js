@@ -1,7 +1,7 @@
 import { BuyerList } from "./BuyerList";
 import { BuyerEdit } from "./BuyerEdit";
 import { BuyerCreate } from "./BuyerCreate";
-import { BuyerInvoices } from "./BuyerInvoices";
+import { BuyerInvoices } from "./InvoiceList";
 import { InvoiceEdit } from "./InvoiceEdit";
 import { InvoiceCreate } from "./InvoiceCreate";
 import { InvoicePrint } from "./InvoicePrint";
@@ -14,6 +14,7 @@ import { UnitList } from "./UnitList";
 import { UnitCreate } from "./UnitCreate";
 import { UnitEdit } from "./UnitEdit";
 import { Login } from "./Login";
+import { InvoiceVoucherDetail } from "./InvoiceVoucherDetail";
 
 export {
     BuyerList,
@@ -32,4 +33,5 @@ export {
     UnitCreate,
     UnitEdit,
     Login,
+    InvoiceVoucherDetail,
 }

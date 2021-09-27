@@ -32,7 +32,7 @@ const NavBar = () => {
         
         setuserId(usid)
 
-    }, );
+    }, []);
 
     return (
         <div className={styles.navBar}>

@@ -6,7 +6,7 @@ import styles from '../Styles/Create.module.css';
 import { FormsHeading } from "./FormsHeading";
 import { useAlert } from 'react-alert'
 import { LoaderContext } from "../providers/Loader";
-import { MDBTable, MDBTableBody, MDBTableHead, MDBDataTable  } from 'mdbreact';
+import {  MDBDataTable  } from 'mdbreact';
 
 export const List = (props) => {
     const { setLoading } = useContext(LoaderContext)
@@ -83,12 +83,21 @@ export const List = (props) => {
         <div className={styles.list_wrapper}>
             <FormsHeading {...props} />
             <div className={styles.create_btn}>   
-                {
+                {/* {
                     props.hideGoBack ||
                     <Link to='#' onClick={() => history.goBack()} >Go Back</Link>
                 }    
                 
-                <Link to={`${props.match.url}/create`} >Create</Link>
+                <Link to={`${props.match.url}/create`} >Create</Link> */}
+                {
+                    // props.topActionButtons &&
+                    // props.topActionButtons.map(btn => {
+                    //     return <Link
+                    //         to={`${props.match.url}${btn.to}`}
+                            
+                    //     >{btn.label}</Link>
+                    // })
+                }
             </div>
             
             {

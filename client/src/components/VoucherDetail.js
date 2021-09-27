@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react';
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Col, Form, Button, Table } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import styles from '../Styles/List.module.css'; 
 import { create } from "./DataProvider";
@@ -9,13 +9,14 @@ import { FormsHeading } from "./FormsHeading";
 import { useAlert } from 'react-alert'
 import { LoaderContext } from "../providers/Loader";
 
-export const Create = (props) => {
+export const VoucherDetail = (props) => {
     const { setLoading } = useContext(LoaderContext)
     const alert = useAlert()
     let history = useHistory();
     const [editFormData, setEditFormData] = useState({});
     const [formDataItems, setformDataItems] = useState([]);
     const [validated, setValidated] = useState(false);
+    const [voucherDetails, setvoucherDetails] = useState({});
 
    const handleInputsChange = (event, isCaptalized) =>{
        let key = event.target.name
@@ -79,6 +80,22 @@ export const Create = (props) => {
         
     }
     
+    const AddItemToTable = () => {
+        let record = { ...editFormData }
+        let obj = {...voucherDetails}
+        if (!obj[record.rateOfST]) {
+            
+            obj[record.rateOfST] = []
+            obj[record.rateOfST].push(record)
+            setvoucherDetails({...obj})
+        } else {
+            obj[record.rateOfST].push(record)
+            setvoucherDetails({...obj}) 
+        }
+
+        console.log(voucherDetails)
+        
+    }
 
     return (
         <>
@@ -90,16 +107,48 @@ export const Create = (props) => {
                 <FormElements {...props}
                     handleInputsChange={handleInputsChange}
                     editFormData={editFormData}
-                />
-                
+                />         
+
+  
+                <Button
+                    className="submit-button"
+                    variant="primary"
+                    onClick={AddItemToTable}
+                >
+                    Add Item
+                </Button>
+
+                {
+                    Object.keys(voucherDetails).map(key => {
+                        
+                        return <>
+                            <h4>{ `details of ${key}` }</h4>
+                            <Table responsive>
+                            <tbody>
+                               {
+                                   voucherDetails[key].map(row => {
+                                    return <tr>
+                                           <td>{row.quantity}</td>
+                                           <td>{row.description}</td>
+                                           <td>{row.price}</td>
+                                           <td>{row.rateOfST}</td>
+                                       </tr>
+                                       
+                               })
+                                }
+                            </tbody>
+                       </Table>
+                       </>
+                        
+                    })
+                }
                 <FormTable {...props}
                     manageformDataItems={manageformDataItems}
                     formDataItems={formDataItems}
                     removeformDataItems={removeformDataItems}
                     handleInputsChangeOfItems={handleInputsChangeOfItems}
-                />          
+                /> 
 
-  
                 <Button className="submit-button" variant="primary" type="submit" >
                     Submit
                 </Button>

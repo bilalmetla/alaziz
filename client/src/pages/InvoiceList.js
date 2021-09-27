@@ -19,6 +19,12 @@ export const BuyerInvoices = (props) => {
         { label: 'View', resource:`${props.match.url}/:id`,   },
     ]
 
+    const topActionButtons = [
+        { label: 'Go Back', to:'#', onClick:'() => history.goBack()'   },
+        { label: 'Create',  to:`/create`,   },
+        { label: 'Voucher Details',  to:`/voucher-detail`,   }
+    ]
+
     return (
         <>
             <Row>
@@ -34,7 +40,8 @@ export const BuyerInvoices = (props) => {
                     keys={invoiceDetails}
                     actions={actions}
                     createResource='invoices'
-                    title={"Invoices List"}
+                        title={"Invoices List"}
+                        topActionButtons={topActionButtons}
                 />
 
                 </Col>
