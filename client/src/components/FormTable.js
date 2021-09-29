@@ -30,11 +30,10 @@ export const FormTable = (props) => {
                                     {
                                         
                                         props.formDataItems.map((item, index) => {
-                                            return <tr>{
+                                            return <tr  key={`row-${index}`}>{
                                                 form.list.map(f => {
-                                                    return <td key={`heading-${index}`} >
-                                                        <Form.Group className={styles.form_table_elements}>
-                                                            {/* <Form.Label>{ f.label}</Form.Label> */}
+                                                    return <td key={`heading-${index}`}>
+                                                        <Form.Group className={styles.form_table_elements}>                                                            
                                                             <Form.Control className={styles.form_table_elements}
                                                                 {...f.props}
                                                                 name={f.source}

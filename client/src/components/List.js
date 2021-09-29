@@ -90,13 +90,13 @@ export const List = (props) => {
                 
                 <Link to={`${props.match.url}/create`} >Create</Link> */}
                 {
-                    // props.topActionButtons &&
-                    // props.topActionButtons.map(btn => {
-                    //     return <Link
-                    //         to={`${props.match.url}${btn.to}`}
+                    props.topActionButtons &&
+                    props.topActionButtons.map(btn => {
+                        return <Link
+                            to={`${props.match.url}${btn.to}`}
                             
-                    //     >{btn.label}</Link>
-                    // })
+                        >{btn.label}</Link>
+                    })
                 }
             </div>
             
