@@ -7,12 +7,23 @@ import { Header } from "../components/Header";
 
 export const InvoiceVoucherDetail = (props) => {
     const invoiceDetails = [
-        { label: 'Rate Of ST', props:{type:'number', required:false}, source: 'rateOfST' },
+        { label: 'Rate Of ST', props:{type:'number', required:false,}, source: 'rateOfST' },
         { label: 'Business Type', props:{type:'select', required:false}, source: 'businessType', options:[{title:'Supply', value:'Supply'},{ title:'Service', value:'Service'}] },
         { label: 'Invice Type', props:{type:'text', required:false}, source: 'invoiceType' },
         { label: 'Quantity', props: { type: 'number', required: false }, source: 'quantity' },
         { label: 'Description', props:{type:'text', required:false}, source: 'description', isCaptalized:true },
         { label: 'Price', props:{type:'number', required:false}, source: 'price' },
+        
+    ]
+
+    const invoiceDetailsTable = [
+        { label: 'Quantity', props: { type: 'number', required: true }, source: 'quantity' },
+        { label: 'Description', props:{type:'text', required:true}, source: 'description', isCaptalized:true },
+        { label: 'Price', props:{type:'number', required:true}, source: 'price' },
+        { label: 'valueExcelST', props:{type:'number', required:false, disabled: true}, source: 'valueExcelST' },
+        { label: 'Rate Of ST', props:{type:'number', required:true,}, source: 'rateOfST' },
+        { label: 'totalSTPayable', props: { type: 'number', required: false, disabled: true }, source: 'totalSTPayable' },
+        { label: 'valueOfIncludingST', props:{type:'number', required:false, disabled: true}, source: 'valueOfIncludingST' },
         
     ]
     return (
@@ -29,6 +40,7 @@ export const InvoiceVoucherDetail = (props) => {
                         resource="invoices"
                         form={invoiceDetails}
                         title={"Voucher Details"}
+                        tableForm={invoiceDetailsTable}
                     ></VoucherDetail>
 
 

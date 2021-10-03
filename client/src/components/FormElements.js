@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Form, Button } from "react-bootstrap";
+import { Row , Col, Form, Button } from "react-bootstrap";
 
 
 
@@ -11,7 +11,7 @@ export const FormElements = (props) => {
                 props.form.map(f => {
                     if (!f.isNewList)
                         if(f.props.type !== 'select')
-                        return <Form.Group className="mb-3" >
+                        return <Row className="mb-3"><Form.Group  >
                             
                                 <Form.Label>{ f.label}</Form.Label>
                             <Form.Control
@@ -24,7 +24,7 @@ export const FormElements = (props) => {
                             <Form.Control.Feedback type="invalid" >
                                 {`Please enter a ${f.label}` }
                             </Form.Control.Feedback>
-                            </Form.Group>
+                            </Form.Group></Row>
                      
                     if(f.props.type === 'select')
                         return <Form.Group className="mb-3" >

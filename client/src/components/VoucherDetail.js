@@ -9,7 +9,7 @@ import { FormsHeading } from "./FormsHeading";
 import { useAlert } from 'react-alert'
 import { LoaderContext } from "../providers/Loader";
 import { Archive } from 'react-bootstrap-icons';
-import { calculateValuesAndTaxes, calculateGrandTotals } from "../utility";
+import { calculateValuesAndTaxes, calculateGrandTotals, calculateGrandTotalsOFValueExcelST } from "../utility";
 
 
 export const VoucherDetail = (props) => {
@@ -38,15 +38,11 @@ export const VoucherDetail = (props) => {
         let value = event.target.value
         obj[key].items[index][rowKey] = captilizeEachWord(value)
         calculateValuesAndTaxes(obj)
+        calculateGrandTotals(obj)
         setvoucherDetails({ ...obj }) 
-        setgrandtotals(calculateGrandTotals(obj))
+        setgrandtotals(calculateGrandTotalsOFValueExcelST(obj))
     }
     
-    const manageformDataItems = (event) => {
-        let newItemsList = [...formDataItems]
-        newItemsList.push({})
-        setformDataItems([...newItemsList])
-    }
 
     const removeformDataItems = (event, index, key) => {
         let obj = {...voucherDetails}
@@ -55,8 +51,9 @@ export const VoucherDetail = (props) => {
             delete obj[key]
         }
         calculateValuesAndTaxes(obj)
+        calculateGrandTotals(obj)
         setvoucherDetails({ ...obj }) 
-        setgrandtotals(calculateGrandTotals(obj))
+        setgrandtotals(calculateGrandTotalsOFValueExcelST(obj))
         
     }
     const submitForm = async (event) => {
@@ -104,21 +101,22 @@ export const VoucherDetail = (props) => {
             return alert.show('Fill The correct Info!')
             
              }
-        let obj = {...voucherDetails}
-        if (!obj[record.rateOfST]) {
+        let obj = { ...voucherDetails }
+        let key = `${record.rateOfST}-${record.invoiceType}`
+        if (!obj[key]) {
             
-            obj[record.rateOfST] = {}
-            obj[record.rateOfST].businessType = record.businessType;
-            obj[record.rateOfST].invoiceType = record.invoiceType;
-            obj[record.rateOfST].items = [];
-            obj[record.rateOfST].items.push({
+            obj[key] = {}
+            obj[key].businessType = record.businessType;
+            obj[key].invoiceType = record.invoiceType;
+            obj[key].items = [];
+            obj[key].items.push({
                 rateOfST:record.rateOfST,
                 quantity:record.quantity,
                 description:record.description,
                 price:record.price,
             })
         } else {
-            obj[record.rateOfST].items.push(
+            obj[key].items.push(
                 {
                     rateOfST:record.rateOfST,
                     quantity:record.quantity,
@@ -129,9 +127,9 @@ export const VoucherDetail = (props) => {
         }
 
         calculateValuesAndTaxes(obj)
+        calculateGrandTotals(obj)
         setvoucherDetails({ ...obj }) 
-        console.log(calculateGrandTotals(obj))
-        setgrandtotals(calculateGrandTotals(obj))
+        setgrandtotals(calculateGrandTotalsOFValueExcelST(obj))
 
         let formData = {
             businessType:record.businessType,
@@ -159,6 +157,7 @@ export const VoucherDetail = (props) => {
                 <FormElements {...props}
                     handleInputsChange={handleInputsChange}
                     editFormData={editFormData}
+                    
                 />         
 
   
@@ -174,24 +173,32 @@ export const VoucherDetail = (props) => {
                     Object.keys(voucherDetails).map((key) => {
                         
                         return <>
-                            <h4>{ `Details For Rate Of ST: ${key}% and Invoice Type: ${voucherDetails[key].invoiceType}` }</h4>
+                            <h4>{ `Details: ${key}` }</h4>
                             <Table responsive>
+                                <thead>
+                                    {
+                                        Object.keys(voucherDetails[key].items[0]).map((headKey, index) => {
+                                            return <th>{headKey }</th>
+                                         })
+                                    }
+                                    <th></th>
+                                </thead>
                             <tbody>
                                {
                                    voucherDetails[key].items.map((row,index) => {
                                        return <tr key={`${key}-heading-${index}`}>
                                            {
-                                               Object.keys(row).map(rowKey => {
-                                                   return <td key={`${key}-heading-${rowKey}`}>
+                                               props.tableForm.map(ele => {
+                                                   return <td key={`${key}-heading-${ele.source}`}>
                                                         <Form.Group className={styles.form_table_elements}>                                                            
                                                             <Form.Control className={styles.form_table_elements}
-                                                                required
-                                                                name={rowKey}
-                                                                value={row[rowKey]}
-                                                                 onChange={(e) => handleInputsChangeOfItems(e, index, key, rowKey)}
+                                                                {...ele.props}
+                                                                name={ele.source}
+                                                                value={row[ele.source]}
+                                                                 onChange={(e) => handleInputsChangeOfItems(e, index, key, ele.source)}
                                                             />
                                                             <Form.Control.Feedback type="invalid" >
-                                                                {`Please enter a ${rowKey}`}
+                                                                {`Please enter a ${ele.source}`}
                                                             </Form.Control.Feedback>
                                                             
                                                         </Form.Group>
@@ -208,8 +215,21 @@ export const VoucherDetail = (props) => {
                                                 </Button>
                                        </tr>
                                        
-                               })
-                                }
+                                   })
+                                        
+                                   
+                                    }
+                                    
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{ voucherDetails[key].grandTotals.grandTotalValueExcelST }</td>
+                                        <td></td>
+                                        <td>{voucherDetails[key].grandTotals.grandTotalSTPayable}</td>
+                                        <td>{ voucherDetails[key].grandTotals.grandTotalValueOfIncludingST }</td>
+                                    </tr>
+                                    
                             </tbody>
                        </Table>
                        </>
@@ -218,17 +238,21 @@ export const VoucherDetail = (props) => {
                 }
               
                 {/* grand totals / voucher details */}
-                
+                <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
                 {
-                    grandtotals && grandtotals.grandTotalValueExcelST &&
+                    
+                    grandtotals && grandtotals.grandTotalValueExcelST > 0 &&
                     <>
-                        <h4>{ `Voucher Details` }</h4>
+                        <h4>{ `Voucher Grand Totals` }</h4>
                         <Table responsive>
                             <thead>
                                 <th>{ `grandTotalValueExcelST`}</th>
                                 <th>{ `grandTotalSTPayable`}</th>
                                 <th>{ `grandTotalValueOfIncludingST`}</th>
-                                <th>{ `incomeTaxWithHeld`}</th>
+                                {/* <th>{ `incomeTaxWithHeld`}</th> */}
                             </thead>
                             <tbody>
                                 {/* {
@@ -240,7 +264,7 @@ export const VoucherDetail = (props) => {
                                             <td>{ grandtotals.grandTotalValueExcelST }</td>
                                             <td>{ grandtotals.grandTotalSTPayable }</td>
                                             <td>{ grandtotals.grandTotalValueOfIncludingST }</td>
-                                            <td>{ grandtotals.incomeTaxWithHeld }</td>
+                                            {/* <td>{ grandtotals.incomeTaxWithHeld }</td> */}
                                         </tr>
                                     {/* })
                                 } */}

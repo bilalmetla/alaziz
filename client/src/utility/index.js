@@ -29,21 +29,37 @@ export const calculateValuesAndTaxes = function (invoices) {
 
 
 export const calculateGrandTotals = function (invoices) {
-    const grandTotals = { }
+    
     Object.keys(invoices).forEach(key => { 
+        let grandTotals = { }
         let invoiceData = invoices[key]
-        let businessType = invoiceData.businessType
         
         grandTotals.grandTotalValueExcelST = grandTotalValueExcelST(invoiceData.items)
         grandTotals.grandTotalSTPayable = grandTotalSTPayable(invoiceData.items)
         grandTotals.grandTotalValueOfIncludingST = grandTotalValueOfIncludingST(invoiceData.items)
-        grandTotals.incomeTaxWithHeld = calclateIncomeTaxWithHeld(businessType, grandTotals.grandTotalValueOfIncludingST)
-        grandTotals.saleTaxWithHeld = saleTaxWithHeld(businessType, grandTotals.grandTotalSTPayable)
-        grandTotals.receivedSaleTax = receivedSaleTax(businessType, grandTotals.grandTotalSTPayable)
-        grandTotals.netPayment = grandTotals.grandTotalValueOfIncludingST - grandTotals.incomeTaxWithHeld - grandTotals.saleTaxWithHeld
+        
+        invoices[key].grandTotals = grandTotals
+    })
+
+};
+
+
+export const calculateGrandTotalsOFValueExcelST = function (invoices) {
+    const superGrandTotals = {
+        grandTotalValueExcelST: 0,
+        grandTotalSTPayable: 0,
+        grandTotalValueOfIncludingST: 0
+    }
+    Object.keys(invoices).forEach(key => { 
+        let grandTotals = invoices[key].grandTotals
+        
+        superGrandTotals.grandTotalValueExcelST = superGrandTotals.grandTotalValueExcelST + grandTotals.grandTotalValueExcelST;
+        superGrandTotals.grandTotalSTPayable = superGrandTotals.grandTotalSTPayable + grandTotals.grandTotalSTPayable;
+        superGrandTotals.grandTotalValueOfIncludingST = superGrandTotals.grandTotalValueOfIncludingST + grandTotals.grandTotalValueOfIncludingST;
+        
     })
     
-    return grandTotals
+    return superGrandTotals
 
 };
 
