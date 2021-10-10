@@ -20,6 +20,7 @@ require('./middlewares/req-session')(Router)
  */
 require('./unit')(Router, middlewares)
 require('./buyer')(Router, middlewares)
+require('./vouchers')(Router, middlewares)
 require('./invoice')(Router, middlewares)
 require('./reports')(Router, middlewares)
 

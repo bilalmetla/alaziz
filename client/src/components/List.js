@@ -68,7 +68,7 @@ export const List = (props) => {
                 Object.keys(item).forEach(key => {
                     resource = resource.replace(`:${key}`, `${item[key]}`);
                 })
-                return <Link to={`${resource}`} style={{marginRight:'5px'}}>{ac.label }</Link>
+               return <Link key={ `key-${resource}` } to={`${resource}`} style={{marginRight:'5px'}}>{ac.label }</Link>
            })
             
             return {

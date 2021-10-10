@@ -11,6 +11,7 @@ import {
   InvoicePrint, ReceiptPrint,
   ReportWithGST, ReportWithOutGST, ReportWithPST, ReportWithOutPST,
   UnitList, UnitCreate, UnitEdit,
+  VouchersList,
   Login
 } from "./pages";
 import styles from './Styles/App.module.css';  
@@ -37,7 +38,6 @@ export const App = ({ title }) => (
           <Route exact path="/units/:id/buyers/:buyerId" render={(props) => <BuyerEdit {...props} />} />
           <Route exact path="/units/:unitId/buyers/:id/invoices" render={(props) => <BuyerInvoices {...props} />} />
           <Route exact path="/units/:unitId/buyers/:id/invoices/create" render={(props) => <InvoiceCreate {...props} />} />
-          <Route exact path="/units/:unitId/buyers/:id/invoices/voucher-detail" render={(props) => <InvoiceVoucherDetail {...props} />} />
           <Route exact path="/units/:unitId/buyers/:id/invoices/:invoiceId" render={(props) => <InvoiceEdit {...props} />} />
           <Route exact path="/units/:unitId/buyers/:buyerId/invoices/:invoiceId/print" render={(props) => <InvoicePrint {...props} />} />
           <Route exact path="/units/:unitId/buyers/:buyerId/invoices/:invoiceId/print/receipt" render={(props) => <ReceiptPrint {...props} />} />
@@ -62,6 +62,11 @@ export const App = ({ title }) => (
 
             <Route exact path="/buyers/:buyerId/invoices/:invoiceId/print" render={(props) => <InvoicePrint {...props} />} />
           <Route exact path="/buyers/:buyerId/invoices/:invoiceId/print/receipt" render={(props) => <ReceiptPrint {...props} />} />
+          
+          <Route exact path="/units/:unitId/buyers/:id/invoices/vouchers/create" render={(props) => <InvoiceVoucherDetail {...props} />} />
+          <Route exact path="/units/:id/vouchers" render={(props) => <VouchersList {...props} />} />
+          <Route exact path="/units/:unitId/vouchers/:voucherId" render={(props) => <InvoiceVoucherDetail {...props} />} />
+
           
           </Switch>
        

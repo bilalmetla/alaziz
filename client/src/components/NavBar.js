@@ -65,6 +65,14 @@ const NavBar = () => {
                             </Link>
                         </li>
                     }
+
+                    <li className="navbar-toggle">
+
+                        <Link to={`/units/${userId}/vouchers`} className="menu-bar" >
+                            Vouchers
+                        </Link>
+                    </li>
+                    
                     {/* {isAdminLogin === 'true' &&
                         <li className="navbar-toggle">
 

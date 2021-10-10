@@ -2,7 +2,7 @@ import React, {useEffect, useState, useContext} from 'react';
 import { Row, Col, Form, Button, Table } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import styles from '../Styles/List.module.css'; 
-import { create } from "./DataProvider";
+import { create, get } from "./DataProvider";
 import { FormElements } from "./FormElements";
 import { FormTable } from "./FormTable";
 import { FormsHeading } from "./FormsHeading";
@@ -17,10 +17,45 @@ export const VoucherDetail = (props) => {
     const alert = useAlert()
     let history = useHistory();
     const [editFormData, setEditFormData] = useState({});
-    const [formDataItems, setformDataItems] = useState([]);
     const [validated, setValidated] = useState(false);
     const [voucherDetails, setvoucherDetails] = useState({});
     const [grandtotals, setgrandtotals] = useState({});
+    const [isEditVoucher, setisEditVoucher] = useState(false);
+    const [buyerId, setbuyerId] = useState('');
+
+    let { voucherId } = props.match.params
+    useEffect(() => {
+        if (voucherId) {
+            setisEditVoucher(true)
+            getVoucherDetails().then(response => {
+                console.log(response)
+                if (response && response.length > 0) {
+                    let voucher = response[0]
+                    setbuyerId(voucher.buyerId)
+                    delete voucher.grandTotals;
+                    
+                    Object.keys(voucher).forEach(key => {
+                        if (typeof voucher[key] === 'object'){
+                            let obj = {}
+                            obj[key] = voucher[key]
+                            setvoucherDetails({...obj}) 
+                            setgrandtotals(calculateGrandTotalsOFValueExcelST(obj))
+                        }
+                    })
+                   
+                    let formData = {
+                        title: voucher.title,
+                        voucherPrice: voucher.voucherPrice,
+                        
+                    }
+                    setEditFormData({...formData})
+                }
+                
+            })
+            
+        }
+    }, []);
+   
 
    const handleInputsChange = (event, isCaptalized) =>{
        let key = event.target.name
@@ -37,10 +72,8 @@ export const VoucherDetail = (props) => {
         let obj = {...voucherDetails}
         let value = event.target.value
         obj[key].items[index][rowKey] = captilizeEachWord(value)
-        calculateValuesAndTaxes(obj)
-        calculateGrandTotals(obj)
-        setvoucherDetails({ ...obj }) 
-        setgrandtotals(calculateGrandTotalsOFValueExcelST(obj))
+        
+        setVoucherData(obj)
     }
     
 
@@ -50,10 +83,7 @@ export const VoucherDetail = (props) => {
         if (obj[key].items.length === 0) {
             delete obj[key]
         }
-        calculateValuesAndTaxes(obj)
-        calculateGrandTotals(obj)
-        setvoucherDetails({ ...obj }) 
-        setgrandtotals(calculateGrandTotalsOFValueExcelST(obj))
+        setVoucherData(obj)
         
     }
     const submitForm = async (event) => {
@@ -68,11 +98,16 @@ export const VoucherDetail = (props) => {
         if (!form.checkValidity()) {
             return
         }
-        let updateData = { ...editFormData }
-        
-        if (props.newListResource) {
-            updateData[props.newListResource] = [...formDataItems]
+        let updateData = {
+            voucherPrice: editFormData.voucherPrice,
+            title: editFormData.title,
+            ...voucherDetails,
+            grandTotals: grandtotals
         }
+        if (buyerId) {
+            updateData['buyerId'] = buyerId
+        }
+     
         setLoading(true)
         let response = await create(`${props.match.url}`, updateData)
         setLoading(false)
@@ -97,12 +132,14 @@ export const VoucherDetail = (props) => {
             || !record.price
             || !record.rateOfST
             || !record.businessType
+            || !record.invoiceType
+            || !record.voucherPrice
         ) {
             return alert.show('Fill The correct Info!')
             
              }
         let obj = { ...voucherDetails }
-        let key = `${record.rateOfST}-${record.invoiceType}`
+        let key = `${record.rateOfST}%-${record.invoiceType}-${record.businessType}`
         if (!obj[key]) {
             
             obj[key] = {}
@@ -126,15 +163,10 @@ export const VoucherDetail = (props) => {
             )
         }
 
-        calculateValuesAndTaxes(obj)
-        calculateGrandTotals(obj)
-        setvoucherDetails({ ...obj }) 
-        setgrandtotals(calculateGrandTotalsOFValueExcelST(obj))
+        setVoucherData(obj)
 
         let formData = {
-            businessType:record.businessType,
-            rateOfST:record.rateOfST,
-            invoiceType:record.invoiceType,
+            ...record,
             quantity:'',
             description:'',
             price:'',
@@ -144,7 +176,26 @@ export const VoucherDetail = (props) => {
         
     }
 
-   
+    function setVoucherData(obj) {
+        calculateValuesAndTaxes(obj)
+        calculateGrandTotals(obj)
+        setvoucherDetails({ ...obj }) 
+        setgrandtotals(calculateGrandTotalsOFValueExcelST(obj))
+    }
+
+    async function getVoucherDetails(){
+        setLoading(true)
+        let response = await get(`${props.match.url}`)
+        setLoading(false)
+        if (!response || response.errorMessage) {
+            alert.show(response.errorMessage || 'Error')
+            if (response.code === 'ER0401') {
+                return history.push('/login')
+            }
+             
+        }
+        return response;
+    }
 
 
     return (
@@ -172,16 +223,16 @@ export const VoucherDetail = (props) => {
                 {
                     Object.keys(voucherDetails).map((key) => {
                         
-                        return <>
+                        return < div key={ `Details: ${key}` }>
                             <h4>{ `Details: ${key}` }</h4>
                             <Table responsive>
                                 <thead>
                                     {
                                         Object.keys(voucherDetails[key].items[0]).map((headKey, index) => {
-                                            return <th>{headKey }</th>
+                                            return <td key={`${headKey}-${index}`}>{headKey }</td>
                                          })
                                     }
-                                    <th></th>
+                                    
                                 </thead>
                             <tbody>
                                {
@@ -232,7 +283,7 @@ export const VoucherDetail = (props) => {
                                     
                             </tbody>
                        </Table>
-                       </>
+                       </div>
                         
                     })
                 }
@@ -277,7 +328,8 @@ export const VoucherDetail = (props) => {
                 {
                     Object.keys(voucherDetails).length > 0 &&
                         <Button className="submit-button" variant="primary" type="submit" >
-                        Submit
+                        {isEditVoucher === false && 'Create Voucher'}
+                        {isEditVoucher === true && 'Update Voucher'}
                         </Button>
                 }
                 

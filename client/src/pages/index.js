@@ -15,6 +15,7 @@ import { UnitCreate } from "./UnitCreate";
 import { UnitEdit } from "./UnitEdit";
 import { Login } from "./Login";
 import { InvoiceVoucherDetail } from "./InvoiceVoucherDetail";
+import { VouchersList } from "./VouchersList";
 
 export {
     BuyerList,
@@ -34,4 +35,5 @@ export {
     UnitEdit,
     Login,
     InvoiceVoucherDetail,
+    VouchersList,
 }

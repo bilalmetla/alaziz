@@ -4,23 +4,18 @@ import { List } from "../components/List";
 import NavBar from "../components/NavBar";
 import { Header } from "../components/Header";
 
-export const BuyerList = (props) => {
-    const buyersDetails = [
-        { label: 'Byuer Name', field: 'name' },
-        { label: 'Address', field: 'address' },
-        { label: 'Representitve Name', field: 'representitveName' },
-        { label: 'Phone', field: 'phone' },
-        // { label: 'NTN Number', field: 'ntnNumber' },
-        // { label: 'NTN Name', field: 'ntnName' },
+export const VouchersList = (props) => {
+    const details = [
+        { label: 'Voucher Title',  field: 'title' },
+        { label: 'Voucher Price', field: 'voucherPrice' },
     ]
     const actions = [
-        { label: 'View', resource:'buyers/:id',   },
-        { label: 'Invoices', resource:`${props.match.url}/:id/invoices`,  },
+        { label: 'View', resource:'vouchers/:id',   },
     ]
     
     const topActionButtons = [
         // { label: 'Go Back', to:'#', onClick:'() => history.goBack()'   },
-        { label: 'Create',  to:`/create`,   },
+        // { label: 'Create',  to:`/create`,   },
     ]
 
     return (
@@ -36,9 +31,9 @@ export const BuyerList = (props) => {
             <Col lg={9} className="main_col">
                 <List  {...props}
                     resource="buyers"
-                    keys={buyersDetails}
+                    keys={details}
                     actions={actions}
-                        title={"Buyers Info"}
+                        title={"Voucher Info"}
                         // hideGoBack={true}
                         topActionButtons={topActionButtons}
                 />

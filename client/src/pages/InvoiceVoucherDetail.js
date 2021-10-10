@@ -7,6 +7,8 @@ import { Header } from "../components/Header";
 
 export const InvoiceVoucherDetail = (props) => {
     const invoiceDetails = [
+        { label: 'Voucher Title', props:{type:'text', required:true,}, source: 'title' },
+        { label: 'Voucher Price', props:{type:'number', required:true,}, source: 'voucherPrice' },
         { label: 'Rate Of ST', props:{type:'number', required:false,}, source: 'rateOfST' },
         { label: 'Business Type', props:{type:'select', required:false}, source: 'businessType', options:[{title:'Supply', value:'Supply'},{ title:'Service', value:'Service'}] },
         { label: 'Invice Type', props:{type:'text', required:false}, source: 'invoiceType' },
@@ -39,6 +41,7 @@ export const InvoiceVoucherDetail = (props) => {
                     <VoucherDetail {...props}
                         resource="invoices"
                         form={invoiceDetails}
+                        formCol={2}
                         title={"Voucher Details"}
                         tableForm={invoiceDetailsTable}
                     ></VoucherDetail>
