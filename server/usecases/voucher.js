@@ -47,3 +47,16 @@ exports.update = async function ({ unitId, voucherId }, voucher, db) {
     return await db.update(VOUCHERS, where, voucher)
     
 };
+
+exports.remove = async function ({ unitId, voucherId }, db) {
+
+    let where = {
+        $and: [
+            { _id: voucherId },
+            {unitId}
+        ]
+    }
+
+    return await db.remove(VOUCHERS, where)
+    
+};

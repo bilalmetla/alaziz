@@ -71,3 +71,4 @@ export const deleteRecord = async (path) => {
 
 export const get = getList;
 export const post = create;
+export const remove = deleteRecord;

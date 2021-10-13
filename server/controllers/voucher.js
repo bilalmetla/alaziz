@@ -62,3 +62,16 @@ exports.update = async function (req, res, next) {
    }
     
  }
+
+exports.remove = async function (req, res, next) {
+   try {
+      let { unitId, voucherId } = req.params;
+      let record = await Voucher.remove({ unitId, voucherId }, db);
+      utility.mapToClientResponse(record)
+      response.send(record, res)
+
+   } catch (e) {
+      response.exception(e, res)
+   }
+    
+ }

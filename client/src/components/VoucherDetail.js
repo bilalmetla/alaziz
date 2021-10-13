@@ -2,14 +2,19 @@ import React, {useEffect, useState, useContext} from 'react';
 import { Row, Col, Form, Button, Table } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import styles from '../Styles/List.module.css'; 
-import { create, get } from "./DataProvider";
+import { create, get, remove, update } from "./DataProvider";
 import { FormElements } from "./FormElements";
 import { FormTable } from "./FormTable";
 import { FormsHeading } from "./FormsHeading";
 import { useAlert } from 'react-alert'
 import { LoaderContext } from "../providers/Loader";
 import { Archive } from 'react-bootstrap-icons';
-import { calculateValuesAndTaxes, calculateGrandTotals, calculateGrandTotalsOFValueExcelST } from "../utility";
+import {
+    calculateValuesAndTaxes,
+    calculateGrandTotals, calculateGrandTotalsOFValueExcelST,
+    calclateIncomeTaxWithHeld,
+    saleTaxWithHeld
+} from "../utility";
 
 
 export const VoucherDetail = (props) => {
@@ -23,8 +28,9 @@ export const VoucherDetail = (props) => {
     const [isEditVoucher, setisEditVoucher] = useState(false);
     const [buyerId, setbuyerId] = useState('');
 
-    let { voucherId } = props.match.params
+    
     useEffect(() => {
+        let { voucherId } = props.match.params;
         if (voucherId) {
             setisEditVoucher(true)
             getVoucherDetails().then(response => {
@@ -109,7 +115,13 @@ export const VoucherDetail = (props) => {
         }
      
         setLoading(true)
-        let response = await create(`${props.match.url}`, updateData)
+        let response = '';
+        if (isEditVoucher) {
+            response = await update(`${props.match.url}`, updateData);
+        } else { 
+            response = await create(`${props.match.url}`, updateData)
+        }
+        
         setLoading(false)
         if (!response || response.errorMessage) {
             alert.show(response.errorMessage || 'Error')
@@ -197,6 +209,23 @@ export const VoucherDetail = (props) => {
         return response;
     }
 
+    const deleteVoucher = async (event) => {
+        event.preventDefault()
+
+        setLoading(true)
+        let response = await remove(`${props.match.url}`)
+        setLoading(false)
+        if (!response || response.errorMessage) {
+            alert.show(response.errorMessage || 'Error')
+            if (response.code === 'ER0401') {
+                 history.push('/login')
+            }
+            return
+        }
+        if (!response.errorMessage) {
+           return history.goBack()
+        }
+    }
 
     return (
         <>
@@ -295,30 +324,51 @@ export const VoucherDetail = (props) => {
                     <br></br>
                 {
                     
+                    
+                
                     grandtotals && grandtotals.grandTotalValueExcelST > 0 &&
                     <>
                         <h4>{ `Voucher Grand Totals` }</h4>
                         <Table responsive>
                             <thead>
-                                <th>{ `grandTotalValueExcelST`}</th>
-                                <th>{ `grandTotalSTPayable`}</th>
-                                <th>{ `grandTotalValueOfIncludingST`}</th>
+                                <th>{ `Total Amount`}</th>
+                                <th>{ `GST/PST`}</th>
+                                <th>{ `T.A With GST/PST`}</th>
+                                <th>{ `Income Tax`}</th>
+                                <th>{ `WithHolding Tax`}</th>
+                                {/* <th>{ `Sales Tax`}</th> */}
                                 {/* <th>{ `incomeTaxWithHeld`}</th> */}
                             </thead>
                             <tbody>
-                                {/* {
-                                    Object.keys(grandtotals).forEach(key => {
+                                {
+                                    Object.keys(voucherDetails).map((key, index) => {
+                                        let item = voucherDetails[key];
+                                        let businessType = voucherDetails[key].businessType;
+                                        let incomeTax = calclateIncomeTaxWithHeld(businessType, item.grandTotals.grandTotalValueOfIncludingST);
+                                        let withHoldingTax = saleTaxWithHeld(businessType, item.grandTotals.grandTotalSTPayable) //(item.grandTotals.grandTotalSTPayable * 20 / 100).toFixed(2)
+                                        // let salesTax = (item.grandTotals.grandTotalSTPayable - withHoldingTax).toFixed(2);
+
+
+                                            return <tr key={`grandtotals-${key}-${index}`}>
+                                                <td>{item.grandTotals.grandTotalValueExcelST}</td>
+                                                <td>{ item.grandTotals.grandTotalSTPayable }</td>
+                                                <td>{ item.grandTotals.grandTotalValueOfIncludingST }</td>
+                                                <td>{ incomeTax }</td>
+                                                <td>{ withHoldingTax }</td>
+                                                {/* <td>{ salesTax }</td> */}
+                                            </tr>
                                         
                                     })
-                                    grandtotals.map(gt => { */}
-                                         <tr>
+                                    
+                                }
+                            
+                                         {/* <tr>
                                             <td>{ grandtotals.grandTotalValueExcelST }</td>
                                             <td>{ grandtotals.grandTotalSTPayable }</td>
                                             <td>{ grandtotals.grandTotalValueOfIncludingST }</td>
-                                            {/* <td>{ grandtotals.incomeTaxWithHeld }</td> */}
-                                        </tr>
-                                    {/* })
-                                } */}
+                                            
+                                        </tr> */}
+                                    
                             </tbody>
                             </Table>
                     </>
@@ -331,6 +381,12 @@ export const VoucherDetail = (props) => {
                         {isEditVoucher === false && 'Create Voucher'}
                         {isEditVoucher === true && 'Update Voucher'}
                         </Button>
+                        
+                }
+                {isEditVoucher === true &&
+                    <Button className="" variant="primary" onClick={deleteVoucher} >
+                        Delete
+                    </Button>
                 }
                 
         </Form>

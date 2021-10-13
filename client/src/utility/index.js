@@ -30,7 +30,7 @@ export const calculateValuesAndTaxes = function (invoices) {
 
 export const calculateGrandTotals = function (invoices) {
     
-    Object.keys(invoices).forEach(key => { 
+    Object.keys(invoices).forEach(key => {
         let grandTotals = { }
         let invoiceData = invoices[key]
         
@@ -83,7 +83,7 @@ const grandTotalValueOfIncludingST = function (values) {
     return parseFloat(values.sum('valueOfIncludingST').toFixed(2))
 };
 
-const calclateIncomeTaxWithHeld = function (businessType, grandTotalSTPayable) {
+export const calclateIncomeTaxWithHeld = function (businessType, grandTotalSTPayable) {
     
     let value = ''
 
@@ -97,7 +97,9 @@ const calclateIncomeTaxWithHeld = function (businessType, grandTotalSTPayable) {
     return parseFloat(value.toFixed(2))
 };
 
-const saleTaxWithHeld = function (businessType, grandTotalSTPayable) {
+
+
+export const saleTaxWithHeld = function (businessType, grandTotalSTPayable) {
     let value = ''
     if (businessType == constants.businessTypes.SUPPLIES) {
         value = (grandTotalSTPayable * constants.saleTaxesWithHeld.SUPPLIES / 100);    
@@ -109,7 +111,7 @@ const saleTaxWithHeld = function (businessType, grandTotalSTPayable) {
     return parseFloat(value.toFixed(2))
 };
 
-const receivedSaleTax = function (businessType, grandTotalSTPayable) {
+export const receivedSaleTax = function (businessType, grandTotalSTPayable) {
     let value = ''
     if (businessType == constants.businessTypes.SUPPLIES) {
         value = (grandTotalSTPayable * constants.receivedSaleTaxes.SUPPLIES / 100);    

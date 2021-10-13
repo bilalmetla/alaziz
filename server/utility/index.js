@@ -7,8 +7,7 @@ const constants = require('../constants')
 
 exports.calculateGrandTotals = function (invoiceData) {
 
-    let businessType = invoiceData.businessType
-   // invoiceData.articles = articles;
+    let businessType = invoiceData.businessType;
     invoiceData.grandTotals = { }
     invoiceData.grandTotals.grandTotalValueExcelST = grandTotalValueExcelST(invoiceData.items)
     invoiceData.grandTotals.grandTotalSTPayable = grandTotalSTPayable(invoiceData.items)
