@@ -4,17 +4,23 @@ import { Edit } from "../components/Edit";
 import { Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import { Header } from "../components/Header";
-
+import { constants } from "../constants";
 
 
 export const InvoiceEdit = (props) => {
 
-    console.log(props)
+   const businessTypesOptions = Object.keys(constants.businessTypes).map(key => {
+        let value = constants.businessTypes[key];
+        return {
+            title:value,
+            value:value,
+        };
+    });
 
     const invoiceDetails = [
         { label: 'Serial Number', props:{type:'number', disabled:true}, source: 'serialNumber' },
         { label: 'Book Number', props:{type:'number', disabled:true}, source: 'bookNumber' },
-        { label: 'Business Type', props:{type:'select', required:true}, source: 'businessType', options:[{title:'Supply', value:'Supply'},{ title:'Service', value:'Service'}] },
+        { label: 'Business Type', props:{type:'select', required:true}, source: 'businessType', options: businessTypesOptions },
         { label: 'Invoice Type', props:{type:'text', required:true}, source: 'invoiceType', isCaptalized:true },
         { label: 'Status', props:{type:'select', required:true}, source: 'status', options:[{title:'Unpaid', value:'Unpaid'},{ title:'Paid', value:'Paid'},{ title:'Cancelled', value:'Cancelled'}] },
         { label: 'Date', props: { type: 'date', required: true }, source: 'date' },

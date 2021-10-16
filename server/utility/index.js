@@ -50,6 +50,9 @@ const calclateIncomeTaxWithHeld = function (businessType, grandTotalSTPayable) {
     if (businessType == constants.businessTypes.SERVICES) {
         value = (grandTotalSTPayable * constants.businessTypeIncomeTaxes.SERVICES / 100);    
     }
+    if (businessType == constants.businessTypes.PERSONAL) {
+        value = (grandTotalSTPayable * constants.businessTypeIncomeTaxes.PERSONAL / 100);    
+    }
     
     return parseFloat(value.toFixed(2))
 };
@@ -62,6 +65,9 @@ const saleTaxWithHeld = function (businessType, grandTotalSTPayable) {
     if (businessType == constants.businessTypes.SERVICES) {
         value = (grandTotalSTPayable * constants.saleTaxesWithHeld.SERVICES / 100);    
     }
+    if (businessType == constants.businessTypes.PERSONAL) {
+        value = (grandTotalSTPayable * constants.saleTaxesWithHeld.PERSONAL / 100);    
+    }
     
     return parseFloat(value.toFixed(2))
 };
@@ -73,6 +79,9 @@ const receivedSaleTax = function (businessType, grandTotalSTPayable) {
     }
     if (businessType == constants.businessTypes.SERVICES) {
         value = (grandTotalSTPayable * constants.receivedSaleTaxes.SERVICES / 100);    
+    }
+    if (businessType == constants.businessTypes.PERSONAL) {
+        value = (grandTotalSTPayable * constants.receivedSaleTaxes.PERSONAL / 100);    
     }
     
     return parseFloat(value.toFixed(2))

@@ -3,10 +3,18 @@ import {Row, Col,  } from "react-bootstrap";
 import { Create } from "../components/Create";
 import NavBar from "../components/NavBar";
 import { Header } from "../components/Header";
+import { constants } from "../constants";
 
 export const InvoiceCreate = (props) => {
+    const businessTypesOptions = Object.keys(constants.businessTypes).map(key => {
+        let value = constants.businessTypes[key];
+        return {
+            title:value,
+            value:value,
+        };
+    });
     const invoiceDetails = [
-        { label: 'Business Type', props:{type:'select', required:true}, source: 'businessType', options:[{title:'Supply', value:'Supply'},{ title:'Service', value:'Service'}] },
+        { label: 'Business Type', props:{type:'select', required:true}, source: 'businessType', options: businessTypesOptions },
         { label: 'Invoice Type', props:{type:'text', required:true}, source: 'invoiceType', isCaptalized:true },
         { label: 'Date', props:{type:'date', required:true}, source: 'date' },
         {
