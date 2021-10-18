@@ -4,8 +4,10 @@ module.exports = {
         SRNNumber:'32-77-8761-341-78',
     }),
     businessTypes: Object.freeze({
-        SUPPLIES: 'Supply',
-        SERVICES: 'Service',
+        SUPPLY_WITH_GST: 'Supply With GST',
+        SUPPLY_WITHOUT_GST: 'Supply Without GST',
+        SERVICES_WITH_PST: 'Service With PST',
+        SERVICES_WITHOUT_PST: 'Service Without PST',
         PERSONAL: 'Personal',
     }),
     businessTypeIncomeTaxes: Object.freeze({

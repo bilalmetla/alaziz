@@ -6,6 +6,6 @@ module.exports = joi.object().keys({
   voucherPrice: joi.number().required(),
   title: joi.string().required(),
     
-  grandTotals: joi.object().keys({}).unknown(true).required(),
+  //grandTotals: joi.object().keys({}).unknown(true).required(),
 
   }).unknown(true)

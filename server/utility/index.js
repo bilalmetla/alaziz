@@ -44,10 +44,12 @@ const calclateIncomeTaxWithHeld = function (businessType, grandTotalSTPayable) {
     
     let value = ''
 
-    if (businessType == constants.businessTypes.SUPPLIES) {
+    if (businessType == constants.businessTypes.SUPPLY_WITH_GST
+        ||businessType == constants.businessTypes.SUPPLY_WITHOUT_GST) {
         value = (grandTotalSTPayable * constants.businessTypeIncomeTaxes.SUPPLIES / 100);    
     }
-    if (businessType == constants.businessTypes.SERVICES) {
+    if (businessType == constants.businessTypes.SERVICES_WITH_PST
+        || businessType == constants.businessTypes.SERVICES_WITHOUT_PST) {
         value = (grandTotalSTPayable * constants.businessTypeIncomeTaxes.SERVICES / 100);    
     }
     if (businessType == constants.businessTypes.PERSONAL) {
@@ -59,10 +61,12 @@ const calclateIncomeTaxWithHeld = function (businessType, grandTotalSTPayable) {
 
 const saleTaxWithHeld = function (businessType, grandTotalSTPayable) {
     let value = ''
-    if (businessType == constants.businessTypes.SUPPLIES) {
+    if (businessType == constants.businessTypes.SUPPLY_WITH_GST
+        ||businessType == constants.businessTypes.SUPPLY_WITHOUT_GST) {
         value = (grandTotalSTPayable * constants.saleTaxesWithHeld.SUPPLIES / 100);    
     }
-    if (businessType == constants.businessTypes.SERVICES) {
+    if (businessType == constants.businessTypes.SERVICES_WITH_PST
+        || businessType == constants.businessTypes.SERVICES_WITHOUT_PST) {
         value = (grandTotalSTPayable * constants.saleTaxesWithHeld.SERVICES / 100);    
     }
     if (businessType == constants.businessTypes.PERSONAL) {
@@ -74,10 +78,12 @@ const saleTaxWithHeld = function (businessType, grandTotalSTPayable) {
 
 const receivedSaleTax = function (businessType, grandTotalSTPayable) {
     let value = ''
-    if (businessType == constants.businessTypes.SUPPLIES) {
+    if (businessType == constants.businessTypes.SUPPLY_WITH_GST
+        ||businessType == constants.businessTypes.SUPPLY_WITHOUT_GST) {
         value = (grandTotalSTPayable * constants.receivedSaleTaxes.SUPPLIES / 100);    
     }
-    if (businessType == constants.businessTypes.SERVICES) {
+    if (businessType == constants.businessTypes.SERVICES_WITH_PST
+        || businessType == constants.businessTypes.SERVICES_WITHOUT_PST) {
         value = (grandTotalSTPayable * constants.receivedSaleTaxes.SERVICES / 100);    
     }
     if (businessType == constants.businessTypes.PERSONAL) {
@@ -210,4 +216,23 @@ exports.is = {
       const prototype = Object.getPrototypeOf(x);
       return prototype === null || prototype === Object.prototype;
     },
-  };
+};
+  
+exports.attachInvoiceSerials = (invoice, unit) => {
+    invoice.serialNumber = unit.serialNumber;
+    invoice.bookNumber = unit.bookNumber;
+};
+
+exports.getSerialNumbers =  function (unit) {
+
+    unit.serialNumber = parseInt(unit.serialNumber)
+    unit.serialNumber++
+    if (unit.serialNumber > 100) {
+        unit.serialNumber = 1
+        unit.bookNumber = parseInt(unit.bookNumber)
+        unit.bookNumber++
+    }
+    
+    return { serialNumber: unit.serialNumber, bookNumber: unit.bookNumber }
+
+}

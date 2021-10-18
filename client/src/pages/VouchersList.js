@@ -8,6 +8,7 @@ export const VouchersList = (props) => {
     const details = [
         { label: 'Voucher Title',  field: 'title' },
         { label: 'Voucher Price', field: 'voucherPrice' },
+        { label: 'Status', field: 'status' },
     ]
     const actions = [
         { label: 'View', resource:'vouchers/:id',   },

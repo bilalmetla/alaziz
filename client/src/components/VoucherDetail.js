@@ -12,8 +12,7 @@ import { Archive } from 'react-bootstrap-icons';
 import {
     calculateValuesAndTaxes,
     calculateGrandTotals, calculateGrandTotalsOFValueExcelST,
-    calclateIncomeTaxWithHeld,
-    saleTaxWithHeld
+    grandTotalsWithGroups
 } from "../utility";
 
 
@@ -25,6 +24,7 @@ export const VoucherDetail = (props) => {
     const [validated, setValidated] = useState(false);
     const [voucherDetails, setvoucherDetails] = useState({});
     const [grandtotals, setgrandtotals] = useState({});
+    const [grandtotalsGroups, setgrandtotalsGroups] = useState({});
     const [isEditVoucher, setisEditVoucher] = useState(false);
     const [buyerId, setbuyerId] = useState('');
 
@@ -39,16 +39,13 @@ export const VoucherDetail = (props) => {
                     let voucher = response[0]
                     setbuyerId(voucher.buyerId)
                     delete voucher.grandTotals;
-                    
+                    let newVoucher = {}
                     Object.keys(voucher).forEach(key => {
                         if (typeof voucher[key] === 'object'){
-                            let obj = {}
-                            obj[key] = voucher[key]
-                            setvoucherDetails({...obj}) 
-                            setgrandtotals(calculateGrandTotalsOFValueExcelST(obj))
+                            newVoucher[key] = voucher[key]
                         }
                     })
-                   
+                    setVoucherData(newVoucher)
                     let formData = {
                         title: voucher.title,
                         voucherPrice: voucher.voucherPrice,
@@ -108,7 +105,7 @@ export const VoucherDetail = (props) => {
             voucherPrice: editFormData.voucherPrice,
             title: editFormData.title,
             ...voucherDetails,
-            grandTotals: grandtotals
+            //grandTotals: grandtotals
         }
         if (buyerId) {
             updateData['buyerId'] = buyerId
@@ -193,6 +190,7 @@ export const VoucherDetail = (props) => {
         calculateGrandTotals(obj)
         setvoucherDetails({ ...obj }) 
         setgrandtotals(calculateGrandTotalsOFValueExcelST(obj))
+        setgrandtotalsGroups(grandTotalsWithGroups(obj))
     }
 
     async function getVoucherDetails(){
@@ -227,11 +225,38 @@ export const VoucherDetail = (props) => {
         }
     }
 
+    const createInvoices = async (event)=>{
+        event.preventDefault()
+
+        let updateData = { ...voucherDetails };
+        if (buyerId) {
+            updateData['buyerId'] = buyerId
+        }
+        setLoading(true)
+        let response = await create(`${props.match.url}/invoices`, updateData)
+        setLoading(false)
+        if (!response || response.errorMessage) {
+            alert.show(response.errorMessage || 'Error')
+            if (response.code === 'ER0401') {
+                 history.push('/login')
+            }
+            return
+        }
+        if (!response.errorMessage) {
+            return history.goBack()
+         }
+        
+    }
+
+
     return (
         <>
             <FormsHeading {...props} />
             <div className={styles.create_btn}>                
                 <Link to='#' onClick={() => history.goBack()} >Go Back</Link>
+                
+                    <Link to='#' onClick={createInvoices} >Create Invoices</Link>
+           
             </div>
             <Form noValidate validated={validated} onSubmit={submitForm}>
                 <FormElements {...props}
@@ -331,39 +356,36 @@ export const VoucherDetail = (props) => {
                         <h4>{ `Voucher Grand Totals` }</h4>
                         <Table responsive>
                             <thead>
+                                <th>{ `Group`}</th>
                                 <th>{ `Total Amount`}</th>
                                 <th>{ `GST/PST`}</th>
                                 <th>{ `T.A With GST/PST`}</th>
                                 <th>{ `Income Tax`}</th>
                                 <th>{ `WithHolding Tax`}</th>
-                                {/* <th>{ `Sales Tax`}</th> */}
+                                <th>{ `80% GST`}</th>
                                 {/* <th>{ `incomeTaxWithHeld`}</th> */}
                             </thead>
                             <tbody>
                                 {
-                                    Object.keys(voucherDetails).map((key, index) => {
-                                        let item = voucherDetails[key];
-                                        let businessType = voucherDetails[key].businessType;
-                                        let incomeTax = calclateIncomeTaxWithHeld(businessType, item.grandTotals.grandTotalValueOfIncludingST);
-                                        let withHoldingTax = saleTaxWithHeld(businessType, item.grandTotals.grandTotalSTPayable) //(item.grandTotals.grandTotalSTPayable * 20 / 100).toFixed(2)
-                                        // let salesTax = (item.grandTotals.grandTotalSTPayable - withHoldingTax).toFixed(2);
-
-
+                                    
+                                    Object.keys(grandtotalsGroups).map((key, index) => {
                                             return <tr key={`grandtotals-${key}-${index}`}>
-                                                <td>{item.grandTotals.grandTotalValueExcelST}</td>
-                                                <td>{ item.grandTotals.grandTotalSTPayable }</td>
-                                                <td>{ item.grandTotals.grandTotalValueOfIncludingST }</td>
-                                                <td>{ incomeTax }</td>
-                                                <td>{ withHoldingTax }</td>
-                                                {/* <td>{ salesTax }</td> */}
+                                                <td>{key}</td>
+                                                <td>{grandtotalsGroups[key].grandTotalValueExcelST}</td>
+                                                <td>{ grandtotalsGroups[key].grandTotalSTPayable }</td>
+                                                <td>{ grandtotalsGroups[key].grandTotalValueOfIncludingST }</td>
+                                                <td>{ grandtotalsGroups[key].incomeTax }</td>
+                                                <td>{ grandtotalsGroups[key].withHoldingTax }</td>
+                                                <td>{ grandtotalsGroups[key].salesTax }</td>
                                             </tr>
                                         
                                     })
                                     
                                 }
                             
-                                         {/* <tr>
-                                            <td>{ grandtotals.grandTotalValueExcelST }</td>
+                                        {/* <tr></tr>
+                                         <tr>
+                                            <td>{ `Totals` }</td>
                                             <td>{ grandtotals.grandTotalSTPayable }</td>
                                             <td>{ grandtotals.grandTotalValueOfIncludingST }</td>
                                             
@@ -374,6 +396,8 @@ export const VoucherDetail = (props) => {
                     </>
                 }
                 
+
+                <div className={css.btns}>
 
                 {
                     Object.keys(voucherDetails).length > 0 &&
@@ -388,8 +412,17 @@ export const VoucherDetail = (props) => {
                         Delete
                     </Button>
                 }
+            </div>
+                
                 
         </Form>
         </>
     )
+};
+
+const css = {
+    btns: {
+        display: 'flex',
+        justifyContent: 'space-around',
+    }
 }

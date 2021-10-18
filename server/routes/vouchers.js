@@ -9,6 +9,7 @@ module.exports = (Router, middlewares) => {
     Router.get('/units/:unitId/vouchers/:voucherId', middlewares, voucherController.getById);
     Router.put('/units/:unitId/vouchers/:voucherId', middlewares, voucherController.update);
     Router.delete('/units/:unitId/vouchers/:voucherId', middlewares, voucherController.remove);
+    Router.post('/units/:unitId/vouchers/:voucherId/invoices', middlewares, voucherController.createInvoices);
 
     // Router.put('/buyers/:buyerId', middlewares, buyerController.updateBuyer);
 

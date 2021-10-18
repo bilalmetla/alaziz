@@ -16,29 +16,14 @@ exports.create = async function (newInvoice, unit, db) {
     newInvoice.date = new Date(newInvoice.date)
     newInvoice.status = constants.invoiceStatues.UNPAID
 
-    await db.update(UNITS, { _id: unit.id || unit._id }, getSerialNumbers(unit))  
-    attachInvoiceSerials(newInvoice, unit)
+    await db.update(UNITS, { _id: unit.id || unit._id }, utility.getSerialNumbers(unit))  
+    utility.attachInvoiceSerials(newInvoice, unit)
     return await db.insert(INVOICES, newInvoice)
 };
 
 
-const getSerialNumbers =  function (unit) {
 
-        unit.serialNumber = parseInt(unit.serialNumber)
-        unit.serialNumber++
-        if (unit.serialNumber > 100) {
-            unit.serialNumber = 1
-            unit.bookNumber = parseInt(unit.bookNumber)
-            unit.bookNumber++
-        }    
-    
-    return {serialNumber: unit.serialNumber, bookNumber: unit.bookNumber}
-    
-}
-const attachInvoiceSerials = (invoice, unit) => {
-    invoice.serialNumber = unit.serialNumber;
-    invoice.bookNumber = unit.bookNumber;
-}
+
 
 exports.update = async function (id, invoice, db) {
 
@@ -56,7 +41,8 @@ exports.update = async function (id, invoice, db) {
 
 exports.getBuyerInvoicesById = async function (buyerId, db) {
     let where = { "buyerId": buyerId }
-    return await db.find(INVOICES, where)    
+    const sort ={createdDate: -1}
+    return await db.findAndSort(INVOICES, where, sort)    
 };
 
 exports.getInvoiceAll = async function (db) {

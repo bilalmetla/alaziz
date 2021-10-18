@@ -8,9 +8,13 @@ import { post } from "../components/DataProvider";
 
 
 export const Login = function (props) {
-    sessionStorage.removeItem('user')
-    sessionStorage.removeItem('userId')
-    sessionStorage.removeItem('isAdminLogin')
+    
+    useEffect(() => {
+        sessionStorage.removeItem('user')
+        sessionStorage.removeItem('userId')
+        sessionStorage.removeItem('isAdminLogin')
+    }, []);
+  
     
     const { setLoading } = useContext(LoaderContext)
     const alert = useAlert()
