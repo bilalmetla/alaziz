@@ -40,7 +40,12 @@ exports.update = async function (id, invoice, db) {
 
 
 exports.getBuyerInvoicesById = async function (buyerId, db) {
-    let where = { "buyerId": buyerId }
+    let where = {
+        $and: [
+            {"buyerId": buyerId},
+            {status: constants.invoiceStatues.UNPAID},
+        ]        
+    }
     const sort ={createdDate: -1}
     return await db.findAndSort(INVOICES, where, sort)    
 };

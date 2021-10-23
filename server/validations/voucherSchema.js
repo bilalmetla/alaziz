@@ -5,6 +5,7 @@ module.exports = joi.object().keys({
   buyerId: joi.string().min(3).required(),
   voucherPrice: joi.number().required(),
   title: joi.string().required(),
+  checkNumber: joi.string().required(),
     
   //grandTotals: joi.object().keys({}).unknown(true).required(),
 

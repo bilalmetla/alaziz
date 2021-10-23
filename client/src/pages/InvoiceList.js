@@ -8,10 +8,11 @@ import { Header } from "../components/Header";
 
 export const BuyerInvoices = (props) => {
     const invoiceDetails = [
-        { label: 'Serial Number', field: 'serialNumber' },
-        // { label: 'Book Number', field: 'bookNumber' },
+        // { label: 'Serial Number', field: 'serialNumber' },
+         { label: 'Check Number', field: 'checkNumber' },
         { label: 'Business Type', field: 'businessType' },
         { label: 'Invoice Type', field: 'invoiceType' },
+         { label: 'Date', field: 'date' },
          { label: 'Status', field: 'status' },
        
     ]

@@ -27,6 +27,10 @@ export const VoucherDetail = (props) => {
     const [grandtotalsGroups, setgrandtotalsGroups] = useState({});
     const [isEditVoucher, setisEditVoucher] = useState(false);
     const [buyerId, setbuyerId] = useState('');
+    const [unitId, setunitId] = useState('');
+    const [checkNumber, setcheckNumber] = useState('');
+    const [status, setstatus] = useState('Pending');
+
 
     
     useEffect(() => {
@@ -34,10 +38,13 @@ export const VoucherDetail = (props) => {
         if (voucherId) {
             setisEditVoucher(true)
             getVoucherDetails().then(response => {
-                console.log(response)
+                //console.log(response)
                 if (response && response.length > 0) {
                     let voucher = response[0]
                     setbuyerId(voucher.buyerId)
+                    setunitId(voucher.unitId)
+                    setstatus(voucher.status)
+                    setcheckNumber(voucher.checkNumber)
                     delete voucher.grandTotals;
                     let newVoucher = {}
                     Object.keys(voucher).forEach(key => {
@@ -45,10 +52,12 @@ export const VoucherDetail = (props) => {
                             newVoucher[key] = voucher[key]
                         }
                     })
+                    
                     setVoucherData(newVoucher)
                     let formData = {
                         title: voucher.title,
                         voucherPrice: voucher.voucherPrice,
+                        checkNumber: voucher.checkNumber,
                         
                     }
                     setEditFormData({...formData})
@@ -104,11 +113,12 @@ export const VoucherDetail = (props) => {
         let updateData = {
             voucherPrice: editFormData.voucherPrice,
             title: editFormData.title,
+            checkNumber: editFormData.checkNumber,
             ...voucherDetails,
-            //grandTotals: grandtotals
         }
         if (buyerId) {
             updateData['buyerId'] = buyerId
+            updateData['unitId'] = unitId
         }
      
         setLoading(true)
@@ -143,6 +153,7 @@ export const VoucherDetail = (props) => {
             || !record.businessType
             || !record.invoiceType
             || !record.voucherPrice
+            || !record.checkNumber
         ) {
             return alert.show('Fill The correct Info!')
             
@@ -231,9 +242,36 @@ export const VoucherDetail = (props) => {
         let updateData = { ...voucherDetails };
         if (buyerId) {
             updateData['buyerId'] = buyerId
+            updateData['unitId'] = unitId
+            updateData['checkNumber'] = checkNumber
         }
         setLoading(true)
         let response = await create(`${props.match.url}/invoices`, updateData)
+        setLoading(false)
+        if (!response || response.errorMessage) {
+            alert.show(response.errorMessage || 'Error')
+            if (response.code === 'ER0401') {
+                 history.push('/login')
+            }
+            return
+        }
+        if (!response.errorMessage) {
+            return history.goBack()
+         }
+        
+    }
+   
+    const updateInvoices = async (event) => {
+        event.preventDefault()
+
+        let updateData = { ...voucherDetails };
+        if (buyerId) {
+            updateData['buyerId'] = buyerId
+            updateData['unitId'] = unitId
+            updateData['checkNumber'] = checkNumber
+        }
+        setLoading(true)
+        let response = await update(`${props.match.url}/invoices`, updateData)
         setLoading(false)
         if (!response || response.errorMessage) {
             alert.show(response.errorMessage || 'Error')
@@ -254,8 +292,10 @@ export const VoucherDetail = (props) => {
             <FormsHeading {...props} />
             <div className={styles.create_btn}>                
                 <Link to='#' onClick={() => history.goBack()} >Go Back</Link>
+                {status === 'Pending' && <Link to='#' onClick={createInvoices} >Create Invoices</Link>}
+                {status === 'Updated' &&<Link to='#' onClick={updateInvoices} >Update Invoices</Link>}
+                {status === 'InProgress' && <Link to='#' onClick={createInvoices} >Paiy Invoices</Link>}
                 
-                    <Link to='#' onClick={createInvoices} >Create Invoices</Link>
            
             </div>
             <Form noValidate validated={validated} onSubmit={submitForm}>
@@ -397,7 +437,7 @@ export const VoucherDetail = (props) => {
                 }
                 
 
-                <div className={css.btns}>
+                {status !== 'Paid' && <div className={css.btns}>
 
                 {
                     Object.keys(voucherDetails).length > 0 &&
@@ -412,7 +452,7 @@ export const VoucherDetail = (props) => {
                         Delete
                     </Button>
                 }
-            </div>
+            </div> }
                 
                 
         </Form>

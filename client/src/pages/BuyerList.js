@@ -16,6 +16,7 @@ export const BuyerList = (props) => {
     const actions = [
         { label: 'View', resource:'buyers/:id',   },
         { label: 'Invoices', resource:`${props.match.url}/:id/invoices`,  },
+        // { label: 'Invoices', resource:`${props.match.url}/:id/invoices`,  },
     ]
     
     const topActionButtons = [

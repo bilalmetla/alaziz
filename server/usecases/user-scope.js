@@ -14,6 +14,6 @@ exports.units = {
     '/units/:unitId/buyers/:buyerId/invoices/vouchers/create': ['POST'],
     '/units/:unitId/vouchers': ['GET'],
     '/units/:unitId/vouchers/:voucherId': ['GET', 'PUT'],
-    '/units/:unitId/vouchers/:voucherId/invoices': ['POST'],
+    '/units/:unitId/vouchers/:voucherId/invoices': ['POST', 'PUT'],
     
 }
