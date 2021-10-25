@@ -25,12 +25,13 @@ exports.getByUnits = async function (req, res, next) {
     try {
        
        let user = req.session.user;
-       let records = null;
-       if (user && user.isAdminLogin) {
-         records = await Voucher.getAll(db);
-       } else {
+       let records = [];
+       if (user && user.isAdminLogin === false) {
          let { unitId } = req.params;
-         records = await Voucher.getByUnits({ unitId }, db);
+          records = await Voucher.getByUnits({ unitId }, db);
+       } else {
+         
+          records = await Voucher.getAll(db);
        }
 
        utility.mapToClientResponse(records)
@@ -46,7 +47,14 @@ exports.getById = async function (req, res, next) {
     try {
        
        let { unitId, voucherId } = req.params;
-       let records = await Voucher.getById({ unitId, voucherId }, db);
+       let user = req.session.user
+       let records = []
+       if (user && user.isAdminLogin === false) {
+         records = await Voucher.getByIdOfUnit({ unitId, voucherId }, db);
+       } else {
+         records = await Voucher.getById({voucherId }, db);
+       }
+       
        utility.mapToClientResponse(records)
        response.send(records, res)
  
@@ -108,6 +116,21 @@ exports.updateInvoices = async function (req, res, next) {
       voucher.voucherId = voucherId;
       let unit = req.session.user;
       let record = await Voucher.updateInvoices(voucher, unit, db);
+      utility.mapToClientResponse(record)
+      response.send(record, res)
+
+   } catch (e) {
+      response.exception(e, res)
+   }
+    
+ }
+
+exports.payInvoices = async function (req, res, next) {
+   try {
+      let { unitId, voucherId } = req.params;
+      let voucher = req.body;
+      voucher.voucherId = voucherId;
+      let record = await Voucher.payInvoices(voucher,db);
       utility.mapToClientResponse(record)
       response.send(record, res)
 

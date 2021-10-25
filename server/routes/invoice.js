@@ -12,6 +12,6 @@ module.exports = (Router, middlewares) => {
     Router.delete('/buyers/:buyerId/invoices/:invoiceId', middlewares, invoiceController.deleteInvoice);
     Router.get('/buyers/:buyerId/invoices/:invoiceId/print', middlewares, invoiceController.printInvoice);
     Router.get('/buyers/:buyerId/invoices/:invoiceId/print/receipt', middlewares, invoiceController.printInvoice);
-    Router.get('/buyers/:buyerId/invoices', middlewares, invoiceController.getBuyerInvoicesById);
+    Router.get('/buyers/:buyerId/invoices/:status?', middlewares, invoiceController.getBuyerInvoicesById);
 
  };

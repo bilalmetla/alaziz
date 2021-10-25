@@ -17,8 +17,9 @@ export const InvoiceVoucherDetail = (props) => {
     });
     const invoiceDetails = [
         { label: 'Voucher Title', props:{type:'text', required:true,}, source: 'title' },
-        { label: 'Check Number', props:{type:'text', required:true,}, source: 'checkNumber' },
-        { label: 'Voucher Price', props:{type:'number', required:true,}, source: 'voucherPrice' },
+        { label: 'Cheque Number', props:{type:'text', required:true,}, source: 'checkNumber' },
+        { label: 'Voucher Price', props:{type:'number', required:true}, source: 'voucherPrice' },
+        { label: 'Remaing Price', props:{type:'number', required:true, disabled: true}, source: 'remainingPrice' },
         { label: 'Business Type', props:{type:'select', required:false}, source: 'businessType', options: businessTypesOptions },
         { label: 'Rate Of ST', props:{type:'number', required:false,}, source: 'rateOfST' },
         { label: 'Invice Type', props: { type: 'text', required: false }, source: 'invoiceType' },

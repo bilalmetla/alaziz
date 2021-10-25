@@ -7,7 +7,7 @@ import { Header } from "../components/Header";
 export const VouchersList = (props) => {
     const details = [
         { label: 'Voucher Title',  field: 'title' },
-        { label: 'Check Number',  field: 'checkNumber' },
+        { label: 'Cheque Number',  field: 'checkNumber' },
         { label: 'Voucher Price', field: 'voucherPrice' },
         { label: 'Status', field: 'status' },
     ]

@@ -27,23 +27,36 @@ exports.create = async function (newInvoice, unit, db) {
 
 exports.update = async function (id, invoice, db) {
 
-    delete invoice.id
     
-    validations.invoice(invoice)
-   
-    invoice.updatedDate = new Date()
-    invoice.date = new Date(invoice.date)
+    let foundInvoice = await db.findOne(INVOICES, { _id: id }) 
+    if (!foundInvoice) {
+        return {
+            resultCode: 404,
+            message: 'Invoice Not Found For Update!'
+        }
+    }
+    if (foundInvoice.status !== constants.invoiceStatues.UNPAID) {
+        return {
+            resultCode: 601,
+            message: 'Invalid Status Of Invoice To Update!'
+        }
+    }
+    foundInvoice = Object.assign(foundInvoice, invoice)
+    delete foundInvoice.id
+    delete foundInvoice._id
+    validations.invoice(foundInvoice)
+    foundInvoice.updatedDate = new Date()
 
     let where = { _id: id }
-    return await db.update(INVOICES, where, invoice)    
+    return await db.update(INVOICES, where, foundInvoice)    
 };
 
 
-exports.getBuyerInvoicesById = async function (buyerId, db) {
+exports.getBuyerInvoicesById = async function ({buyerId, status}, db) {
     let where = {
         $and: [
             {"buyerId": buyerId},
-            {status: constants.invoiceStatues.UNPAID},
+            {status: status},
         ]        
     }
     const sort ={createdDate: -1}
@@ -57,7 +70,7 @@ exports.getInvoiceAll = async function (db) {
 
 exports.getInvoiceById = async function ({ invoiceId, buyerId }, db) {
     let where = { $and:[{ _id: invoiceId }, {buyerId: buyerId } ] }
-    return db.findOne(INVOICES, where)     
+    return await db.findOne(INVOICES, where)     
 };
 
 exports.findInvoiceByNumber = async function ({ serialNumber, buyerId }, db) {
@@ -80,7 +93,7 @@ exports.findByDates = async function ({ startDate, endDate, businessType, isGST 
     }
     let where = { $and: [
             {
-                "date": {
+                "paidDate": {
                     $gte: new Date(startDate),
                     $lte: new Date(endDate)
                 }

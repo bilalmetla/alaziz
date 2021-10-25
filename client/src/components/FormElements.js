@@ -8,7 +8,7 @@ export const FormElements = (props) => {
 
     const FormGroup = (f, eleIndex) => {
 
-        return <Form.Group as={Col} key={`element-${f.props.name}-${eleIndex}`} >
+        return <Form.Group className={props.myClassesFormColumn} as={Col} key={`element-${f.props.name}-${eleIndex}`} >
                             
             <Form.Label>{ f.label}</Form.Label>
         <Form.Control
@@ -33,10 +33,11 @@ export const FormElements = (props) => {
                                  
                      
                      if(f.props.type === 'select')
-                        return <Form.Group className="mb-3" key={`element-${f.props.name}-${eleIndex}`} >
+                        return <Form.Group className={props.myClassesFormColumn} key={`element-${f.props.name}-${eleIndex}`} >
                             
                                 <Form.Label>{ f.label}</Form.Label>
                             <Form.Select
+                                {...f.props}
                                 name={!f.source? f.props.name: f.source}
                                 value={props.editFormData[f.source]}
                                 onChange={(event)=>props.handleInputsChange(event, f.isCaptalized)} >

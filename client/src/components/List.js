@@ -52,7 +52,7 @@ export const List = (props) => {
               striped
                 bordered
                 hover
-              small
+              big
               data={data}
             />
           );

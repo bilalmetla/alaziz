@@ -39,7 +39,16 @@ exports.getAll = async function (db) {
     
 };
 
-exports.getById = async function ({ unitId, voucherId }, db) {
+exports.getById = async function ({ voucherId }, db) {
+
+    const where = {
+        _id: voucherId
+    }
+    return await db.find(VOUCHERS, where)
+    
+};
+
+exports.getByIdOfUnit = async function ({ unitId, voucherId }, db) {
 
     const where = {
         $and: [
@@ -169,6 +178,17 @@ exports.updateInvoices = async function (voucher, unit, db) {
     }
 
     await db.update(VOUCHERS, where, {status: "InProgress"})
-    return {resultCode: 2001, message: 'Invoices Created Success!'}
+    return {resultCode: 2001, message: 'Invoices Updated Success!'}
+   
+};
+
+exports.payInvoices = async function (voucher, db) {
+    
+    let invoicePaid = await db.update(INVOICES, {voucherId: voucher.voucherId}, {status: constants.invoiceStatues.PAID, paidDate: voucher.paidDate })
+    let where = {
+        _id: voucher.voucherId
+    }
+    let paidVoucher = await db.update(VOUCHERS, where, {status: "Paid", paidDate: voucher.paidDate })
+    return {resultCode: 2001, message: 'Invoices Paid Success!', data: {invoicePaid, paidVoucher }}
    
 };

@@ -17,5 +17,5 @@ module.exports = {
         "database": process.env.MONGO_DATABASE,
         "useNewUrlParser": false
       },
-    isdevInstance: true,
+    isdevInstance: false,
 }

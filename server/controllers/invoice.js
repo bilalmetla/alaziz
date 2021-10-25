@@ -38,8 +38,8 @@ exports.updateInvoice = async function (req, res, next) {
 
 exports.getBuyerInvoicesById = async function (req, res, next) {
     try {
-       let { buyerId } = req.params;
-       let record = await Invoice.getBuyerInvoicesById(buyerId, db)
+       let { buyerId, status } = req.params;
+       let record = await Invoice.getBuyerInvoicesById({buyerId, status}, db)
        utility.mapToClientResponse(record)
        response.send(record, res)
  

@@ -9,14 +9,14 @@ export const BuyerList = (props) => {
         { label: 'Byuer Name', field: 'name' },
         { label: 'Address', field: 'address' },
         { label: 'Representitve Name', field: 'representitveName' },
-        { label: 'Phone', field: 'phone' },
+        // { label: 'Phone', field: 'phone' },
         // { label: 'NTN Number', field: 'ntnNumber' },
         // { label: 'NTN Name', field: 'ntnName' },
     ]
     const actions = [
         { label: 'View', resource:'buyers/:id',   },
-        { label: 'Invoices', resource:`${props.match.url}/:id/invoices`,  },
-        // { label: 'Invoices', resource:`${props.match.url}/:id/invoices`,  },
+        { label: 'UnPaid Invoices', resource:`${props.match.url}/:id/invoices/Unpaid`,  },
+        { label: 'Paid Invoices', resource:`${props.match.url}/:id/invoices/Paid`, },
     ]
     
     const topActionButtons = [

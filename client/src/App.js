@@ -36,11 +36,11 @@ export const App = ({ title }) => (
           <Route exact path="/units/:id/buyers" render={(props) => <BuyerList {...props} />} />
           <Route exact path="/units/:id/buyers/create" render={(props) => <BuyerCreate {...props} />} />
           <Route exact path="/units/:id/buyers/:buyerId" render={(props) => <BuyerEdit {...props} />} />
-          <Route exact path="/units/:unitId/buyers/:id/invoices" render={(props) => <BuyerInvoices {...props} />} />
-          <Route exact path="/units/:unitId/buyers/:id/invoices/create" render={(props) => <InvoiceCreate {...props} />} />
-          <Route exact path="/units/:unitId/buyers/:id/invoices/:invoiceId" render={(props) => <InvoiceEdit {...props} />} />
-          <Route exact path="/units/:unitId/buyers/:buyerId/invoices/:invoiceId/print" render={(props) => <InvoicePrint {...props} />} />
-          <Route exact path="/units/:unitId/buyers/:buyerId/invoices/:invoiceId/print/receipt" render={(props) => <ReceiptPrint {...props} />} />
+          <Route exact path="/units/:unitId/buyers/:id/invoices/:status" render={(props) => <BuyerInvoices {...props} />} />
+          <Route exact path="/units/:unitId/buyers/:id/invoices/:status/create" render={(props) => <InvoiceCreate {...props} />} />
+          <Route exact path="/units/:unitId/buyers/:id/invoices/:status/:invoiceId" render={(props) => <InvoiceEdit {...props} />} />
+          <Route exact path="/units/:unitId/buyers/:buyerId/invoices/:status/:invoiceId/print" render={(props) => <InvoicePrint {...props} />} />
+          <Route exact path="/units/:unitId/buyers/:buyerId/invoices/:status/:invoiceId/print/receipt" render={(props) => <ReceiptPrint {...props} />} />
 
 
           
@@ -63,7 +63,7 @@ export const App = ({ title }) => (
             <Route exact path="/buyers/:buyerId/invoices/:invoiceId/print" render={(props) => <InvoicePrint {...props} />} />
           <Route exact path="/buyers/:buyerId/invoices/:invoiceId/print/receipt" render={(props) => <ReceiptPrint {...props} />} />
           
-          <Route exact path="/units/:unitId/buyers/:id/invoices/vouchers/create" render={(props) => <InvoiceVoucherDetail {...props} />} />
+          <Route exact path="/units/:unitId/buyers/:id/invoices/:status/vouchers/create" render={(props) => <InvoiceVoucherDetail {...props} />} />
           <Route exact path="/units/:id/vouchers" render={(props) => <VouchersList {...props} />} />
           <Route exact path="/units/:unitId/vouchers/:voucherId" render={(props) => <InvoiceVoucherDetail {...props} />} />
 

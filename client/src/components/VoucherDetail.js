@@ -1,8 +1,8 @@
 import React, {useEffect, useState, useContext} from 'react';
-import { Row, Col, Form, Button, Table } from "react-bootstrap";
+import { Row, Col, Form, Button, Table, Modal } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import styles from '../Styles/List.module.css'; 
-import { create, get, remove, update } from "./DataProvider";
+import { create, post, get, remove, update } from "./DataProvider";
 import { FormElements } from "./FormElements";
 import { FormTable } from "./FormTable";
 import { FormsHeading } from "./FormsHeading";
@@ -30,7 +30,9 @@ export const VoucherDetail = (props) => {
     const [unitId, setunitId] = useState('');
     const [checkNumber, setcheckNumber] = useState('');
     const [status, setstatus] = useState('Pending');
-
+    const [showModal, setshowModal] = useState(false);
+    const [paidDate, setpaidDate] = useState('');
+    const [remainingPrice, setremainingPrice] = useState('');
 
     
     useEffect(() => {
@@ -202,6 +204,7 @@ export const VoucherDetail = (props) => {
         setvoucherDetails({ ...obj }) 
         setgrandtotals(calculateGrandTotalsOFValueExcelST(obj))
         setgrandtotalsGroups(grandTotalsWithGroups(obj))
+         
     }
 
     async function getVoucherDetails(){
@@ -263,7 +266,7 @@ export const VoucherDetail = (props) => {
    
     const updateInvoices = async (event) => {
         event.preventDefault()
-
+        
         let updateData = { ...voucherDetails };
         if (buyerId) {
             updateData['buyerId'] = buyerId
@@ -281,7 +284,32 @@ export const VoucherDetail = (props) => {
             return
         }
         if (!response.errorMessage) {
-            return history.goBack()
+            return setstatus('InProgress')
+         }
+        
+    }
+    
+    const handleShowModal = () => setshowModal(true);
+    const handleClose = () => setshowModal(false);
+
+    const payInvoices = async (event) => {
+        event.preventDefault()
+        if (!paidDate) {
+            return alert.show('Select Paid Date!')
+        }
+        setshowModal(false);
+        setLoading(true)
+        let response = await post(`${props.match.url}/invoices/pay`, { paidDate: paidDate})
+        setLoading(false)
+        if (!response || response.errorMessage) {
+            alert.show(response.errorMessage || 'Error')
+            if (response.code === 'ER0401') {
+                 history.push('/login')
+            }
+            return
+        }
+        if (!response.errorMessage) {
+            return setstatus('Paid')
          }
         
     }
@@ -294,20 +322,22 @@ export const VoucherDetail = (props) => {
                 <Link to='#' onClick={() => history.goBack()} >Go Back</Link>
                 {status === 'Pending' && <Link to='#' onClick={createInvoices} >Create Invoices</Link>}
                 {status === 'Updated' &&<Link to='#' onClick={updateInvoices} >Update Invoices</Link>}
-                {status === 'InProgress' && <Link to='#' onClick={createInvoices} >Paiy Invoices</Link>}
+                {status === 'InProgress' && <Link to='#' onClick={handleShowModal} >Paiy Invoices</Link>}
                 
            
             </div>
-            <Form noValidate validated={validated} onSubmit={submitForm}>
+            <Form noValidate validated={validated} onSubmit={submitForm} className="wraped-voucher-form">
                 <FormElements {...props}
                     handleInputsChange={handleInputsChange}
                     editFormData={editFormData}
+                    myClassesFormColumn="wraped-voucher-form-column"
                     
                 />         
 
   
                 <Button
                     className="submit-button"
+                    style={{marginLeft: 'auto'}}
                     variant="primary"
                     onClick={AddItemToTable}
                 >
@@ -455,7 +485,27 @@ export const VoucherDetail = (props) => {
             </div> }
                 
                 
-        </Form>
+            </Form>
+            
+            <Modal show={showModal} onHide={handleClose}>
+                <Modal.Header closeButton>
+                <Modal.Title>Confirm Pay Invoices</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <lable>Paid Date</lable>
+                    <input type="date" value={paidDate}
+                    onChange={(e)=>setpaidDate(e.target.value)}
+                    />
+                </Modal.Body>
+                <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Close
+                </Button>
+                <Button variant="primary" onClick={payInvoices}>
+                    Save Changes
+                </Button>
+                </Modal.Footer>
+            </Modal>
         </>
     )
 };
