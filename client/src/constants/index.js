@@ -20,7 +20,7 @@ export const constants = {
     }),
     saleTaxesWithHeld: Object.freeze({
         SUPPLIES: 20,
-        SERVICES: 100,
+        SERVICES: 0,
         PERSONAL: 0
     }),
     receivedSaleTaxes: Object.freeze({

@@ -15,10 +15,10 @@ export const calculateValuesAndTaxes = function (invoices) {
                 quantity: item.quantity,
                 description: item.description,
                 price: item.price,
-                valueExcelST: parseFloat(valueExcelST.toFixed(2)),
+                valueExcelST: Math.round(valueExcelST),
                  rateOfST: item.rateOfST,
-                totalSTPayable: parseFloat(totalSTPayable.toFixed(2)),
-                valueOfIncludingST: parseFloat(valueOfIncludingST.toFixed(2)),
+                totalSTPayable: Math.round(totalSTPayable),
+                valueOfIncludingST: Math.round(valueOfIncludingST),
             }
         })
     })
@@ -72,15 +72,15 @@ Array.prototype.sum = function (prop) {
 }
 
 const grandTotalValueExcelST = function (values) {
-    return parseFloat(values.sum('valueExcelST').toFixed(2))
+    return Math.round(values.sum('valueExcelST'))
 }
 
 const grandTotalSTPayable = function (values) {
-    return parseFloat(values.sum('totalSTPayable').toFixed(2))
+    return Math.round(values.sum('totalSTPayable'))
 }
 
 const grandTotalValueOfIncludingST = function (values) {
-    return parseFloat(values.sum('valueOfIncludingST').toFixed(2))
+    return Math.round(values.sum('valueOfIncludingST'))
 };
 
 export const calclateIncomeTaxWithHeld = function (businessType, grandTotalSTPayable) {
@@ -99,7 +99,7 @@ export const calclateIncomeTaxWithHeld = function (businessType, grandTotalSTPay
         value = (grandTotalSTPayable * constants.businessTypeIncomeTaxes.PERSONAL / 100);    
     }
     
-    return parseFloat(value.toFixed(2))
+    return Math.round(value)
 };
 
 
@@ -118,7 +118,7 @@ export const saleTaxWithHeld = function (businessType, grandTotalSTPayable) {
         value = (grandTotalSTPayable * constants.saleTaxesWithHeld.PERSONAL / 100);    
     }
     
-    return parseFloat(value.toFixed(2))
+    return Math.round(value)
 };
 
 export const receivedSaleTax = function (businessType, grandTotalSTPayable) {
@@ -135,7 +135,7 @@ export const receivedSaleTax = function (businessType, grandTotalSTPayable) {
         value = (grandTotalSTPayable * constants.receivedSaleTaxes.PERSONAL / 100);    
     }
     
-    return parseFloat(value.toFixed(2))
+    return Math.round(value)
 };
 
 
@@ -152,9 +152,16 @@ export const grandTotalsWithGroups = function (voucherDetails) {
     Object.keys(voucherDetails).forEach((key, index) => { 
         let item = voucherDetails[key]; 
         let businessType = voucherDetails[key].businessType;
-        let incomeTax = parseFloat((calclateIncomeTaxWithHeld(businessType, item.grandTotals.grandTotalValueOfIncludingST)).toFixed(2))
-        let withHoldingTax = parseFloat((saleTaxWithHeld(businessType, item.grandTotals.grandTotalSTPayable)).toFixed(2))
-        let salesTax = parseFloat((item.grandTotals.grandTotalSTPayable - withHoldingTax).toFixed(2))
+        let incomeTax = Math.round((calclateIncomeTaxWithHeld(businessType, item.grandTotals.grandTotalValueOfIncludingST)))
+        let withHoldingTax = Math.round((saleTaxWithHeld(businessType, item.grandTotals.grandTotalSTPayable)))
+        let salesTax = 0
+        if (
+            businessType === constants.businessTypes.SUPPLY_WITH_GST
+            || businessType === constants.businessTypes.SUPPLY_WITHOUT_GST
+        ) {
+            salesTax = Math.round((item.grandTotals.grandTotalSTPayable - withHoldingTax))
+
+        }
 
         if (!grandTotals[businessType]) {
             grandTotals[businessType] = {}

@@ -29,15 +29,15 @@ Array.prototype.sum = function (prop) {
 }
 
 const grandTotalValueExcelST = function (values) {
-    return parseFloat(values.sum('valueExcelST').toFixed(2))
+    return Math.round(values.sum('valueExcelST'))
 }
 
 const grandTotalSTPayable = function (values) {
-    return parseFloat(values.sum('totalSTPayable').toFixed(2))
+    return Math.round(values.sum('totalSTPayable'))
 }
 
 const grandTotalValueOfIncludingST = function (values) {
-    return parseFloat(values.sum('valueOfIncludingST').toFixed(2))
+    return Math.round(values.sum('valueOfIncludingST'))
 };
 
 const calclateIncomeTaxWithHeld = function (businessType, grandTotalSTPayable) {
@@ -56,7 +56,7 @@ const calclateIncomeTaxWithHeld = function (businessType, grandTotalSTPayable) {
         value = (grandTotalSTPayable * constants.businessTypeIncomeTaxes.PERSONAL / 100);    
     }
     
-    return parseFloat(value.toFixed(2))
+    return Math.round(value)
 };
 
 const saleTaxWithHeld = function (businessType, grandTotalSTPayable) {
@@ -73,7 +73,7 @@ const saleTaxWithHeld = function (businessType, grandTotalSTPayable) {
         value = (grandTotalSTPayable * constants.saleTaxesWithHeld.PERSONAL / 100);    
     }
     
-    return parseFloat(value.toFixed(2))
+    return Math.round(value)
 };
 
 const receivedSaleTax = function (businessType, grandTotalSTPayable) {
@@ -90,7 +90,7 @@ const receivedSaleTax = function (businessType, grandTotalSTPayable) {
         value = (grandTotalSTPayable * constants.receivedSaleTaxes.PERSONAL / 100);    
     }
     
-    return parseFloat(value.toFixed(2))
+    return Math.round(value)
 };
 
 
@@ -105,10 +105,10 @@ exports.calculateValuesAndTaxes = function (invoices) {
             quantity: item.quantity,
             description: item.description,
             price: item.price,
-            valueExcelST: parseFloat(valueExcelST.toFixed(2)),
+            valueExcelST: Math.round(valueExcelST),
             rateOfST: item.rateOfST,
-            totalSTPayable: parseFloat(totalSTPayable.toFixed(2)),
-            valueOfIncludingST: parseFloat(valueOfIncludingST.toFixed(2)),
+            totalSTPayable: Math.round(totalSTPayable),
+            valueOfIncludingST: Math.round(valueOfIncludingST),
         }
     })
 

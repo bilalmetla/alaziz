@@ -195,3 +195,13 @@ form button:hover {
       transform: rotate(360deg);
     }
   }
+
+  .wraped-voucher-form{
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between;
+  }
+  .wraped-voucher-form-column{
+    width: 48%;
+    flex: auto 0 !important;
+  }

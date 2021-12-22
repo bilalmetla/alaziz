@@ -13,7 +13,7 @@ export const ReportTable = (props) => {
         return list.map((buyer, index) => {
            // buyer.invoice.map(inv => {
             return buyer.invoice.items.map(item => {
-                item.totalSTPayable20Percent = ((item.totalSTPayable * 20) / 100).toFixed(2)
+                item.totalSTPayable20Percent = Math.round((item.totalSTPayable * 20) / 100)
 
                     return <tr key={`row-${index}`}>{
                         props.keys.map((key, keyIndex) => {
