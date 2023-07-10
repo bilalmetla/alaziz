@@ -22,7 +22,7 @@ export const BuyerInvoices = (props) => {
 
     const topActionButtons = [
         { label: 'Go Back', to:'#', onClick:'() => history.goBack()'   },
-        { label: 'Create',  to:`/create`,   },
+        { label: 'Invoice Create',  to:`/create`,   },
         { label: 'Voucher Create',  to:`/vouchers/create`,   }
     ]
 

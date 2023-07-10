@@ -17,7 +17,7 @@ export const VouchersList = (props) => {
     
     const topActionButtons = [
         // { label: 'Go Back', to:'#', onClick:'() => history.goBack()'   },
-        // { label: 'Create',  to:`/create`,   },
+        // { label: 'Create', to: `/create`, }, //create voucher from buyers -> 
     ]
 
     return (
@@ -32,7 +32,7 @@ export const VouchersList = (props) => {
             
             <Col lg={9} className="main_col">
                 <List  {...props}
-                    resource="buyers"
+                    resource="vouchers"
                     keys={details}
                     actions={actions}
                         title={"Voucher Info"}

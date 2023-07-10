@@ -5,6 +5,7 @@ module.exports = (Router, middlewares) => {
     
     // Router.get('/buyers', middlewares, voucherController.getBuyers);
     Router.post('/units/:unitId/buyers/:buyerId/invoices/:status/vouchers/create', middlewares, voucherController.create);
+    Router.post('/units/:unitId/buyers/:buyerId/invoices/:status/vouchers/create/invoices', middlewares, voucherController.create);
     Router.get('/units/:unitId/vouchers', middlewares, voucherController.getByUnits);
     Router.get('/units/:unitId/vouchers/:voucherId', middlewares, voucherController.getById);
     Router.put('/units/:unitId/vouchers/:voucherId', middlewares, voucherController.update);

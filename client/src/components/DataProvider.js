@@ -14,58 +14,83 @@ if (constants.isLocal) {
 
 
 export const getList = async (path) => {
-    if (path.charAt(0) == '/') {
-        path = path.substring(1)
+    try {
+        if (path.charAt(0) == '/') {
+            path = path.substring(1)
+        }
+        
+        const response = await fetch(`${url}/${path}`);
+        return await response.json();
+    } catch (err) {
+        return {"errorMessage": "failed from server"}
     }
     
-    const response = await fetch(`${url}/${path}`);
-    return await response.json();
 }
 
 export const getOne = async (path) => {
-    if (path.charAt(0) == '/') {
-        path = path.substring(1)
+    try {
+        if (path.charAt(0) == '/') {
+            path = path.substring(1)
+        }
+        const response = await fetch(`${url}/${path}`);
+        return await response.json();
+    } catch (err) {
+        return {"errorMessage": "failed from server"}
     }
-    const response = await fetch(`${url}/${path}`);
-    return await response.json();
+    
 }
 
 export const create = async (path, data) => {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    };
-    if (path.charAt(0) == '/') {
-        path = path.substring(1)
+    try {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        };
+        if (path.charAt(0) == '/') {
+            path = path.substring(1)
+        }
+        const response = await fetch(`${url}/${path}`, requestOptions);
+        return await response.json();
+    } catch (err) {
+        return {"errorMessage": "failed from server"}
     }
-    const response = await fetch(`${url}/${path}`, requestOptions);
-    return await response.json();
+    
 }
 
 export const update = async (path, data) => {
-    if (path.charAt(0) == '/') {
-        path = path.substring(1)
+    try {
+        if (path.charAt(0) == '/') {
+            path = path.substring(1)
+        }
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        };
+        const response = await fetch(`${url}/${path}`, requestOptions);
+        return await response.json();
+    } catch (err) {
+        return {"errorMessage": "failed from server"}
     }
-    const requestOptions = {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    };
-    const response = await fetch(`${url}/${path}`, requestOptions);
-    return await response.json();
+    
 }
 
 export const deleteRecord = async (path) => {
-    if (path.charAt(0) == '/') {
-        path = path.substring(1)
+    try {
+        if (path.charAt(0) == '/') {
+            path = path.substring(1)
+        }
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' }
+        };
+        const response = await fetch(`${url}/${path}`, requestOptions);
+        return await response.json();
+    } catch (err) {
+        return {"errorMessage": "failed from server"}
     }
-    const requestOptions = {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' }
-    };
-    const response = await fetch(`${url}/${path}`, requestOptions);
-    return await response.json();
+    
 }
 
 

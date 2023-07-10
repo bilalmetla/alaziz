@@ -17,6 +17,10 @@ export const UnitList = (props) => {
         { label: 'View', resource:'/units/:id',   },
         { label: 'Buyers', resource:`${props.match.url}/:id/buyers`},
     ]
+    const topActionButtons = [
+        // { label: 'Go Back', to:'#', onClick:'() => history.goBack()'   },
+        { label: 'Create', to: `/create`, },
+    ]
     return (
         <>
             <Row>
@@ -34,6 +38,7 @@ export const UnitList = (props) => {
                     actions={actions}
                         title={"Unit List"}
                         hideGoBack={true}
+                        topActionButtons={topActionButtons}
                 />
                 </Col>
             </Row>

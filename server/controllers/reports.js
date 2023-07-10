@@ -11,7 +11,7 @@ const constants = require('../constants');
 exports.withGST = async function (req, res, next) {
     try {
         let { startDate, endDate } = req.body;
-        let businessType = constants.businessTypes.SUPPLIES.toString()
+        let businessType = constants.businessTypes.withGST
         let isGST = true;
         let invoicesRecords = await Invoice.findByDates(
             {
@@ -32,7 +32,7 @@ exports.withGST = async function (req, res, next) {
 exports.withOutGST = async function (req, res, next) {
     try {
         let { startDate, endDate } = req.body;
-        let businessType = constants.businessTypes.SUPPLIES.toString()
+        let businessType = constants.businessTypes.SUPPLY_WITHOUT_GST;
         let isGST = false;
         let invoicesRecords = await Invoice.findByDates(
             {
@@ -53,7 +53,7 @@ exports.withOutGST = async function (req, res, next) {
 exports.withPST = async function (req, res, next) {
     try {
         let { startDate, endDate } = req.body;
-        let businessType = constants.businessTypes.SERVICES.toString()
+        let businessType = constants.businessTypes.SERVICES_WITH_PST
         let isGST = true;
         let invoicesRecords = await Invoice.findByDates(
             {
@@ -74,7 +74,7 @@ exports.withPST = async function (req, res, next) {
 exports.withOutPST = async function (req, res, next) {
     try {
         let { startDate, endDate } = req.body;
-        let businessType = constants.businessTypes.SERVICES.toString()
+        let businessType = constants.businessTypes.SERVICES_WITHOUT_PST
         let isGST = false;
         let invoicesRecords = await Invoice.findByDates(
             {
